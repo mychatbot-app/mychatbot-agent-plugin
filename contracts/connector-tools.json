@@ -3,12 +3,12 @@
   "surface": "https://connector.mychatbot.app/mcp",
   "sourceRepository": "mychatbot-app/claude-connector",
   "description": "Pinned public connector tool contract used to validate plugin skill references.",
-  "deploymentProfileHeader": {
+  "pluginProfileHeader": {
     "name": "x-mychatbot-mcp-surface",
-    "value": "deployment-plugin"
+    "value": "account-plugin"
   },
   "profileTools": [
-    { "name": "get_deployment_context", "risk": "read" },
+    { "name": "get_account_context", "risk": "read" },
     { "name": "agents_discover_tools", "risk": "read" },
     { "name": "agents_call_read_tool", "risk": "read" },
     { "name": "agents_call_configuration_tool", "risk": "configuration" },

@@ -3,7 +3,7 @@ name: outreach-and-followups
 description: >-
   Inspect, prepare, launch, pause, or resume MyChatBot follow-ups and outbound
   customer communication. Use only when the owner explicitly asks to contact
-  leads or manage a campaign; never infer outreach from a general deployment.
+  leads or manage a campaign; never infer outreach from a general setup request.
 ---
 
 # Operate outreach safely

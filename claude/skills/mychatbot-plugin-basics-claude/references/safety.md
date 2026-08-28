@@ -6,7 +6,7 @@ Use the highest applicable tier for a planned stage.
 
 Read only the state needed for the request. Customer chats, messages, clients,
 and audience previews contain customer data and are not part of a default
-deployment audit. Summarize without reproducing identifying content.
+account audit. Summarize without reproducing identifying content.
 
 ## Reversible configuration
 

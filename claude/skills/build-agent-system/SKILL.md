@@ -1,14 +1,14 @@
 ---
-name: agents-platform-deployment
+name: build-agent-system
 description: >-
   Inspect, design, configure, validate, privately preview, activate, or hand off
-  a MyChatBot Agents Platform deployment: account agents, skills, connectors,
+  a MyChatBot Agents Platform system: account agents, skills, connectors,
   Business Knowledge, custom routines, schedules, and triggers. Use for
   operator/back-office agents and multi-agent workflows, not customer-facing
   Sales assistants.
 ---
 
-# Deploy an Agents Platform system
+# Build an Agents Platform system
 
 Load `mychatbot-plugin-basics-claude` and its safety reference first. Agents
 operations are routed through risk-class gateways to keep Claude's top-level
@@ -16,7 +16,7 @@ tool surface small.
 
 ## Discover and inspect
 
-Call `get_deployment_context`, then `agents_discover_tools`. The discovery
+Call `get_account_context`, then `agents_discover_tools`. The discovery
 result is the authoritative source for operation descriptions, input schemas,
 annotations, and `gateway_class`. Call `agents_call_read_tool` with the exact
 operation name and schema-shaped arguments. Never pass an account ID.

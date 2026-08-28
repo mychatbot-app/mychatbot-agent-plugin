@@ -40,7 +40,7 @@ Deletion requires the exact integration ID, a statement of indexed content that
 will be removed, and separate confirmation. After any write, re-read the
 integration and summarize what is searchable versus still pending.
 
-For an Agents Platform agent, use the `agents-platform-deployment` skill. Reuse
+For an Agents Platform agent, use the `build-agent-system` skill. Reuse
 an existing Sales resource through Agents Business Knowledge when the inventory
 shows that provider; do not duplicate its content. Create or update the
 Business Knowledge source through the configuration gateway only after showing

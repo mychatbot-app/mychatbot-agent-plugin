@@ -2,7 +2,7 @@
 
 ## Sales Platform
 
-Use for customer-facing sales and support deployments: assistants, live
+Use for customer-facing sales and support systems: assistants, live
 channels, FAQs, websites, product catalogs, client context, orders, test chats,
 follow-ups, and customer conversations.
 

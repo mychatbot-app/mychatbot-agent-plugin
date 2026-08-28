@@ -23,10 +23,10 @@ if (plugin.mcpServers?.mychatbot?.type !== "http") fail("plugin must declare an 
 if (plugin.mcpServers.mychatbot.url !== contract.surface) fail("plugin and contract MCP URLs differ");
 if (plugin.skills !== "./skills/") fail("plugin skills path must be ./skills/");
 if (
-  plugin.mcpServers.mychatbot.headers?.[contract.deploymentProfileHeader?.name] !==
-  contract.deploymentProfileHeader?.value
+  plugin.mcpServers.mychatbot.headers?.[contract.pluginProfileHeader?.name] !==
+  contract.pluginProfileHeader?.value
 ) {
-  fail("plugin deployment profile header differs from contract");
+  fail("plugin profile header differs from contract");
 }
 
 const allowedRisks = new Set([
@@ -56,7 +56,7 @@ for (const tool of contract.profileTools ?? []) {
   if (!allowedRisks.has(tool.risk)) fail(`invalid risk for ${tool.name}: ${tool.risk}`);
   profileToolNames.add(tool.name);
 }
-if (profileToolNames.size < 1) fail("deployment profile contract is empty");
+if (profileToolNames.size < 1) fail("plugin profile contract is empty");
 
 const allowedGateways = new Set(["read", "configuration", "destructive"]);
 const agentsOperationNames = new Set();

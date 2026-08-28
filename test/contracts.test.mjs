@@ -29,7 +29,7 @@ test("high-risk connector actions cannot be classified as ordinary configuration
 });
 
 test("default audit tools are read-only and avoid customer records", () => {
-  assert.equal(profileTools.get("get_deployment_context"), "read");
+  assert.equal(profileTools.get("get_account_context"), "read");
   for (const name of [
     "get_demo_status",
     "get_subscription_info",
@@ -51,7 +51,7 @@ test("every connector tool has one explicit risk classification", () => {
   assert.ok([...tools.values()].every(Boolean));
 });
 
-test("deployment profile stays compressed and risk separated", () => {
+test("plugin profile stays compressed and risk separated", () => {
   assert.equal(profileTools.size, 5);
   assert.equal(profileTools.get("agents_discover_tools"), "read");
   assert.equal(profileTools.get("agents_call_read_tool"), "read");

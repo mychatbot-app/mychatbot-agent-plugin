@@ -3,7 +3,7 @@ name: mychatbot-plugin-basics-claude
 description: >-
   Mandatory operating context before the first MyChatBot plugin MCP call in a
   Claude Code conversation. Use for MyChatBot account audits, sales-agent or
-  chatbot deployment, knowledge, channels, tests, customer operations,
+  chatbot setup, knowledge, channels, tests, customer operations,
   outreach, or when the MyChatBot tools are missing or need authentication.
 ---
 
@@ -15,7 +15,7 @@ a demo. MCP schemas and fresh tool results are the runtime contract.
 
 ## Establish orientation
 
-In a new deployment connection, call `get_deployment_context` first. It combines
+In a new plugin connection, call `get_account_context` first. It combines
 secret-free Sales metadata with the Agents authoring inventory, changes
 nothing, and marks partial sections explicitly. Never interpret an empty or
 failed section as proof that no resources exist.

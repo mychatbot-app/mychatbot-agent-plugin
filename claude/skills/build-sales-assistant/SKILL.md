@@ -1,13 +1,13 @@
 ---
-name: deploy-sales-assistant
+name: build-sales-assistant
 description: >-
   Design, create, upgrade, or launch a customer-facing MyChatBot Sales
   assistant. Use for production chatbot, sales-agent, support-agent, website
-  widget, or messaging-channel deployments. Includes grounded proposal,
+  widget, or messaging-channel setup. Includes grounded proposal,
   approval, knowledge, private testing, verification, and launch handoff.
 ---
 
-# Deploy a Sales assistant
+# Build a Sales assistant
 
 Load `mychatbot-plugin-basics-claude` first. Treat “build” and “launch” as
 separate approvals.
@@ -20,7 +20,7 @@ or create a new one. Do not create a similarly named assistant because a list
 result was inconvenient to inspect.
 
 Learn only business facts supported by the owner, their site, or their current
-knowledge. Ask only for decisions that materially change the deployment.
+knowledge. Ask only for decisions that materially change the result.
 
 ## Propose before creating
 

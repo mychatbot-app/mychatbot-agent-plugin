@@ -1,7 +1,7 @@
 # Claude Code installation protocol
 
 This document is the source for the agent-readable `https://mychatbot.app/claude`
-installation page. The pilot marketplace is private:
+installation page. The marketplace is public:
 
 `https://github.com/mychatbot-app/mychatbot-agent-plugin.git`
 
@@ -11,7 +11,7 @@ Run installation only from Claude Code on the user's machine. A browser-only or
 isolated remote conversation cannot install into the local Claude plugin cache.
 In that case, stop and tell the user to open Claude Code locally and paste:
 
-`Read https://mychatbot.app/claude and follow it completely to install the MyChatBot plugin, connect my account, and start a read-only deployment audit.`
+`/goal Read https://mychatbot.app/claude to install and use the MyChatBot plugin. Then audit my current account without changing it.`
 
 ## Execution contract
 
@@ -26,8 +26,7 @@ claude --version
 git --version
 ```
 
-Claude Code 2.x is required. During the private pilot, Git must already be able
-to read the `mychatbot-app/mychatbot-agent-plugin` repository.
+Claude Code 2.x and Git are required.
 
 ## Install
 
@@ -69,12 +68,12 @@ is absent, check the marketplace name before reinstalling.
 Reload plugins if the host supports it, then start a new Claude Code
 conversation. Use the requested intent as the final sentence. The default is:
 
-`The MyChatBot plugin is installed. Start with a read-only deployment audit of my current Sales Platform and any visible Agents Platform resources. Summarize what exists, what is missing, and a staged plan. Do not change account state until I approve a specific stage.`
+`The MyChatBot plugin is installed. Start with a read-only account audit of my current Sales Platform and any visible Agents Platform resources. Summarize what exists, what is missing, and a staged plan. Do not change account state until I approve a specific stage.`
 
-Other supported pilot intents:
+Other supported goals:
 
-- Deploy a Sales assistant: audit the current deployment, then propose a
-  production Sales assistant and its knowledge/test/launch stages.
+- Create a Sales assistant: audit the current account, then propose a Sales
+  assistant and its knowledge, testing, and launch stages.
 - Improve business knowledge: inspect existing sources, find gaps, and propose
   additions without creating duplicates.
 - Test and tune: inspect existing assistants and propose a private regression
@@ -83,7 +82,7 @@ Other supported pilot intents:
   agents, skills, connectors, Business Knowledge, routines, and disabled-first
   automation as separately approved stages.
 
-The installation conversation is not the deployment conversation. If a
+The installation conversation is not the working conversation. If a
 task-spawning control is available, create a one-click handoff using the chosen
 prompt. Otherwise print the exact prompt in a copyable block and tell the user
 to paste it into a new conversation.

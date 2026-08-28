@@ -1,27 +1,25 @@
 # MyChatBot agent plugin
 
-Claude Code plugin for audited MyChatBot deployment and operations workflows.
+Claude Code plugin for guided MyChatBot setup and operations workflows.
 
 The plugin connects Claude Code to the existing OAuth-backed MyChatBot connector
 and adds the process knowledge needed to use that connector safely: inspect the
 account, propose a bounded plan, obtain approval for mutations, verify persisted
-state, and leave a deployment handoff.
+state, and leave a clear handoff.
 
-> Status: private integrator pilot. Installing or authenticating this plugin
-> connects to production MyChatBot accounts. Use mock tests during development;
-> do not run account-writing checks without authorization for the exact account.
+Installing or authenticating this plugin connects to a live MyChatBot account.
+Use mock tests during development; do not run account-writing checks without
+authorization for the exact account.
 
 ## Product boundary
 
 - The browser Claude connector is the beginner path for creating a first demo.
-- This plugin is the professional path for audits, production configuration,
-  testing, operations, and Agents Platform deployments.
+- This plugin is the advanced path for audits, account configuration, testing,
+  operations, and Agents Platform systems.
 - Skills own workflow and judgment. MCP tools remain the source of truth for
   schemas, account state, authorization, and writes.
 
-## Install from the private pilot marketplace
-
-Your local Git credentials must be able to read this repository.
+## Install from the public marketplace
 
 ```bash
 claude plugin marketplace add https://github.com/mychatbot-app/mychatbot-agent-plugin.git

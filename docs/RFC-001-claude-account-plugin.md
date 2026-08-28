@@ -1,6 +1,6 @@
-# RFC 001: Claude Code deployment plugin
+# RFC 001: Claude Code account plugin
 
-Status: implemented foundation for private integrator pilot
+Status: implemented foundation for public release
 
 Owners: MyChatBot product, platform, connector, and developer experience
 
@@ -9,21 +9,21 @@ Initial host: Claude Code
 ## Decision
 
 Create a Claude Code marketplace plugin that connects to the existing
-`connector.mychatbot.app/mcp` OAuth service and teaches Claude audited MyChatBot
-deployment workflows. Evolve `claude-connector` into the single owner-facing
+`connector.mychatbot.app/mcp` OAuth service and teaches Claude guided MyChatBot
+setup and operations workflows. Evolve `claude-connector` into the single owner-facing
 gateway; do not create a second authentication or proxy service.
 
 The browser connector remains the beginner, demo-first experience. The plugin
 serves integrators and advanced owners who need to inspect, configure, test,
-operate, and hand off a production deployment.
+operate, and hand off a live account.
 
 ## User journey
 
 The landing page presents one stable installation prefix and intent controls
 that change only the final task sentence. Examples:
 
-- Audit my deployment.
-- Deploy a Sales assistant.
+- Audit and improve my account.
+- Create a Sales assistant.
 - Improve my business knowledge.
 - Test and tune my assistant.
 - Build an Agents Platform system.
@@ -33,7 +33,7 @@ in a browser and an executable plain-text protocol for an agent. Installation
 finishes only after marketplace install, OAuth, connection verification, and a
 new-session handoff carrying the selected intent.
 
-The first deployment action is read-only. The plugin reports current state and
+The first account action is read-only. The plugin reports current state and
 a staged plan; it never interprets install authorization as authorization to
 modify the account.
 
@@ -115,9 +115,9 @@ previewed payload.
 
 ## Capability rollout
 
-### Pilot contract
+### Public v1 contract
 
-Use the connector's curated Sales surface plus the exact-header deployment
+Use the connector's curated Sales surface plus the exact-header plugin
 profile: one read-only account context, Agents schema discovery, and the three
 risk-class gateways. Preserve the Agents MCP sequence: authoring context,
 inventory, validate, show canonical YAML, approval, save, readiness, optional
@@ -126,10 +126,10 @@ Sales tools, five profile tools, and 34 routed Agents operations in
 `contracts/connector-tools.json`; validation fails when a skill references an
 unknown operation.
 
-### Public v1
+### Required hardening
 
 Add connector-bound token capabilities, higher-risk consent/confirmation
-contracts, pilot evidence, and a public-repository/security review. The compact
+contracts, release evidence, and a public-repository/security review. The compact
 gateway shape can remain unchanged.
 
 ### Later packs
@@ -144,7 +144,7 @@ consent capability.
 - `mychatbot-agent-plugin`: manifests, install protocol, skills, pinned contract,
   static validation, and behavioral fixtures.
 - `claude-connector`: gateway surface, OAuth capabilities, annotations,
-  deployment context, upstream proxies, and mocked E2E coverage.
+  account context, upstream proxies, and mocked E2E coverage.
 - `api.mychatbot.app`: scoped token enforcement and missing upstream annotations
   or confirmation contracts. Database migration is a separately authorized
   production-impacting step.
@@ -174,15 +174,14 @@ consent capability.
 
 ## Rollout gates
 
-1. Private repository and mocked tests green.
+1. Mocked tests green.
 2. Internal install against local/mock gateway.
 3. OAuth/scoping review and security tests.
-4. Hidden or unlinked landing route in production.
+4. Public repository and visible landing route.
 5. Explicitly authorized test-account read audit.
 6. Explicitly authorized bounded test-account writes.
-7. Integrator allowlist beta with monitoring and rollback.
-8. Public repository and visible landing CTA only after a clean review window.
+7. Release to every account with monitoring and rollback readiness.
 
 Each repository ships through a feature branch and PR. Every push restarts the
-required 15-minute CI and automated-review window. Deployment verification is
+required 15-minute CI and automated-review window. Release verification is
 read-only unless a new exact impact is approved.
