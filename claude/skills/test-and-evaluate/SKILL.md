@@ -1,36 +1,51 @@
 ---
 name: test-and-evaluate
 description: >-
-  Privately test and tune a MyChatBot Sales assistant before customer launch.
-  Use for rehearsal conversations, instruction changes, regression cases, or
-  readiness checks. Never use a live customer channel as the default test.
+  Privately test and tune a MyChatBot Sales assistant with rehearsal chats or
+  repeatable eval scenarios. Use for regression cases, candidate instructions,
+  tool-call inspection, stability scoring, or readiness checks before launch.
 ---
 
-# Test and tune a Sales assistant
+# Test and evaluate a Sales assistant
 
 Load `mychatbot-plugin-basics-claude` first. Resolve the target with
-`list_assistants` and agree on a compact test matrix covering the assistant's
-actual job, important boundaries, handoff behavior, and unsupported questions.
+`list_assistants` and `get_assistant`. Agree on a compact matrix covering the
+assistant's job, business facts, tool use, unsupported requests, lead capture,
+handoff, and safety boundaries.
 
-Call `test_chat_start` once for the target assistant. Starting replaces any
-previous private test transcript, so state that effect first. Send cases one at
-a time with `test_chat_send`, preserving context only when the scenario depends
-on it. Test chats are private and do not contact customers.
+## Interactive rehearsal
 
-Evaluate answers against the agreed facts and behaviors; do not grade only for
-fluency. Record failures with the input, observed response, expected behavior,
-and likely cause.
+`test_chat_start` clears the assistant's previous private test transcript, so
+state that effect and obtain approval through `call_destructive_operation`.
+Send cases one at a time with `test_chat_send` through `call_test_operation`,
+preserving context only when the scenario requires it. Inspect
+`test_chat_get_history` through the same test gateway when tool calls matter.
+These calls do not contact customers.
 
-When instructions need a full replacement, call
-`propose_instructions_update`, show the complete diff card, and wait. Only after
-approval call `update_assistant_instructions`, then repeat the failing cases in
-a fresh test session.
+Evaluate factual grounding, policy, workflow, and tool results—not fluency alone.
+Record each failure with input, observed behavior, expected behavior, evidence,
+and likely configuration cause. Full instruction or skill replacements require a
+complete proposed value and separate approval through
+`call_destructive_operation`; repeat failing cases from a clean session.
 
-Call `test_chat_end` when the owner wants the private transcript cleared. Do not
-claim production readiness from one successful path. Report tested cases,
-failures, changes applied, remaining risks, and that live channel delivery was
-not exercised.
+Use `test_chat_end` only when the owner wants the stored test transcript cleared.
 
-The current connector does not expose the Sales eval-scenario MCP tools. If the
-owner asks for batch eval runs, state that limitation instead of simulating a
-batch result.
+## Repeatable evals
+
+Use `eval_scenario_list` to find existing scenarios. `eval_scenario_get` and
+`eval_run_get` may contain copied conversation turns, so call them through
+`call_customer_data_read_operation` only when needed.
+
+`eval_scenario_save` upserts by name and can replace an existing scenario. Show
+the exact turns, references, source, and existing same-name scenario before
+calling `call_destructive_operation`. Prefer inline synthetic turns unless the
+owner explicitly asks to derive a scenario from real customer data.
+
+Start `eval_run_start` through `call_test_operation`. Candidate
+`instruction_override` text tests a change without altering the live assistant.
+Poll the returned run with `eval_run_get`; do not start duplicates. Cancel only
+through `call_destructive_operation` after exact approval.
+
+Report the matrix, passes/failures, tool-call evidence, stability/reference
+metrics, changes tested versus saved, and which live channel paths remain
+unverified. One successful path is not readiness evidence.

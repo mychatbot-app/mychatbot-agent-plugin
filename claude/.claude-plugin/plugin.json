@@ -4,9 +4,10 @@
   "description": "Guided MyChatBot setup and operations workflows from Claude Code.",
   "author": {
     "name": "MyChatBot",
+    "email": "support@mychatbot.app",
     "url": "https://mychatbot.app"
   },
-  "homepage": "https://mychatbot.app/claude",
+  "homepage": "https://mychatbot.app",
   "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
   "keywords": [
     "mychatbot",
@@ -25,6 +26,10 @@
         "x-mychatbot-mcp-client": "claude_code",
         "x-mychatbot-mcp-surface": "account-plugin"
       }
+    },
+    "mychatbot-docs": {
+      "type": "http",
+      "url": "https://api.mychatbot.app/api/mcp/docs"
     }
   },
   "skills": "./skills/"

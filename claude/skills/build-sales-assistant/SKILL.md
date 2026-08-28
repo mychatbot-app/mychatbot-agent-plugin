@@ -1,60 +1,64 @@
 ---
 name: build-sales-assistant
 description: >-
-  Design, create, upgrade, or launch a customer-facing MyChatBot Sales
-  assistant. Use for production chatbot, sales-agent, support-agent, website
-  widget, or messaging-channel setup. Includes grounded proposal,
-  approval, knowledge, private testing, verification, and launch handoff.
+  Design, create, upgrade, test, or activate a customer-facing MyChatBot Sales
+  assistant. Use for sales, support, booking, ordering, website chat, voice, or
+  messaging assistants. Not for back-office Agents Platform routines.
 ---
 
 # Build a Sales assistant
 
-Load `mychatbot-plugin-basics-claude` first. Treat “build” and “launch” as
-separate approvals.
+Load `mychatbot-plugin-basics-claude` first. Configuration, private testing,
+and customer-facing activation are separate approvals.
 
-## Establish the target
+## Inspect and choose the target
 
-Call `get_demo_status`, `list_assistants`, `list_integrations`, and
-`list_channels`. Determine whether to tune an existing assistant, use the demo,
-or create a new one. Do not create a similarly named assistant because a list
-result was inconvenient to inspect.
+Call `get_account_context`, then discover the Sales operations
+`list_assistants`, `list_integrations`, `list_channels`, `list_pipelines`, and
+`get_subscription_info`. Use `call_read_operation`. Inspect `get_assistant` for
+the exact existing assistant when tuning one; do not create a similarly named
+assistant because a list result was inconvenient to inspect.
 
-Learn only business facts supported by the owner, their site, or their current
-knowledge. Ask only for decisions that materially change the result.
+Establish who the assistant serves, its job, handoff boundaries, language,
+channels, required business facts, lead fields, booking/order behavior, and
+success cases. Use only facts supported by the owner or an approved source.
 
-## Propose before creating
+## Propose a bounded configuration
 
-Draft the assistant name, greeting, role, complete instructions, grounded
-starter knowledge, and ordered build plan. Call `propose_assistant_setup` to
-show the proposal. Stop and wait for approval or requested revisions.
+Show the complete proposal before writing:
 
-After approval, call `build_assistant` once with the approved content. This
-creates the assistant and starter knowledge; it does not by itself prove that a
-customer channel is live. Re-read assistants and integrations and report any
-partial failure.
+- assistant name, welcome message, instructions, model/language choices;
+- Sales skills or toolkit toggles actually required;
+- FAQ, website, product, calendar, or integration dependencies;
+- pipeline/client-context behavior;
+- private tests and later activation stages.
 
-For an existing assistant, call `propose_instructions_update` with the complete
-replacement instructions. Apply them with `update_assistant_instructions` only
-after the owner approves that exact replacement.
+For a new assistant, discover the exact `assistant_create` schema and call it
+once through `call_configuration_operation`. Re-read with `get_assistant`.
+Create skills and reversible toolkit configuration as a separately approved
+bounded stage.
 
-## Add only required capabilities
+`assistant_update_instructions`, `assistant_update_skill`, and
+`assistant_update_client_context_schema` are full replacements. Read the current
+resource, show the complete retained and changed value, then use
+`call_destructive_operation`. `assistant_update` can switch customer-facing
+behavior on or off and therefore uses `call_activation_operation`.
 
-Use the `business-knowledge` skill for websites, FAQs, or catalogs. Configure
-order taking only when the business actually wants the assistant to take
-orders. Use `enable_order_taking` after separate approval; never infer it from
-the existence of a product catalog.
+## Add knowledge and business capabilities
 
-## Test, then launch
+Use `business-knowledge` for websites, FAQs, feeds, and catalogs. Use
+`channels-and-integrations` for channels, calendars, and external services.
+Enable order taking only when requested: inspect the exact
+`enable_order_taking` schema, preview required customer/item fields and currency,
+then use `call_activation_operation` after approval.
 
-Use the `test-and-evaluate` skill before a production channel launch. When the
-assistant passes the agreed cases, propose one channel at a time:
+## Test, then activate
 
-- `create_website_widget` returns an embed snippet and hosted test page.
-- Setup-link tools hand WhatsApp, Instagram, or Telegram authorization to the
-  dashboard without exposing credentials in chat.
-- `connect_telegram` accepts a bot credential directly; prefer the dashboard
-  link unless the owner explicitly chooses direct credential submission.
+Use `test-and-evaluate` before any customer-facing activation. After the agreed
+cases pass, propose one channel at a time. Discover its current schema, show
+credential or human OAuth steps, expected public behavior, and rollback path.
+Use `call_activation_operation` only after exact approval.
 
-Obtain a separate launch approval, verify with `list_channels`, and finish with
-the assistant ID, knowledge sources, tests performed, channel status, links,
-and remaining human steps.
+Finish with the assistant ID, knowledge and integration dependencies, tests and
+failures, active channels, order/lead settings, configuration links, remaining
+human steps, and every live path not verified.

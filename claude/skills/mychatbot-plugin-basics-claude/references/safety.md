@@ -14,11 +14,19 @@ Creating an assistant, knowledge source, catalog, or disabled configuration
 still changes live account state. Show the bounded stage and obtain approval.
 Prefer find-or-update over near-duplicate creation.
 
-## Private tests
+Changing a lead, note, task, attachment, or collected context uses the separate
+customer-data write gateway. Show the exact record and fields; never broaden a
+single-record request into a batch update.
+
+## Private tests and generation
 
 Test chats do not contact customers, but starting or ending one changes the
 stored private test session. Confirm the target assistant and do not present a
 model reply as proof of production channel behavior.
+
+UGC generation can spend balance even when nothing is published. Preview the
+prompt, model, variants, and known cost or limit before generating. Poll the
+returned task instead of starting duplicates.
 
 ## Activation, spending, and external actions
 

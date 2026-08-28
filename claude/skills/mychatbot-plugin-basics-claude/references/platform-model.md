@@ -26,6 +26,21 @@ Business Knowledge may expose existing Sales resources, including catalogs, to
 Agents Platform agents without duplicating their content. Product search for an
 agent is provided through Business Knowledge.
 
+## UGC
+
+Use for account-owned media generation, social posting or scheduling, social
+analytics, and ad reporting. Generation and publication are separate stages:
+generated media is not automatically approved for a live account.
+
+## Catalog-scoped Product MCP
+
+The Product MCP is a direct semantic-search capability for one selected catalog.
+Its URL is a credential and is intentionally not proxied by the account-wide
+plugin. Configure catalogs through Sales, attach them to Agents through Business
+Knowledge, and verify customer behavior through Sales test chats or evals. Use a
+catalog's explicit **Connect AI tools** flow only when direct semantic catalog
+queries are the task.
+
 ## Selection rule
 
 Choose based on who performs the work:
@@ -36,3 +51,4 @@ Choose based on who performs the work:
   to the Agents Platform.
 - A catalog or FAQ can be owned by Sales and attached to Agents as Business
   Knowledge; do not recreate it merely to cross the platform boundary.
+- Media generation, social publication, analytics, and ads belong to UGC.

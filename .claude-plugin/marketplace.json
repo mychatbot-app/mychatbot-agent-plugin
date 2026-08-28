@@ -2,6 +2,7 @@
   "name": "mychatbot-app",
   "owner": {
     "name": "MyChatBot",
+    "email": "support@mychatbot.app",
     "url": "https://mychatbot.app"
   },
   "metadata": {
@@ -10,12 +11,16 @@
   "plugins": [
     {
       "name": "mychatbot",
+      "displayName": "MyChatBot",
       "source": "./claude",
       "description": "Audit, configure, test, and operate MyChatBot accounts from Claude Code.",
+      "version": "0.1.0",
       "category": "productivity",
       "homepage": "https://mychatbot.app",
+      "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
       "author": {
         "name": "MyChatBot",
+        "email": "support@mychatbot.app",
         "url": "https://mychatbot.app"
       },
       "keywords": [

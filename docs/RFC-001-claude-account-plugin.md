@@ -44,22 +44,21 @@ mychatbot.app/claude
         |
         v
 Claude marketplace plugin ---- workflow skills
-        |
+        |                    `---- public Docs MCP (read-only)
         v OAuth 2.1 + PKCE
-connector.mychatbot.app/mcp ---- curated, annotated gateway
+connector.mychatbot.app/mcp ---- curated, annotated account gateway
         |
         +---- Sales Management MCP
         +---- Agents MCP
-        +---- UGC MCP (later capability pack)
-        +---- Docs MCP
-        `---- Product/catalog lookup (selected integration only)
+        `---- UGC MCP
 ```
 
-The gateway keeps the 48 curated Sales tools named. The wider Agents surface is
-compressed into schema discovery plus read, configuration, and destructive
-routers. Those routers accept only one of 34 statically classified operation
-names; discovery filters the authoritative upstream schemas through the same
-allowlist, so an upstream addition never appears automatically.
+The plugin profile replaces the browser connector's 48 named tools with 11
+top-level orchestration tools: account context, cross-platform discovery, and
+risk-separated routers. The static catalog covers 115 Sales operations, 34
+Agents operations, and 17 UGC operations. Discovery filters current upstream
+descriptions and schemas through that allowlist, so an upstream addition never
+appears automatically.
 
 ## Invariants
 
@@ -80,8 +79,8 @@ allowlist, so an upstream addition never appears automatically.
 
 The existing connector implements OAuth-as-signup, dynamic client registration,
 PKCE, and bearer validation. Its current access token is an account-wide MCP
-token. Before public release, token records need machine-enforced capabilities
-or an equivalent connector-bound credential so a stolen token cannot bypass the
+token. Machine-enforced token capabilities or an equivalent connector-bound
+credential are a defense-in-depth follow-up so a stolen token cannot bypass the
 gateway and call every account MCP surface.
 
 Proposed capability vocabulary:
@@ -117,12 +116,13 @@ previewed payload.
 
 ### Public v1 contract
 
-Use the connector's curated Sales surface plus the exact-header plugin
-profile: one read-only account context, Agents schema discovery, and the three
-risk-class gateways. Preserve the Agents MCP sequence: authoring context,
-inventory, validate, show canonical YAML, approval, save, readiness, optional
-approved dry run, and disabled-first schedules/triggers. The plugin pins all 48
-Sales tools, five profile tools, and 34 routed Agents operations in
+Use the exact-header plugin profile: one read-only account context,
+cross-platform schema discovery, and separate read, customer-data read,
+configuration, customer-data write, private-test, billed-generation,
+activation, external-action, and destructive gateways. Preserve the Agents MCP
+sequence: authoring context, inventory, validate, show canonical YAML,
+approval, save, readiness, optional approved dry run, and disabled-first
+schedules/triggers. The plugin pins 166 routed operations in
 `contracts/connector-tools.json`; validation fails when a skill references an
 unknown operation.
 
@@ -132,12 +132,15 @@ Add connector-bound token capabilities, higher-risk consent/confirmation
 contracts, release evidence, and a public-repository/security review. The compact
 gateway shape can remain unchanged.
 
-### Later packs
+### Deliberate boundary
 
-Add UGC generation/posting only after spend and publication previews are
-server-enforced. Add direct product search for selected catalogs without
-exposing capability URLs. Operational customer-data tools require a distinct
-consent capability.
+UGC generation and publication are in the initial compact surface with distinct
+gateways and workflow approvals; connector-bound token capabilities remain the
+machine-enforced follow-up. The public read-only Docs MCP is bundled directly
+for current platform guidance. Direct Product MCP search is not proxied because
+a catalog URL is itself a credential. Catalog creation, Business Knowledge
+attachment, Sales test chats, and evals cover integrator setup without exposing
+that capability URL.
 
 ## Repository changes
 

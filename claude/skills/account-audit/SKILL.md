@@ -14,9 +14,9 @@ Load `mychatbot-plugin-basics-claude` first. This workflow is read-only.
 ## Inspect
 
 Call `get_account_context` first. Treat every section with `status: error`
-and every partial Agents inventory as unknown, not empty. If the Sales Platform
-is in scope, call `get_demo_status`, then collect only the details relevant to
-the request. A normal Sales audit uses:
+and every partial Agents inventory as unknown, not empty. Use
+`discover_operations` with `platform: sales` and exact names, then
+`call_read_operation`. A normal Sales audit inspects:
 
 - `get_subscription_info` and `get_usage_summary` for eligibility and capacity;
 - `list_assistants` for Sales assistants;
@@ -29,12 +29,15 @@ Do not call `list_clients`, `list_chats`, `get_chat_messages`, or
 customer-data analysis, state why before reading it and keep the result
 aggregated and de-identified.
 
-For Agents work, call `agents_discover_tools`, then use
-`agents_call_read_tool` for the discovered `get_routine_authoring_context`,
-`get_account_authoring_inventory`, `list_routines`, or specific resource reads
-needed by the request. Do not use a configuration or destructive gateway in an
-audit. If the Agents gateways are absent, mark Agents Platform as “not
-inspected through the current plugin surface”; never infer an empty inventory.
+For Agents work, discover `get_routine_authoring_context`,
+`get_account_authoring_inventory`, `list_routines`, or the specific resource
+reads needed, then use `call_read_operation`. Do not use another gateway in an
+audit. If a platform is unavailable, mark it as not inspected; never infer an
+empty inventory.
+
+UGC is not part of a normal setup audit. When it is in scope, discover its
+domains and use only configuration-free reads such as `list_accounts`,
+`get_posting_frequency`, or `list_ad_accounts`. Do not generate or publish.
 
 ## Report
 

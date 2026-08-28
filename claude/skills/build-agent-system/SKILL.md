@@ -16,9 +16,9 @@ tool surface small.
 
 ## Discover and inspect
 
-Call `get_account_context`, then `agents_discover_tools`. The discovery
+Call `get_account_context`, then `discover_operations` with `platform: agents`. The discovery
 result is the authoritative source for operation descriptions, input schemas,
-annotations, and `gateway_class`. Call `agents_call_read_tool` with the exact
+annotations, and `gateway_class`. Call `call_read_operation` with the exact
 operation name and schema-shaped arguments. Never pass an account ID.
 
 At minimum, inspect `get_account_authoring_inventory`. Before routine work,
@@ -35,7 +35,7 @@ metadata but does not read or write vendor data.
 
 Show the intended resources, dependencies, complete replacement values, and
 what remains unchanged. Obtain approval before calling
-`agents_call_configuration_tool`.
+`call_configuration_operation`.
 
 - `claim_custom_agent` uses a free custom slot from fresh inventory.
 - `hire_library_agent` adds a library archetype without editing its platform
@@ -56,6 +56,11 @@ what remains unchanged. Obtain approval before calling
 Execute the approved configuration once. Re-read the affected resource and
 report partial or ambiguous outcomes without retrying the write.
 
+Authenticated custom MCP headers are app-only. Claude may inspect existing
+custom connectors from inventory and probe a configured connector, but must
+send the user to **Agents → Connectors → Custom connector** to enter a URL and
+headers. Never ask for those header values in chat.
+
 ## Author a routine
 
 Use this sequence:
@@ -66,8 +71,9 @@ Use this sequence:
    valid.
 4. Show the complete canonical YAML, conservative Agent-call estimate, and
    dependencies; obtain explicit approval.
-5. Call `create_routine` or `update_routine` once through the configuration
-   gateway.
+5. Call `create_routine` through `call_configuration_operation`. Existing
+   routine replacement uses `update_routine` through
+   `call_destructive_operation` after showing the complete canonical YAML.
 6. Read `get_routine_readiness`; resolve blockers and explain warnings.
 
 Routine creation/update saves live account configuration. It does not launch a
@@ -78,8 +84,9 @@ run or create an automation.
 `start_routine_dry_run` is a billed, persisted, tool-free simulation. It does
 not attach connectors, customer data, Business Knowledge, memory, or live
 effects. Show the sample input, known cost boundary, and limitation, then obtain
-separate approval. Start once, poll with `get_routine_run`, and use
-`cancel_routine_run` only through the destructive gateway after exact approval.
+separate approval. Start once through `call_test_operation`, poll with
+`get_routine_run`, and use `cancel_routine_run` only through
+`call_destructive_operation` after exact approval.
 
 A passing preview demonstrates prompt flow and output shape only. It is not
 production readiness evidence for live tools or external systems.
@@ -92,10 +99,13 @@ rate limit before creation. Re-read readiness after staging.
 
 Enabling via `set_routine_schedule_enabled` starts future cron firing.
 Enabling via `set_trigger_enabled` may create an external subscription. Treat
-each as a separate activation approval after configuration and private testing.
+each as a separate approval through `call_activation_operation` after
+configuration and private testing.
 
 Deletion, disconnection, reset, and cancellation use
-`agents_call_destructive_tool`. Name the exact resource and cascading effect,
+`call_destructive_operation`. Full replacements such as
+`replace_agent_configuration` and `replace_skill` use it too. Name the exact
+resource and cascading effect,
 obtain separate confirmation, execute once, then verify. Finish with resource
 slugs/IDs, readiness, tests, enabled state, consent links or human steps, and
 every unverified live boundary.

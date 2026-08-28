@@ -1,103 +1,136 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "surface": "https://connector.mychatbot.app/mcp",
   "sourceRepository": "mychatbot-app/claude-connector",
-  "description": "Pinned public connector tool contract used to validate plugin skill references.",
+  "description": "Pinned compact integrator contract. Current schemas are discovered at runtime; operation names and risk gateways are static.",
   "pluginProfileHeader": {
     "name": "x-mychatbot-mcp-surface",
     "value": "account-plugin"
   },
+  "auxiliaryServers": {
+    "docs": {
+      "url": "https://api.mychatbot.app/api/mcp/docs",
+      "risk": "read",
+      "tools": ["get_docs_structure", "search_docs", "read_docs_page"]
+    }
+  },
   "profileTools": [
     { "name": "get_account_context", "risk": "read" },
-    { "name": "agents_discover_tools", "risk": "read" },
-    { "name": "agents_call_read_tool", "risk": "read" },
-    { "name": "agents_call_configuration_tool", "risk": "configuration" },
-    { "name": "agents_call_destructive_tool", "risk": "destructive" }
+    { "name": "discover_operations", "risk": "read" },
+    { "name": "call_read_operation", "risk": "read" },
+    { "name": "call_customer_data_read_operation", "risk": "customer-data-read" },
+    { "name": "call_configuration_operation", "risk": "configuration" },
+    { "name": "call_customer_data_write_operation", "risk": "customer-data-write" },
+    { "name": "call_test_operation", "risk": "private-test" },
+    { "name": "call_generation_operation", "risk": "generation" },
+    { "name": "call_activation_operation", "risk": "activation" },
+    { "name": "call_external_action_operation", "risk": "external-action" },
+    { "name": "call_destructive_operation", "risk": "destructive" }
   ],
-  "agentsOperations": [
-    { "name": "get_routine_authoring_context", "gateway": "read" },
-    { "name": "get_account_authoring_inventory", "gateway": "read" },
-    { "name": "list_routines", "gateway": "read" },
-    { "name": "get_routine", "gateway": "read" },
-    { "name": "validate_routine", "gateway": "read" },
-    { "name": "get_routine_readiness", "gateway": "read" },
-    { "name": "get_routine_run", "gateway": "read" },
-    { "name": "get_agent", "gateway": "read" },
-    { "name": "get_skill", "gateway": "read" },
-    { "name": "probe_connector", "gateway": "read" },
-    { "name": "create_routine", "gateway": "configuration" },
-    { "name": "update_routine", "gateway": "configuration" },
-    { "name": "start_routine_dry_run", "gateway": "configuration" },
-    { "name": "claim_custom_agent", "gateway": "configuration" },
-    { "name": "hire_library_agent", "gateway": "configuration" },
-    { "name": "replace_agent_configuration", "gateway": "configuration" },
-    { "name": "create_skill", "gateway": "configuration" },
-    { "name": "replace_skill", "gateway": "configuration" },
-    { "name": "start_connector_authorization", "gateway": "configuration" },
-    { "name": "connect_sales_platform_connector", "gateway": "configuration" },
-    { "name": "create_knowledge_source", "gateway": "configuration" },
-    { "name": "update_knowledge_source", "gateway": "configuration" },
-    { "name": "create_routine_schedule", "gateway": "configuration" },
-    { "name": "set_routine_schedule_enabled", "gateway": "configuration" },
-    { "name": "create_trigger", "gateway": "configuration" },
-    { "name": "set_trigger_enabled", "gateway": "configuration" },
-    { "name": "cancel_routine_run", "gateway": "destructive" },
-    { "name": "reset_agent_configuration", "gateway": "destructive" },
-    { "name": "delete_custom_agent", "gateway": "destructive" },
-    { "name": "delete_skill", "gateway": "destructive" },
-    { "name": "disconnect_connector", "gateway": "destructive" },
-    { "name": "delete_knowledge_source", "gateway": "destructive" },
-    { "name": "delete_routine_schedule", "gateway": "destructive" },
-    { "name": "delete_trigger", "gateway": "destructive" }
-  ],
-  "tools": [
-    { "name": "propose_assistant_setup", "risk": "read" },
-    { "name": "build_assistant", "risk": "configuration" },
-    { "name": "add_website_knowledge", "risk": "configuration" },
-    { "name": "create_faq_knowledge_base", "risk": "configuration" },
-    { "name": "list_faq_knowledge_base_entries", "risk": "read" },
-    { "name": "update_faq_knowledge_base_entries", "risk": "destructive" },
-    { "name": "create_products_integration", "risk": "configuration" },
-    { "name": "list_products", "risk": "read" },
-    { "name": "update_products", "risk": "destructive" },
-    { "name": "create_product_feed_integration", "risk": "configuration" },
-    { "name": "list_integrations", "risk": "read" },
-    { "name": "get_integration", "risk": "read" },
-    { "name": "delete_faq_knowledge_base", "risk": "destructive" },
-    { "name": "delete_products_integration", "risk": "destructive" },
-    { "name": "delete_product_feed_integration", "risk": "destructive" },
-    { "name": "create_website_widget", "risk": "activation" },
-    { "name": "connect_telegram", "risk": "activation" },
-    { "name": "delete_channel", "risk": "destructive" },
-    { "name": "delete_assistant", "risk": "destructive" },
-    { "name": "get_channel_setup_link_telegram", "risk": "read" },
-    { "name": "get_channel_setup_link_whatsapp", "risk": "read" },
-    { "name": "get_channel_setup_link_instagram", "risk": "read" },
-    { "name": "get_usage_summary", "risk": "read" },
-    { "name": "get_order_stats", "risk": "read" },
-    { "name": "list_orders", "risk": "read" },
-    { "name": "enable_order_taking", "risk": "configuration" },
-    { "name": "disable_order_taking", "risk": "destructive" },
-    { "name": "list_chats", "risk": "customer-data-read" },
-    { "name": "get_chat", "risk": "customer-data-read" },
-    { "name": "get_chat_messages", "risk": "customer-data-read" },
-    { "name": "list_clients", "risk": "customer-data-read" },
-    { "name": "get_client", "risk": "customer-data-read" },
-    { "name": "test_chat_start", "risk": "private-test" },
-    { "name": "test_chat_send", "risk": "private-test" },
-    { "name": "test_chat_end", "risk": "private-test" },
-    { "name": "propose_instructions_update", "risk": "read" },
-    { "name": "update_assistant_instructions", "risk": "destructive" },
-    { "name": "list_assistants", "risk": "read" },
-    { "name": "list_channels", "risk": "read" },
-    { "name": "send_one_off_message", "risk": "external-action" },
-    { "name": "immediate_outreach_preview_audience", "risk": "customer-data-read" },
-    { "name": "immediate_outreach_create", "risk": "external-action" },
-    { "name": "immediate_outreach_update_status", "risk": "destructive" },
-    { "name": "get_subscription_info", "risk": "read" },
-    { "name": "get_upgrade_link", "risk": "read" },
-    { "name": "get_demo_status", "risk": "read" },
-    { "name": "list_follow_ups", "risk": "read" },
-    { "name": "get_follow_up", "risk": "read" }
-  ]
+  "operations": {
+    "sales": {
+      "catalogSize": 115,
+      "gateways": {
+        "read": [
+          "list_assistants", "get_assistant", "assistant_list_skills",
+          "assistant_get_config_link", "get_assistant_available_tools", "list_labels",
+          "list_pipelines", "get_pipeline", "list_channels", "channel_get_config_link",
+          "list_follow_ups", "get_follow_up",
+          "list_faq_knowledge_base_entries", "list_products", "list_integrations",
+          "get_integration", "get_integration_config_link", "get_account_summary",
+          "get_subscription_info", "get_token_usage", "get_usage_summary", "get_order_stats",
+          "get_event_stats", "list_calendar_staff", "list_calendar_services",
+          "list_lead_forms", "get_lead_forms_automation", "eval_scenario_list"
+        ],
+        "customer_data_read": [
+          "list_clients", "scan_clients", "get_client", "client_list_notes", "client_get_note",
+          "client_list_tasks", "client_list_attachments", "client_get_attachment", "export_clients",
+          "list_chats", "get_chat", "get_chat_messages", "export_chats",
+          "immediate_outreach_preview_audience", "list_orders", "get_order", "list_events",
+          "get_event", "eval_scenario_get", "eval_run_get"
+        ],
+        "configuration": [
+          "assistant_create", "assistant_clone", "assistant_create_skill",
+          "assistant_toggle_contact_details", "assistant_toggle_client_context",
+          "assistant_toggle_strip_kb_history", "label_create", "pipeline_create",
+          "pipeline_update", "funnel_status_create", "follow_up_create",
+          "create_faq_knowledge_base", "add_website_knowledge",
+          "create_product_feed_integration", "create_products_integration"
+        ],
+        "customer_data_write": [
+          "client_create", "client_update", "client_context_merge", "client_create_note",
+          "client_update_note", "client_create_task", "client_update_task",
+          "client_create_attachment", "client_update_attachment"
+        ],
+        "test": ["test_chat_send", "test_chat_get_history", "eval_run_start"],
+        "generation": [],
+        "activation": [
+          "assistant_update", "create_calls_channel_sdk", "connect_telegram",
+          "create_website_widget", "enable_order_taking", "set_lead_form_mapping"
+        ],
+        "external_action": [
+          "immediate_outreach_create", "outbound_call", "send_one_off_message"
+        ],
+        "destructive": [
+          "assistant_update_instructions", "assistant_update_skill", "assistant_delete_skill",
+          "assistant_update_client_context_schema", "test_chat_start", "test_chat_end",
+          "client_delete", "client_delete_note", "client_delete_task", "client_delete_attachment",
+          "label_delete", "pipeline_delete", "funnel_status_delete", "channel_toggle",
+          "delete_channel", "delete_assistant", "follow_up_update", "follow_up_delete",
+          "immediate_outreach_update_status", "update_faq_knowledge_base_entries",
+          "delete_faq_knowledge_base", "update_products", "delete_products_integration",
+          "delete_product_feed_integration", "delete_test_orders", "disable_order_taking",
+          "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",
+          "eval_run_cancel", "learn_website"
+        ]
+      }
+    },
+    "agents": {
+      "catalogSize": 34,
+      "gateways": {
+        "read": [
+          "get_routine_authoring_context", "get_account_authoring_inventory", "list_routines",
+          "get_routine", "validate_routine", "get_routine_readiness", "get_routine_run",
+          "get_agent", "get_skill", "probe_connector"
+        ],
+        "customer_data_read": [],
+        "configuration": [
+          "create_routine", "claim_custom_agent", "hire_library_agent", "create_skill",
+          "start_connector_authorization", "connect_sales_platform_connector",
+          "create_knowledge_source", "update_knowledge_source", "create_routine_schedule",
+          "create_trigger"
+        ],
+        "customer_data_write": [],
+        "test": ["start_routine_dry_run"],
+        "generation": [],
+        "activation": ["set_routine_schedule_enabled", "set_trigger_enabled"],
+        "external_action": [],
+        "destructive": [
+          "cancel_routine_run", "update_routine", "replace_agent_configuration",
+          "reset_agent_configuration", "delete_custom_agent", "replace_skill", "delete_skill",
+          "disconnect_connector", "delete_knowledge_source", "delete_routine_schedule",
+          "delete_trigger"
+        ]
+      }
+    },
+    "ugc": {
+      "catalogSize": 17,
+      "gateways": {
+        "read": [
+          "list_models", "get_media_task", "list_accounts", "get_post",
+          "get_post_analytics", "get_best_times_to_post", "get_daily_metrics",
+          "get_content_decay", "get_posting_frequency", "get_post_timeline",
+          "list_ad_accounts", "list_campaigns", "get_campaign_tree", "list_ads"
+        ],
+        "customer_data_read": [],
+        "configuration": [],
+        "customer_data_write": [],
+        "test": [],
+        "generation": ["generate_media", "tts"],
+        "activation": [],
+        "external_action": ["create_post"],
+        "destructive": []
+      }
+    }
+  }
 }

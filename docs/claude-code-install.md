@@ -1,7 +1,7 @@
 # Claude Code installation protocol
 
 This document is the source for the agent-readable `https://mychatbot.app/claude`
-installation page. The marketplace is public:
+installation page. The source marketplace repository is:
 
 `https://github.com/mychatbot-app/mychatbot-agent-plugin.git`
 
@@ -11,7 +11,7 @@ Run installation only from Claude Code on the user's machine. A browser-only or
 isolated remote conversation cannot install into the local Claude plugin cache.
 In that case, stop and tell the user to open Claude Code locally and paste:
 
-`/goal Read https://mychatbot.app/claude to install and use the MyChatBot plugin. Then audit my current account without changing it.`
+`Read https://mychatbot.app/claude completely, then install and authenticate the MyChatBot plugin. Start a new conversation and audit my current account without changing it.`
 
 ## Execution contract
 
@@ -55,10 +55,12 @@ own terminal rather than inventing a token-based workaround.
 ```bash
 claude plugin details mychatbot@mychatbot-app
 claude mcp get plugin:mychatbot:mychatbot
+claude mcp get plugin:mychatbot:mychatbot-docs
 ```
 
 Expected: plugin `mychatbot`, server `plugin:mychatbot:mychatbot`, connected URL
-`https://connector.mychatbot.app/mcp`, and the plugin's workflow skills.
+`https://connector.mychatbot.app/mcp`, public server
+`plugin:mychatbot:mychatbot-docs`, and the plugin's workflow skills.
 
 If authentication is still required, repeat only the login step. If the plugin
 is absent, check the marketplace name before reinstalling.
