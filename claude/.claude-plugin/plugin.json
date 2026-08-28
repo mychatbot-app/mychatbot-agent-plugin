@@ -1,0 +1,31 @@
+{
+  "name": "mychatbot",
+  "version": "0.1.0",
+  "description": "Audited MyChatBot deployment and operations workflows from Claude Code.",
+  "author": {
+    "name": "MyChatBot",
+    "url": "https://mychatbot.app"
+  },
+  "homepage": "https://mychatbot.app/claude",
+  "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
+  "keywords": [
+    "mychatbot",
+    "sales-agent",
+    "business-automation",
+    "deployment",
+    "claude-code",
+    "mcp"
+  ],
+  "mcpServers": {
+    "mychatbot": {
+      "type": "http",
+      "url": "https://connector.mychatbot.app/mcp",
+      "oauth_resource": "https://connector.mychatbot.app/mcp",
+      "headers": {
+        "x-mychatbot-mcp-client": "claude_code",
+        "x-mychatbot-mcp-surface": "deployment-plugin"
+      }
+    }
+  },
+  "skills": "./skills/"
+}

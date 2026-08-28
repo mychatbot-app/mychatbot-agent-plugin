@@ -1,0 +1,31 @@
+{
+  "name": "mychatbot-app",
+  "owner": {
+    "name": "MyChatBot",
+    "url": "https://mychatbot.app"
+  },
+  "metadata": {
+    "description": "MyChatBot plugins for audited business deployment workflows"
+  },
+  "plugins": [
+    {
+      "name": "mychatbot",
+      "source": "./claude",
+      "description": "Audit, configure, test, and operate MyChatBot deployments from Claude Code.",
+      "category": "productivity",
+      "homepage": "https://mychatbot.app",
+      "author": {
+        "name": "MyChatBot",
+        "url": "https://mychatbot.app"
+      },
+      "keywords": [
+        "mychatbot",
+        "sales-agent",
+        "business-automation",
+        "deployment",
+        "claude-code",
+        "mcp"
+      ]
+    }
+  ]
+}
