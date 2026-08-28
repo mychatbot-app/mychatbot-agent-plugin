@@ -15,7 +15,7 @@ state, and leave a deployment handoff.
 
 - The browser Claude connector is the beginner path for creating a first demo.
 - This plugin is the professional path for audits, production configuration,
-  testing, operations, and eventually Agents Platform deployments.
+  testing, operations, and Agents Platform deployments.
 - Skills own workflow and judgment. MCP tools remain the source of truth for
   schemas, account state, authorization, and writes.
 

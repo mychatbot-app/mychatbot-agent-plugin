@@ -13,8 +13,10 @@ Load `mychatbot-plugin-basics-claude` first. This workflow is read-only.
 
 ## Inspect
 
-Call `get_demo_status` first, then collect only the inventory relevant to the
-request. A normal account-level audit uses:
+Call `get_deployment_context` first. Treat every section with `status: error`
+and every partial Agents inventory as unknown, not empty. If Sales deployment
+is in scope, call `get_demo_status`, then collect only the details relevant to
+the request. A normal Sales audit uses:
 
 - `get_subscription_info` and `get_usage_summary` for eligibility and capacity;
 - `list_assistants` for Sales assistants;
@@ -27,9 +29,12 @@ Do not call `list_clients`, `list_chats`, `get_chat_messages`, or
 customer-data analysis, state why before reading it and keep the result
 aggregated and de-identified.
 
-If Agents Platform tools are visible, use their authoring context and account
-inventory. If they are absent, mark Agents Platform as “not inspected through
-the current plugin surface”; never infer an empty inventory.
+For Agents work, call `agents_discover_tools`, then use
+`agents_call_read_tool` for the discovered `get_routine_authoring_context`,
+`get_account_authoring_inventory`, `list_routines`, or specific resource reads
+needed by the request. Do not use a configuration or destructive gateway in an
+audit. If the deployment gateways are absent, mark Agents Platform as “not
+inspected through the current plugin surface”; never infer an empty inventory.
 
 ## Report
 

@@ -2,7 +2,7 @@
 name: business-knowledge
 description: >-
   Add, update, validate, or remove MyChatBot business knowledge: live websites,
-  Sales FAQs, manual product catalogs, product feeds, or future Agents Business
+  Sales FAQs, manual product catalogs, product feeds, or Agents Business
   Knowledge attachments. Use when an assistant or agent needs grounded company
   or catalog information.
 ---
@@ -40,7 +40,11 @@ Deletion requires the exact integration ID, a statement of indexed content that
 will be removed, and separate confirmation. After any write, re-read the
 integration and summarize what is searchable versus still pending.
 
-If the request concerns an Agents Platform agent and Agents tools are absent,
-do not substitute a Sales knowledge write. Explain that the source can be
-prepared in Sales but cannot yet be attached as Agents Business Knowledge
-through the current plugin surface.
+For an Agents Platform agent, use the `agents-platform-deployment` skill. Reuse
+an existing Sales resource through Agents Business Knowledge when the inventory
+shows that provider; do not duplicate its content. Create or update the
+Business Knowledge source through the configuration gateway only after showing
+the discovered schema, provider identity, display name, enabled state,
+read-only declaration, and exact non-secret config. Credential values never
+belong in gateway arguments; provider authorization uses its human consent
+flow.

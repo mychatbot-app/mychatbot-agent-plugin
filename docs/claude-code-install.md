@@ -79,6 +79,9 @@ Other supported pilot intents:
   additions without creating duplicates.
 - Test and tune: inspect existing assistants and propose a private regression
   test matrix before changing instructions.
+- Build an Agents Platform system: inspect the authoring inventory, then propose
+  agents, skills, connectors, Business Knowledge, routines, and disabled-first
+  automation as separately approved stages.
 
 The installation conversation is not the deployment conversation. If a
 task-spawning control is available, create a one-click handoff using the chosen

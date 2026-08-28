@@ -1,7 +1,9 @@
 # RFC 001: Claude Code deployment plugin
 
-Status: draft for private integrator pilot  
-Owners: MyChatBot product, platform, connector, and developer experience  
+Status: implemented foundation for private integrator pilot
+
+Owners: MyChatBot product, platform, connector, and developer experience
+
 Initial host: Claude Code
 
 ## Decision
@@ -24,7 +26,7 @@ that change only the final task sentence. Examples:
 - Deploy a Sales assistant.
 - Improve my business knowledge.
 - Test and tune my assistant.
-- Build an Agents Platform system (enabled only when the gateway contract ships).
+- Build an Agents Platform system.
 
 The copied instruction sends Claude to `/claude`. That page is human-readable
 in a browser and an executable plain-text protocol for an agent. Installation
@@ -53,8 +55,11 @@ connector.mychatbot.app/mcp ---- curated, annotated gateway
         `---- Product/catalog lookup (selected integration only)
 ```
 
-The gateway keeps named tools and explicit schemas. It does not mirror upstream
-`tools/list` automatically and does not expose a catch-all request tool.
+The gateway keeps the 48 curated Sales tools named. The wider Agents surface is
+compressed into schema discovery plus read, configuration, and destructive
+routers. Those routers accept only one of 34 statically classified operation
+names; discovery filters the authoritative upstream schemas through the same
+allowlist, so an upstream addition never appears automatically.
 
 ## Invariants
 
@@ -112,18 +117,20 @@ previewed payload.
 
 ### Pilot contract
 
-Use the connector's current curated Sales surface: deployment audit, assistant
-proposal/build, knowledge, private testing, channels, account health, orders,
-inbox/leads, and guarded outreach. The plugin pins this tool set in
-`contracts/connector-tools.json` and fails validation when a skill references an
-unknown tool.
+Use the connector's curated Sales surface plus the exact-header deployment
+profile: one read-only account context, Agents schema discovery, and the three
+risk-class gateways. Preserve the Agents MCP sequence: authoring context,
+inventory, validate, show canonical YAML, approval, save, readiness, optional
+approved dry run, and disabled-first schedules/triggers. The plugin pins all 48
+Sales tools, five profile tools, and 34 routed Agents operations in
+`contracts/connector-tools.json`; validation fails when a skill references an
+unknown operation.
 
 ### Public v1
 
-Add a read-only deployment-context tool and the Agents MCP authoring/configuration
-surface. Preserve the Agents MCP sequence: authoring context, inventory,
-validate, show canonical YAML, approval, save, readiness, optional approved dry
-run, disabled-first schedules/triggers.
+Add connector-bound token capabilities, higher-risk consent/confirmation
+contracts, pilot evidence, and a public-repository/security review. The compact
+gateway shape can remain unchanged.
 
 ### Later packs
 

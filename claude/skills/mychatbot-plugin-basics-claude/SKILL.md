@@ -15,11 +15,16 @@ a demo. MCP schemas and fresh tool results are the runtime contract.
 
 ## Establish orientation
 
-In a new connection, call `get_demo_status` first. It identifies any demo
-created during OAuth signup and prevents accidentally creating a second widget.
-For deployment work, continue with the smallest read-only inventory needed for
-the request. Prefer `list_assistants`, `list_integrations`, `list_channels`,
-`get_subscription_info`, and `get_usage_summary` before proposing changes.
+In a new deployment connection, call `get_deployment_context` first. It combines
+secret-free Sales metadata with the Agents authoring inventory, changes
+nothing, and marks partial sections explicitly. Never interpret an empty or
+failed section as proof that no resources exist.
+
+For Sales work, call `get_demo_status` before creating a widget. It identifies
+any demo created during OAuth signup and prevents accidentally creating a
+second one. Continue with only the relevant reads, such as `list_assistants`,
+`list_integrations`, `list_channels`, `get_subscription_info`, and
+`get_usage_summary`.
 
 Do not read chats, messages, clients, or campaign audiences merely to make an
 account audit look comprehensive. Those tools expose customer data; use them
@@ -34,9 +39,11 @@ MyChatBot has two related platforms:
 - The Agents Platform runs account-scoped agents, connectors, Business
   Knowledge, skills, and routines for operator and back-office work.
 
-The current plugin gateway exposes the curated Sales Platform surface. Do not
-claim that Agents Platform resources were inspected or configured unless the
-corresponding Agents tools are visible in the runtime manifest. Product search
+The plugin exposes the curated Sales tools directly. It compresses the wider
+Agents Platform surface into `agents_discover_tools` plus read, configuration,
+and destructive gateways. Discover the authoritative schema before an Agents
+operation and route it through its returned `gateway_class`; do not invent
+parameters or send an operation through a lower-risk gateway. Product search
 for an Agents Platform agent belongs in Business Knowledge, not a Sales tools
 toggle.
 
