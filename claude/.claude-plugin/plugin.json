@@ -8,7 +8,7 @@
     "email": "support@mychatbot.app",
     "url": "https://mychatbot.app"
   },
-  "homepage": "https://mychatbot.app",
+  "homepage": "https://docs.mychatbot.app/agents/claude-code-plugin",
   "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
   "license": "MIT",
   "keywords": [
