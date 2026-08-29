@@ -5,115 +5,103 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const skillsRoot = path.join(root, "claude", "skills");
-const skill = (name) => fs.readFileSync(path.join(skillsRoot, name, "SKILL.md"), "utf8");
-const expectTerms = (name, terms) => {
-  const body = skill(name).toLowerCase();
-  for (const term of terms) {
-    assert.ok(body.includes(term.toLowerCase()), `${name} must cover ${term}`);
-  }
+const hostRoots = {
+  claude: path.join(root, "claude", "skills"),
+  codex: path.join(root, "codex", "skills"),
+};
+const skill = (host, name) => fs.readFileSync(path.join(hostRoots[host], name, "SKILL.md"), "utf8");
+const workflowNames = [
+  "account-audit",
+  "build-agent-system",
+  "build-sales-assistant",
+  "business-knowledge",
+  "channels-and-integrations",
+  "content-and-publishing",
+  "crm-and-sales-operations",
+  "outreach-and-followups",
+  "routines-and-automations",
+  "test-and-evaluate",
+];
+const expectTerms = (host, name, terms) => {
+  const body = skill(host, name).toLowerCase();
+  for (const term of terms) assert.ok(body.includes(term.toLowerCase()), `${host}/${name} covers ${term}`);
 };
 
-test("skill catalog covers the recurring integrator job families", () => {
-  const names = fs
-    .readdirSync(skillsRoot, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .sort();
-  assert.deepEqual(names, [
-    "account-audit",
-    "build-agent-system",
-    "build-sales-assistant",
-    "business-knowledge",
-    "channels-and-integrations",
-    "content-and-publishing",
-    "crm-and-sales-operations",
-    "mychatbot-plugin-basics-claude",
-    "outreach-and-followups",
-    "routines-and-automations",
-    "test-and-evaluate",
-  ]);
-
-  expectTerms("build-agent-system", [
-    "agents platform",
-    "skills",
-    "connectors",
-    "business knowledge",
-    "routine",
-    "schedules",
-    "triggers",
-  ]);
-  expectTerms("build-sales-assistant", [
-    "sales assistant",
-    "instructions",
-    "knowledge",
-    "pipeline",
-    "order",
-    "channel",
-  ]);
-  expectTerms("business-knowledge", ["website", "faq", "catalog", "feed", "business knowledge"]);
-  expectTerms("channels-and-integrations", ["channels", "integrations", "connectors", "custom mcp"]);
-  expectTerms("crm-and-sales-operations", [
-    "leads",
-    "pipelines",
-    "labels",
-    "notes",
-    "tasks",
-    "attachments",
-    "orders",
-    "calendar",
-    "conversations",
-  ]);
-  expectTerms("outreach-and-followups", ["follow-up", "one recipient", "campaign", "pausing", "resuming"]);
-  expectTerms("routines-and-automations", ["routines", "schedules", "triggers", "lead forms", "follow-up"]);
-  expectTerms("test-and-evaluate", ["test_chat", "eval", "regression", "tool-call"]);
-  expectTerms("content-and-publishing", ["generate", "publish", "schedule", "analytics", "ads"]);
-});
-
-test("every workflow inherits the base account and approval contract", () => {
-  const base = skill("mychatbot-plugin-basics-claude");
-  assert.match(base, /Start with the smallest relevant read inventory/);
-  assert.match(base, /Call the named operation directly/);
-  assert.match(base, /Never automatically retry a non-read/);
-  assert.match(base, /customer contact, publication/);
-
-  for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
-    if (!entry.isDirectory() || entry.name === "mychatbot-plugin-basics-claude") continue;
-    assert.match(
-      skill(entry.name),
-      /Load `mychatbot-plugin-basics-claude`/,
-      `${entry.name} must load the mandatory base skill`,
-    );
+test("both hosts cover every recurring integrator job family", () => {
+  assert.deepEqual(
+    fs.readdirSync(hostRoots.claude, { withFileTypes: true }).filter((x) => x.isDirectory()).map((x) => x.name).sort(),
+    [...workflowNames, "mychatbot-plugin-basics-claude"].sort(),
+  );
+  assert.deepEqual(
+    fs.readdirSync(hostRoots.codex, { withFileTypes: true }).filter((x) => x.isDirectory()).map((x) => x.name).sort(),
+    [...workflowNames, "mychatbot-plugin-basics"].sort(),
+  );
+  for (const host of ["claude", "codex"]) {
+    expectTerms(host, "build-agent-system", ["agents platform", "skills", "connectors", "business knowledge", "routine", "schedules", "triggers"]);
+    expectTerms(host, "build-sales-assistant", ["sales assistant", "instructions", "knowledge", "pipeline", "order", "channel"]);
+    expectTerms(host, "business-knowledge", ["website", "faq", "catalog", "feed", "business knowledge"]);
+    expectTerms(host, "channels-and-integrations", ["channels", "integrations", "connectors", "custom mcp"]);
+    expectTerms(host, "crm-and-sales-operations", ["leads", "pipelines", "labels", "notes", "tasks", "attachments", "orders", "calendar", "conversations"]);
+    expectTerms(host, "outreach-and-followups", ["follow-up", "one recipient", "campaign", "pausing", "resuming", "schedule_message"]);
+    expectTerms(host, "routines-and-automations", ["routines", "schedules", "triggers", "lead forms", "follow-up", "update_integration_trigger"]);
+    expectTerms(host, "test-and-evaluate", ["test_chat", "eval", "regression", "tool-call"]);
+    expectTerms(host, "content-and-publishing", ["generate", "publish", "schedule", "analytics", "ads"]);
+    expectTerms(host, "build-agent-system", ["get_routine_session_history", "customer inputs"]);
   }
 });
 
-test("skills use direct servers and contain no abandoned connector routers", () => {
-  const copy = fs
-    .readdirSync(skillsRoot, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => skill(entry.name))
+test("every workflow inherits its host base and both copies stay aligned", () => {
+  for (const name of workflowNames) {
+    const claude = skill("claude", name);
+    const codex = skill("codex", name);
+    assert.match(claude, /Load `mychatbot-plugin-basics-claude`/);
+    assert.match(codex, /Load `mychatbot-plugin-basics`/);
+    const normalize = (body) => body
+      .replaceAll("mychatbot-plugin-basics-claude", "mychatbot-plugin-basics")
+      .replaceAll("Claude", "HOST")
+      .replaceAll("Codex", "HOST");
+    assert.equal(normalize(codex), normalize(claude), `${name} host copies drifted`);
+  }
+});
+
+test("base skills enforce one OAuth connection and bounded approvals", () => {
+  const claude = skill("claude", "mychatbot-plugin-basics-claude");
+  const codex = skill("codex", "mychatbot-plugin-basics");
+  for (const base of [claude, codex]) {
+    assert.match(base, /Start with the smallest relevant read inventory/);
+    assert.match(base, /Never automatically retry a non-read/);
+    assert.match(base, /one namespace/);
+    assert.match(base, /browser/);
+    assert.match(base, /create or reconnect an\s+account/);
+    assert.match(base, /Do not ask the user to\s+copy a\s+token/);
+  }
+  assert.match(claude, /plugin:mychatbot:mychatbot/);
+  assert.match(claude, /login-mychatbot\.sh/);
+  assert.match(codex, /codex mcp login mychatbot/);
+  assert.match(codex, /mcp__mychatbot__\*/);
+});
+
+test("skills contain no retired server split or connector router", () => {
+  const copy = Object.entries(hostRoots)
+    .flatMap(([host]) => fs.readdirSync(hostRoots[host], { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => skill(host, entry.name)))
     .join("\n");
-  assert.match(copy, /mychatbot-sales/);
-  assert.match(copy, /mychatbot-agents/);
-  assert.match(copy, /mychatbot-ugc/);
-  assert.match(copy, /mychatbot-docs/);
+  assert.doesNotMatch(copy, /mychatbot-(?:sales|agents|ugc|docs)/);
   assert.doesNotMatch(copy, /connector\.mychatbot\.app/);
   assert.doesNotMatch(copy, /get_account_context/);
   assert.doesNotMatch(copy, /discover_operations/);
-  assert.doesNotMatch(
-    copy,
-    /call_(?:read|customer_data_read|configuration|customer_data_write|test|generation|activation|external_action|destructive)_operation/,
-  );
+  assert.doesNotMatch(copy, /call_(?:read|customer_data_read|configuration|customer_data_write|test|generation|activation|external_action|destructive)_operation/);
 });
 
-test("setup keeps the account key out of chat and verifies every direct server", () => {
-  const setup = fs.readFileSync(path.join(root, "claude/SETUP.md"), "utf8");
-  assert.match(setup, /masked plugin configuration prompt/);
-  assert.match(setup, /plugin:mychatbot:mychatbot-sales/);
-  assert.match(setup, /plugin:mychatbot:mychatbot-agents/);
-  assert.match(setup, /plugin:mychatbot:mychatbot-ugc/);
-  assert.match(setup, /plugin:mychatbot:mychatbot-docs/);
-  assert.match(setup, /Do not run `claude mcp login`/);
+test("Claude setup performs browser signup and verifies the single server", () => {
+  const setup = fs.readFileSync(path.join(root, "claude", "SETUP.md"), "utf8");
+  assert.match(setup, /browser flow/);
+  assert.match(setup, /email address and a one-time code/);
+  assert.match(setup, /creates a MyChatBot account/);
+  assert.match(setup, /plugin:mychatbot:mychatbot/);
+  assert.match(setup, /https:\/\/api\.mychatbot\.app\/api\/mcp\/plugin/);
+  assert.doesNotMatch(setup, /Configure.*key/is);
 });
 
 test("public plugin copy contains no retired rollout or prompt syntax", () => {
@@ -122,13 +110,16 @@ test("public plugin copy contains no retired rollout or prompt syntax", () => {
     "SECURITY.md",
     "claude/SETUP.md",
     "docs/claude-code-install.md",
-    ...fs
-      .readdirSync(skillsRoot, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => `claude/skills/${entry.name}/SKILL.md`),
+    "docs/codex-install.md",
+    ...Object.entries(hostRoots).flatMap(([host, directory]) =>
+      fs.readdirSync(directory, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => path.relative(root, path.join(directory, entry.name, "SKILL.md"))),
+    ),
   ];
   const copy = publicFiles.map((file) => fs.readFileSync(path.join(root, file), "utf8")).join("\n");
   assert.doesNotMatch(copy, /private pilot/i);
   assert.doesNotMatch(copy, /\bdeployment\b/i);
   assert.doesNotMatch(copy, /\/goal\b/i);
+  assert.doesNotMatch(copy, /account_access_key/);
 });

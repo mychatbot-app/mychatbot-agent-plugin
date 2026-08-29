@@ -8,7 +8,7 @@ description: >-
 
 # Work with CRM and Sales operations
 
-Load `mychatbot-plugin-basics-claude` and its safety reference. Customer data
+Load `mychatbot-plugin-basics` and its safety reference. Customer data
 is not a default audit input. Establish the smallest record set, fields, date
 window, and output needed before reading it.
 

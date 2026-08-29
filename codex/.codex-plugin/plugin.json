@@ -1,0 +1,40 @@
+{
+  "name": "mychatbot",
+  "version": "0.3.0",
+  "description": "Build, test, and operate MyChatBot business systems with guided account tools.",
+  "author": {
+    "name": "MyChatBot",
+    "email": "support@mychatbot.app",
+    "url": "https://mychatbot.app"
+  },
+  "homepage": "https://docs.mychatbot.app/agents/claude-code-plugin",
+  "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
+  "license": "MIT",
+  "keywords": [
+    "mychatbot",
+    "sales-agent",
+    "business-automation",
+    "account-setup",
+    "codex",
+    "mcp"
+  ],
+  "mcpServers": "./.mcp.json",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "MyChatBot",
+    "shortDescription": "Build and operate AI-powered business systems",
+    "longDescription": "Guided MyChatBot workflows for business audits, Sales assistants, Agents Platform systems, knowledge, channels, CRM, outreach, routines, testing, content, and ongoing operations.",
+    "developerName": "MyChatBot",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://mychatbot.app",
+    "privacyPolicyURL": "https://mychatbot.app/legal/privacy-policy",
+    "termsOfServiceURL": "https://mychatbot.app/legal/terms-of-service",
+    "defaultPrompt": [
+      "Audit my MyChatBot account and prioritize improvements.",
+      "Build and privately test a sales assistant for my business.",
+      "Create an agent workflow with skills, knowledge, and a routine."
+    ],
+    "brandColor": "#6C47FF"
+  }
+}

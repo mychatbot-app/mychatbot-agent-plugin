@@ -8,7 +8,7 @@ description: >-
 
 # Operate outreach safely
 
-Load `mychatbot-plugin-basics-claude` and its safety reference first. These
+Load `mychatbot-plugin-basics` and its safety reference first. These
 actions can contact real customers.
 
 For inspection, call the Sales Platform operations `list_follow_ups` and

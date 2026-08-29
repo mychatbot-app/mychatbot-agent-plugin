@@ -8,8 +8,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const readJson = (relative) =>
   JSON.parse(fs.readFileSync(path.join(root, relative), "utf8"));
 const contract = readJson("contracts/direct-mcp-tools.json");
-const plugin = readJson("claude/.claude-plugin/plugin.json");
-const mcpServers = readJson("claude/.mcp.json").mcpServers;
+const claudePlugin = readJson("claude/.claude-plugin/plugin.json");
+const codexPlugin = readJson("codex/.codex-plugin/plugin.json");
+const claudeServers = readJson("claude/.mcp.json").mcpServers;
+const codexServers = readJson("codex/.mcp.json").mcpServers;
 
 const platformTools = (platform) => {
   const result = new Map();
@@ -23,59 +25,39 @@ const sales = platformTools("sales");
 const agents = platformTools("agents");
 const ugc = platformTools("ugc");
 
-test("plugin bundles four direct MyChatBot servers", () => {
-  assert.equal(plugin.mcpServers, "./.mcp.json");
-  assert.deepEqual(Object.keys(mcpServers).sort(), [
-    "mychatbot-agents",
-    "mychatbot-docs",
-    "mychatbot-sales",
-    "mychatbot-ugc",
-  ]);
-  assert.equal(
-    mcpServers["mychatbot-sales"].url,
-    "https://api.mychatbot.app/api/mcp/sales-management",
-  );
-  assert.equal(
-    mcpServers["mychatbot-agents"].url,
-    "https://api.mychatbot.app/api/mcp/agents",
-  );
-  assert.equal(
-    mcpServers["mychatbot-ugc"].url,
-    "https://api.mychatbot.app/api/mcp/ugc",
-  );
-  assert.equal(
-    mcpServers["mychatbot-docs"].url,
-    "https://api.mychatbot.app/api/mcp/docs",
-  );
-  for (const name of ["mychatbot-sales", "mychatbot-agents", "mychatbot-ugc"]) {
-    assert.equal(
-      mcpServers[name].headers.Authorization,
-      "Bearer ${user_config.account_access_key}",
-    );
+test("both hosts use one API-owned OAuth MCP connection", () => {
+  assert.deepEqual(contract.servers.plugin, {
+    url: "https://api.mychatbot.app/api/mcp/plugin",
+    authentication: "oauth",
+    bundled: true,
+    composes: ["sales", "agents", "ugc", "docs"],
+  });
+  for (const servers of [claudeServers, codexServers]) {
+    assert.deepEqual(Object.keys(servers), ["mychatbot"]);
+    assert.equal(servers.mychatbot.url, contract.servers.plugin.url);
+    assert.equal(servers.mychatbot.oauth_resource, contract.servers.plugin.url);
+    assert.equal(servers.mychatbot.headers, undefined);
+    assert.equal(servers.mychatbot.http_headers, undefined);
   }
-  assert.equal(mcpServers["mychatbot-docs"].headers, undefined);
+  assert.equal(claudeServers.mychatbot.type, "http");
+  assert.equal(claudePlugin.userConfig, undefined);
+  assert.equal(codexPlugin.userConfig, undefined);
 });
 
-test("account key is required and stored as sensitive plugin configuration", () => {
-  assert.deepEqual(
-    {
-      type: plugin.userConfig.account_access_key.type,
-      sensitive: plugin.userConfig.account_access_key.sensitive,
-      required: plugin.userConfig.account_access_key.required,
-    },
-    { type: "string", sensitive: true, required: true },
-  );
-});
-
-test("complete direct account catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 115);
-  assert.equal(agents.size, 34);
+test("complete composed catalogs are pinned without duplicates", () => {
+  assert.equal(sales.size, 117);
+  assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
-  const all = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(all).size, 166);
+  const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
+  assert.equal(new Set(accountTools).size, 169);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 172);
+  for (const platform of ["sales", "agents", "ugc", "docs"]) {
+    assert.equal(contract.servers[platform].bundled, false);
+    assert.equal(contract.servers[platform].composedBy, "plugin");
+  }
 });
 
-test("Docs is bundled and catalog Product MCP stays on demand", () => {
+test("Docs is composed and catalog Product MCP stays on demand", () => {
   assert.deepEqual(contract.servers.docs.tools, [
     "get_docs_structure",
     "search_docs",
@@ -92,6 +74,7 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
   for (const name of ["list_clients", "get_client", "get_chat_messages", "get_order", "get_event"]) {
     assert.equal(sales.get(name), "customer_data_read", `${name} classification`);
   }
+  assert.equal(agents.get("get_routine_session_history"), "customer_data_read");
   for (const name of ["client_create", "client_update", "client_create_note", "client_update_task"]) {
     assert.equal(sales.get(name), "customer_data_write", `${name} classification`);
   }
@@ -101,7 +84,12 @@ test("activation, external effects, generation, and destructive work stay distin
   for (const name of ["connect_telegram", "create_website_widget", "enable_order_taking", "set_lead_form_mapping"]) {
     assert.equal(sales.get(name), "activation", `${name} classification`);
   }
-  for (const name of ["send_one_off_message", "outbound_call", "immediate_outreach_create"]) {
+  for (const name of [
+    "send_one_off_message",
+    "schedule_message",
+    "outbound_call",
+    "immediate_outreach_create",
+  ]) {
     assert.equal(sales.get(name), "external_action", `${name} classification`);
   }
   assert.equal(ugc.get("generate_media"), "generation");
@@ -114,6 +102,7 @@ test("activation, external effects, generation, and destructive work stay distin
     "channel_toggle",
     "delete_assistant",
     "eval_run_cancel",
+    "update_integration_trigger",
   ]) {
     assert.equal(sales.get(name), "destructive", `${name} classification`);
   }
@@ -134,18 +123,20 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
   }
 });
 
-test("public package includes source, support, setup, and privacy metadata", () => {
-  const marketplace = readJson(".claude-plugin/marketplace.json");
-  assert.equal(
-    plugin.homepage,
-    "https://docs.mychatbot.app/agents/claude-code-plugin",
-  );
-  assert.equal(plugin.author.email, "support@mychatbot.app");
-  assert.equal(plugin.license, "MIT");
-  assert.equal(marketplace.plugins[0].displayName, "MyChatBot");
-  assert.equal(marketplace.plugins[0].version, plugin.version);
-  assert.equal(marketplace.plugins[0].homepage, plugin.homepage);
-  assert.ok(fs.existsSync(path.join(root, "claude/SETUP.md")));
-  assert.ok(fs.existsSync(path.join(root, "SECURITY.md")));
-  assert.match(fs.readFileSync(path.join(root, "README.md"), "utf8"), /privacy policy/i);
+test("public packages include source, support, legal, and release metadata", () => {
+  const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
+  const codexMarketplace = readJson(".agents/plugins/marketplace.json");
+  assert.equal(claudePlugin.version, "0.3.0");
+  assert.equal(codexPlugin.version, claudePlugin.version);
+  assert.equal(claudePlugin.author.email, "support@mychatbot.app");
+  assert.equal(claudePlugin.license, "MIT");
+  assert.equal(codexPlugin.license, "MIT");
+  assert.equal(claudeMarketplace.plugins[0].version, undefined);
+  assert.equal(codexMarketplace.plugins[0].source.path, "./codex");
+  assert.equal(codexMarketplace.plugins[0].policy.authentication, "ON_INSTALL");
+  assert.equal(codexPlugin.interface.privacyPolicyURL, "https://mychatbot.app/legal/privacy-policy");
+  assert.equal(codexPlugin.interface.termsOfServiceURL, "https://mychatbot.app/legal/terms-of-service");
+  for (const file of ["claude/SETUP.md", "README.md", "SECURITY.md", "CHANGELOG.md", "docs/RELEASING.md"]) {
+    assert.ok(fs.existsSync(path.join(root, file)), `${file} exists`);
+  }
 });

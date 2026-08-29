@@ -8,7 +8,7 @@ description: >-
 
 # Build a Sales assistant
 
-Load `mychatbot-plugin-basics-claude` first. Configuration, private testing,
+Load `mychatbot-plugin-basics` first. Configuration, private testing,
 and customer-facing activation are separate approvals.
 
 ## Inspect and choose the target

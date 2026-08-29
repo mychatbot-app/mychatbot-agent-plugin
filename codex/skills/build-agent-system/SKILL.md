@@ -10,7 +10,7 @@ description: >-
 
 # Build an Agents Platform system
 
-Load `mychatbot-plugin-basics-claude` and its safety reference first. Use the
+Load `mychatbot-plugin-basics` and its safety reference first. Use the
 Agents Platform operations from the single MyChatBot connection.
 
 ## Discover and inspect
@@ -51,7 +51,7 @@ what remains unchanged. Obtain approval before calling the exact write tool.
 Execute the approved configuration once. Re-read the affected resource and
 report partial or ambiguous outcomes without retrying the write.
 
-Authenticated custom MCP headers are app-only. Claude may inspect existing
+Authenticated custom MCP headers are app-only. Codex may inspect existing
 custom connectors from inventory and probe a configured connector, but must
 send the user to **Agents → Connectors → Custom connector** to enter a URL and
 headers. Never ask for those header values in chat.

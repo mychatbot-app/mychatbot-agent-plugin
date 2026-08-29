@@ -9,7 +9,7 @@ description: >-
 
 # Configure business knowledge
 
-Load `mychatbot-plugin-basics-claude` first and select the owning platform using
+Load `mychatbot-plugin-basics` first and select the owning platform using
 its platform-model reference.
 
 ## Find before creating

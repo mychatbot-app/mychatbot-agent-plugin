@@ -9,7 +9,7 @@ description: >-
 
 # Build routines and automations
 
-Load `mychatbot-plugin-basics-claude`. Use `build-agent-system` for agent,
+Load `mychatbot-plugin-basics`. Use `build-agent-system` for agent,
 skill, connector, Business Knowledge, and routine YAML details. Use
 `outreach-and-followups` when the automation contacts an audience.
 

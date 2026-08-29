@@ -1,13 +1,16 @@
 ---
-name: mychatbot-plugin-basics-claude
+name: mychatbot-plugin-basics
 description: >-
-  Mandatory operating context before the first MyChatBot MCP call in a Claude
-  Code conversation. Use for account audits, Sales or Agents setup, knowledge,
-  channels, CRM work, routines, outreach, UGC, testing, or when a bundled
+  Mandatory operating context before the first MyChatBot MCP call in a Codex
+  conversation. Use for account audits, Sales or Agents setup, knowledge,
+  channels, CRM work, routines, outreach, content, testing, or when the
   MyChatBot connection is missing or needs browser authorization.
 ---
 
 # MyChatBot plugin basics
+
+Host scope: this skill is for Codex. In Claude Code, use
+`mychatbot-plugin-basics-claude` instead.
 
 Use this skill before the first MyChatBot MCP call. Treat the connected account
 as live business state even when someone calls it a demo. Read
@@ -17,23 +20,23 @@ external actions, replacement, or deletion.
 
 ## Route through the direct plugin connection
 
-- **Sales Platform operations:** Sales assistants, instructions and skills, FAQs,
-  websites, catalogs and feeds, integrations, channels, leads, chats, pipelines,
-  labels, orders, calendars, follow-ups, outreach, test chats, evals, and Sales
-  account usage.
+- **Sales Platform operations:** Sales assistants, instructions and skills,
+  FAQs, websites, catalogs and feeds, integrations, channels, leads, chats,
+  pipelines, labels, orders, calendars, follow-ups, outreach, test chats, evals,
+  and Sales account usage.
 - **Agents Platform operations:** agents, skills, connectors, Business
   Knowledge, routine YAML, schedules, triggers, validation, readiness, and
   tool-free previews.
-- **Content operations:** media generation, social accounts and posts, analytics,
-  and ads.
+- **Content operations:** media generation, social accounts and posts,
+  analytics, and ads.
 - **Product guidance:** public product documentation. Documentation is guidance,
   not evidence of current account state.
 
-The single `plugin:mychatbot:mychatbot` connection exposes these operations in
-one namespace and dispatches each call to its owning platform implementation.
-Call the named operation directly; do not look for an orchestration wrapper or
-choose a second MyChatBot server. The current tool description and input schema
-are authoritative. Never add or guess an `account_id`; the authenticated
+The configured `mychatbot` MCP server exposes these operations through
+`mcp__mychatbot__*` in one namespace and dispatches each call to its owning
+platform implementation. Call the named operation directly; do not look for an
+orchestration wrapper or register a second MyChatBot server. The active MCP
+schema is authoritative. Never add or guess an `account_id`; the authenticated
 connection resolves the account.
 
 ## Orient before planning
@@ -46,8 +49,8 @@ Start with the smallest relevant read inventory:
 - Agents work: `get_account_authoring_inventory`; before routines also call
   `get_routine_authoring_context` and read the authoritative Markdown URLs it
   returns.
-- UGC work: only the exact models, social accounts, reports, or task state the
-  explicit request needs.
+- Content work: only the exact models, social accounts, reports, or task state
+  the explicit request needs.
 
 Treat an error or partial section as unknown, not empty. Resolve real IDs from
 fresh list/detail results. Prefer an existing healthy resource over a duplicate.
@@ -79,29 +82,18 @@ set and summarize without unnecessary identifying detail.
 Never ask for a MyChatBot access key, OAuth token, one-time code, password, API
 key, or custom MCP Authorization header in the conversation. MyChatBot account
 authorization happens in the browser: the user can create or reconnect an
-account with email and a one-time code, then approve Claude Code. Third-party
-OAuth uses the consent URL returned by its setup operation. API-key connectors
-and credential-bearing custom MCP headers remain human entry steps in
-MyChatBot.
+account with email and a one-time code, then approve Codex. Third-party OAuth
+uses the consent URL returned by its setup operation. API-key connectors and
+credential-bearing custom MCP headers remain human entry steps in MyChatBot.
 
-## Missing or rejected servers
+## Missing or rejected connection
 
-Verify before reinstalling:
+Verify the configured server with `codex mcp get mychatbot`. If OAuth is needed,
+offer to run `codex mcp login mychatbot`; it opens the browser signup/sign-in
+flow. If browser authentication is unavailable from the CLI, direct the user to
+re-authorize MyChatBot in Codex's MCP or plugin settings. Do not ask the user to
+copy a token from the MyChatBot app.
 
-```bash
-claude plugin details mychatbot@mychatbot-app
-claude mcp get plugin:mychatbot:mychatbot
-```
-
-If the connection is missing, reinstall from the source marketplace before
-continuing. If it needs authorization, run the bundled browser-login helper:
-
-```bash
-sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
-```
-
-Tell the user to complete the browser flow. Poll
-`${TMPDIR:-/tmp}/mychatbot-login.log` for a success or error message without
-printing credential material. After successful authorization, start a new
-Claude Code session so the tools are available. Do not ask the user to copy a
-token from the MyChatBot app.
+After successful authorization, start a new Codex thread so the tools are
+available. Reinstall only when `codex mcp get mychatbot` shows that the server
+itself is missing.

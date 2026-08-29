@@ -1,8 +1,8 @@
 {
   "name": "mychatbot",
   "displayName": "MyChatBot",
-  "version": "0.2.0",
-  "description": "Build, test, and operate MyChatBot business systems with direct account tools.",
+  "version": "0.3.0",
+  "description": "Build, test, and operate MyChatBot business systems with guided account tools.",
   "author": {
     "name": "MyChatBot",
     "email": "support@mychatbot.app",
@@ -19,15 +19,6 @@
     "claude-code",
     "mcp"
   ],
-  "userConfig": {
-    "account_access_key": {
-      "type": "string",
-      "title": "MyChatBot account access key",
-      "description": "Create one in MyChatBot under Agents, then Connect Claude or Codex. It is shown only once.",
-      "sensitive": true,
-      "required": true
-    }
-  },
   "mcpServers": "./.mcp.json",
   "skills": "./skills/"
 }
