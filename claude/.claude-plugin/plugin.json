@@ -1,0 +1,33 @@
+{
+  "name": "mychatbot",
+  "displayName": "MyChatBot",
+  "version": "0.2.0",
+  "description": "Build, test, and operate MyChatBot business systems with direct account tools.",
+  "author": {
+    "name": "MyChatBot",
+    "email": "support@mychatbot.app",
+    "url": "https://mychatbot.app"
+  },
+  "homepage": "https://mychatbot.app",
+  "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
+  "license": "MIT",
+  "keywords": [
+    "mychatbot",
+    "sales-agent",
+    "business-automation",
+    "account-setup",
+    "claude-code",
+    "mcp"
+  ],
+  "userConfig": {
+    "account_access_key": {
+      "type": "string",
+      "title": "MyChatBot account access key",
+      "description": "Create one in MyChatBot under Agents, then Connect Claude or Codex. It is shown only once.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "mcpServers": "./.mcp.json",
+  "skills": "./skills/"
+}

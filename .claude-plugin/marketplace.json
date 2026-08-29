@@ -1,0 +1,36 @@
+{
+  "name": "mychatbot-app",
+  "owner": {
+    "name": "MyChatBot",
+    "email": "support@mychatbot.app",
+    "url": "https://mychatbot.app"
+  },
+  "metadata": {
+    "description": "MyChatBot plugins for guided business setup and operations"
+  },
+  "plugins": [
+    {
+      "name": "mychatbot",
+      "displayName": "MyChatBot",
+      "source": "./claude",
+      "description": "Build, test, and operate MyChatBot business systems from Claude Code.",
+      "version": "0.2.0",
+      "category": "productivity",
+      "homepage": "https://mychatbot.app",
+      "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
+      "author": {
+        "name": "MyChatBot",
+        "email": "support@mychatbot.app",
+        "url": "https://mychatbot.app"
+      },
+      "keywords": [
+        "mychatbot",
+        "sales-agent",
+        "business-automation",
+        "account-setup",
+        "claude-code",
+        "mcp"
+      ]
+    }
+  ]
+}

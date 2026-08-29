@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 3,
+  "sourceRepository": "mychatbot-app/api.mychatbot.app",
+  "description": "Pinned direct-MCP inventory and safety classification. Runtime tool schemas and account state remain authoritative.",
+  "servers": {
+    "sales": {
+      "url": "https://api.mychatbot.app/api/mcp/sales-management",
+      "authentication": "account-access-key"
+    },
+    "agents": {
+      "url": "https://api.mychatbot.app/api/mcp/agents",
+      "authentication": "account-access-key"
+    },
+    "ugc": {
+      "url": "https://api.mychatbot.app/api/mcp/ugc",
+      "authentication": "account-access-key"
+    },
+    "docs": {
+      "url": "https://api.mychatbot.app/api/mcp/docs",
+      "authentication": "public",
+      "risk": "read",
+      "tools": ["get_docs_structure", "search_docs", "read_docs_page"]
+    },
+    "product": {
+      "urlTemplate": "https://product.mychatbot.app/mcp/{account_id}/{integration_id}/stream",
+      "authentication": "credential-bearing-url",
+      "bundled": false,
+      "risk": "read",
+      "tools": [
+        "semantic_product_search", "filter_category_products", "get_all_categories",
+        "get_product_details", "get_product_variants", "find_similar_products",
+        "get_category_attributes", "get_category_attribute_values",
+        "get_available_filters", "get_products_by_ids"
+      ]
+    }
+  },
+  "operations": {
+    "sales": {
+      "server": "sales",
+      "catalogSize": 115,
+      "riskClasses": {
+        "read": [
+          "list_assistants", "get_assistant", "assistant_list_skills",
+          "assistant_get_config_link", "get_assistant_available_tools", "list_labels",
+          "list_pipelines", "get_pipeline", "list_channels", "channel_get_config_link",
+          "list_follow_ups", "get_follow_up",
+          "list_faq_knowledge_base_entries", "list_products", "list_integrations",
+          "get_integration", "get_integration_config_link", "get_account_summary",
+          "get_subscription_info", "get_token_usage", "get_usage_summary", "get_order_stats",
+          "get_event_stats", "list_calendar_staff", "list_calendar_services",
+          "list_lead_forms", "get_lead_forms_automation", "eval_scenario_list"
+        ],
+        "customer_data_read": [
+          "list_clients", "scan_clients", "get_client", "client_list_notes", "client_get_note",
+          "client_list_tasks", "client_list_attachments", "client_get_attachment", "export_clients",
+          "list_chats", "get_chat", "get_chat_messages", "export_chats",
+          "immediate_outreach_preview_audience", "list_orders", "get_order", "list_events",
+          "get_event", "eval_scenario_get", "eval_run_get"
+        ],
+        "configuration": [
+          "assistant_create", "assistant_clone", "assistant_create_skill",
+          "assistant_toggle_contact_details", "assistant_toggle_client_context",
+          "assistant_toggle_strip_kb_history", "label_create", "pipeline_create",
+          "pipeline_update", "funnel_status_create", "follow_up_create",
+          "create_faq_knowledge_base", "add_website_knowledge",
+          "create_product_feed_integration", "create_products_integration"
+        ],
+        "customer_data_write": [
+          "client_create", "client_update", "client_context_merge", "client_create_note",
+          "client_update_note", "client_create_task", "client_update_task",
+          "client_create_attachment", "client_update_attachment"
+        ],
+        "test": ["test_chat_send", "test_chat_get_history", "eval_run_start"],
+        "generation": [],
+        "activation": [
+          "assistant_update", "create_calls_channel_sdk", "connect_telegram",
+          "create_website_widget", "enable_order_taking", "set_lead_form_mapping"
+        ],
+        "external_action": [
+          "immediate_outreach_create", "outbound_call", "send_one_off_message"
+        ],
+        "destructive": [
+          "assistant_update_instructions", "assistant_update_skill", "assistant_delete_skill",
+          "assistant_update_client_context_schema", "test_chat_start", "test_chat_end",
+          "client_delete", "client_delete_note", "client_delete_task", "client_delete_attachment",
+          "label_delete", "pipeline_delete", "funnel_status_delete", "channel_toggle",
+          "delete_channel", "delete_assistant", "follow_up_update", "follow_up_delete",
+          "immediate_outreach_update_status", "update_faq_knowledge_base_entries",
+          "delete_faq_knowledge_base", "update_products", "delete_products_integration",
+          "delete_product_feed_integration", "delete_test_orders", "disable_order_taking",
+          "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",
+          "eval_run_cancel", "learn_website"
+        ]
+      }
+    },
+    "agents": {
+      "server": "agents",
+      "catalogSize": 34,
+      "riskClasses": {
+        "read": [
+          "get_routine_authoring_context", "get_account_authoring_inventory", "list_routines",
+          "get_routine", "validate_routine", "get_routine_readiness", "get_routine_run",
+          "get_agent", "get_skill", "probe_connector"
+        ],
+        "customer_data_read": [],
+        "configuration": [
+          "create_routine", "claim_custom_agent", "hire_library_agent", "create_skill",
+          "start_connector_authorization", "connect_sales_platform_connector",
+          "create_knowledge_source", "update_knowledge_source", "create_routine_schedule",
+          "create_trigger"
+        ],
+        "customer_data_write": [],
+        "test": ["start_routine_dry_run"],
+        "generation": [],
+        "activation": ["set_routine_schedule_enabled", "set_trigger_enabled"],
+        "external_action": [],
+        "destructive": [
+          "cancel_routine_run", "update_routine", "replace_agent_configuration",
+          "reset_agent_configuration", "delete_custom_agent", "replace_skill", "delete_skill",
+          "disconnect_connector", "delete_knowledge_source", "delete_routine_schedule",
+          "delete_trigger"
+        ]
+      }
+    },
+    "ugc": {
+      "server": "ugc",
+      "catalogSize": 17,
+      "riskClasses": {
+        "read": [
+          "list_models", "get_media_task", "list_accounts", "get_post",
+          "get_post_analytics", "get_best_times_to_post", "get_daily_metrics",
+          "get_content_decay", "get_posting_frequency", "get_post_timeline",
+          "list_ad_accounts", "list_campaigns", "get_campaign_tree", "list_ads"
+        ],
+        "customer_data_read": [],
+        "configuration": [],
+        "customer_data_write": [],
+        "test": [],
+        "generation": ["generate_media", "tts"],
+        "activation": [],
+        "external_action": ["create_post"],
+        "destructive": []
+      }
+    }
+  }
+}
