@@ -84,7 +84,6 @@ and vulnerability reporting.
 ```bash
 npm test
 claude plugin validate ./claude --strict
-python3 /root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py codex
 ```
 
 Repository tests are fixture-based and do not contact MyChatBot accounts.
