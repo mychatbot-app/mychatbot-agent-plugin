@@ -15,8 +15,8 @@ are separate states.
 
 ## Inspect both platform layers
 
-For Sales, discover and read `list_channels`, `list_integrations`, and the
-specific `get_integration`. For Agents, read
+For Sales, call `list_channels`, `list_integrations`, and the specific
+`get_integration` from mychatbot-sales. For Agents, read
 `get_account_authoring_inventory`. Resolve the assistant/agent and reuse a
 healthy account-scoped connection rather than creating duplicates.
 
@@ -31,14 +31,14 @@ requires a dashboard OAuth or credential flow. Do not claim success until a
 fresh list/detail read shows the connected state.
 
 `create_website_widget`, `create_calls_channel_sdk`, and
-`connect_telegram` activate customer-facing behavior and use
-`call_activation_operation`. Prefer a configuration link for credentials.
+`connect_telegram` activate customer-facing behavior and require separate
+activation approval. Prefer a configuration link for credentials.
 If the user explicitly chooses a direct Telegram token flow supported by the
 schema, explain that Claude will transmit it to MyChatBot, never repeat it, and
 verify only non-secret channel metadata afterward.
 
-`channel_toggle` can disable a live route and therefore uses
-`call_destructive_operation` for both directions. Show the exact assistant,
+`channel_toggle` can disable a live route and needs exact approval in either
+direction. Show the exact assistant,
 page/channel ID, current state, desired state, customer impact, and rollback.
 
 ## Agents connectors and MCPs
@@ -50,7 +50,7 @@ page/channel ID, current state, desired state, customer impact, and rollback.
 - `probe_connector` performs a live initialize/discovery handshake only. It
   does not call vendor tools or prove that reads/writes will work.
 - `disconnect_connector` can break agents, Business Knowledge, routines, or
-  triggers and requires the destructive gateway after dependency review.
+  triggers and requires dependency review and exact disconnection approval.
 
 API-key connectors and authenticated custom MCP headers are app-only. Direct the
 user to **Agents → Connectors** for secret entry. Claude may help choose the URL,

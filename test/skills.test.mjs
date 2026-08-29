@@ -72,8 +72,9 @@ test("skill catalog covers the recurring integrator job families", () => {
 
 test("every workflow inherits the base account and approval contract", () => {
   const base = skill("mychatbot-plugin-basics-claude");
-  assert.match(base, /Call `get_account_context` first/);
-  assert.match(base, /Never retry a non-read operation/);
+  assert.match(base, /Start with the smallest relevant read inventory/);
+  assert.match(base, /Call the named operation directly/);
+  assert.match(base, /Never automatically retry a non-read/);
   assert.match(base, /customer contact, publication/);
 
   for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
@@ -84,6 +85,35 @@ test("every workflow inherits the base account and approval contract", () => {
       `${entry.name} must load the mandatory base skill`,
     );
   }
+});
+
+test("skills use direct servers and contain no abandoned connector routers", () => {
+  const copy = fs
+    .readdirSync(skillsRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => skill(entry.name))
+    .join("\n");
+  assert.match(copy, /mychatbot-sales/);
+  assert.match(copy, /mychatbot-agents/);
+  assert.match(copy, /mychatbot-ugc/);
+  assert.match(copy, /mychatbot-docs/);
+  assert.doesNotMatch(copy, /connector\.mychatbot\.app/);
+  assert.doesNotMatch(copy, /get_account_context/);
+  assert.doesNotMatch(copy, /discover_operations/);
+  assert.doesNotMatch(
+    copy,
+    /call_(?:read|customer_data_read|configuration|customer_data_write|test|generation|activation|external_action|destructive)_operation/,
+  );
+});
+
+test("setup keeps the account key out of chat and verifies every direct server", () => {
+  const setup = fs.readFileSync(path.join(root, "claude/SETUP.md"), "utf8");
+  assert.match(setup, /masked plugin configuration prompt/);
+  assert.match(setup, /plugin:mychatbot:mychatbot-sales/);
+  assert.match(setup, /plugin:mychatbot:mychatbot-agents/);
+  assert.match(setup, /plugin:mychatbot:mychatbot-ugc/);
+  assert.match(setup, /plugin:mychatbot:mychatbot-docs/);
+  assert.match(setup, /Do not run `claude mcp login`/);
 });
 
 test("public plugin copy contains no retired rollout or prompt syntax", () => {

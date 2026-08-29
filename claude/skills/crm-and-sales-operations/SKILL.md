@@ -19,31 +19,30 @@ Create or update bounded configuration with `pipeline_create`,
 `pipeline_update`, `funnel_status_create`, or `label_create` only after
 showing names, ordering implications, and assistant assignments.
 
-Deleting a pipeline, funnel status, or label may affect many leads and uses
-`call_destructive_operation`. Inspect dependencies first and state whether the
+Deleting a pipeline, funnel status, or label may affect many leads. Inspect
+dependencies first, obtain exact delete approval, and state whether the
 operation will remove labels from customer records or invalidate assignments.
 
 ## Leads and related records
 
-Use `call_customer_data_read_operation` for `list_clients`,
-`scan_clients`, `get_client`, notes, tasks, attachments, and exports. Use
-bounded list queries for interactive work and `scan_clients` only for an
-explicit exhaustive batch.
+Use direct mychatbot-sales tools for `list_clients`, `scan_clients`,
+`get_client`, notes, tasks, attachments, and exports. Use bounded list queries
+for interactive work and `scan_clients` only for an explicit exhaustive batch.
 
-Before `call_customer_data_write_operation`, show the exact client ID and
-field-level change. Keep `custom_lead_fields` (editable business fields)
+Before a customer-data write, show the exact tool, client ID, and field-level
+change. Keep `custom_lead_fields` (editable business fields)
 separate from `client_context` (AI-collected structured context). Prefer
 `client_update` or `client_context_merge` after duplicate detection rather
 than creating a near-duplicate lead.
 
 Create/update notes, tasks, and attachment records only for already authorized
-content and exact targets. Deletion uses `call_destructive_operation`; do not
+content and exact targets. Deletion requires separate exact approval; do not
 delete a client merely to correct one field.
 
 ## Conversations, orders, and calendar
 
-Chats, messages, orders, bookings, eval transcripts, and exports use the
-customer-data read gateway. Resolve IDs from fresh list results and distinguish
+Chats, messages, orders, bookings, eval transcripts, and exports are sensitive
+customer-data reads. Resolve IDs from fresh list results and distinguish
 chat IDs, external client IDs, and common client UUIDs.
 
 Use aggregate reads such as `get_order_stats` or `get_event_stats` when

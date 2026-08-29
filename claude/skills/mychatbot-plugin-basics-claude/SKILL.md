@@ -1,80 +1,99 @@
 ---
 name: mychatbot-plugin-basics-claude
 description: >-
-  Mandatory operating context before the first MyChatBot plugin MCP call in a
-  Claude Code conversation. Use for account audits, Sales or Agents setup,
-  knowledge, channels, CRM work, routines, outreach, UGC, testing, or when the
-  MyChatBot plugin is missing or needs authentication.
+  Mandatory operating context before the first MyChatBot MCP call in a Claude
+  Code conversation. Use for account audits, Sales or Agents setup, knowledge,
+  channels, CRM work, routines, outreach, UGC, testing, or when a bundled
+  MyChatBot server is missing or rejects its account key.
 ---
 
 # MyChatBot plugin basics
 
-Use this skill before the first call to `plugin:mychatbot:mychatbot`. Treat the
-connected account as live business state even when someone calls it a demo.
-Fresh tool results and schemas returned by `discover_operations` are the runtime
-contract.
+Use this skill before the first MyChatBot MCP call. Treat the connected account
+as live business state even when someone calls it a demo. Read
+`references/platform-model.md` to choose the owning platform and
+`references/safety.md` before customer data, tests, spending, activation,
+external actions, replacement, or deletion.
+
+## Route to the direct server
+
+- **mychatbot-sales:** Sales assistants, instructions and skills, FAQs,
+  websites, catalogs and feeds, integrations, channels, leads, chats, pipelines,
+  labels, orders, calendars, follow-ups, outreach, test chats, evals, and Sales
+  account usage.
+- **mychatbot-agents:** Agents Platform agents, skills, connectors, Business
+  Knowledge, routine YAML, schedules, triggers, validation, readiness, and
+  tool-free previews.
+- **mychatbot-ugc:** media generation, social accounts and posts, analytics,
+  and ads.
+- **mychatbot-docs:** public product documentation. Documentation is guidance,
+  not evidence of current account state.
+
+Call the named operation directly from its owning server. Do not look for an
+extra orchestration wrapper; this plugin intentionally bundles the account MCPs
+themselves. The current tool description and input schema are authoritative.
+Never add or guess an
+`account_id`; the server resolves the account from the configured key.
 
 ## Orient before planning
 
-Call `get_account_context` first. It returns secret-free Sales metadata and the
-Agents authoring inventory, changes nothing, and marks partial sections. Empty
-or failed sections are unknown, not proof that no resource exists.
+Start with the smallest relevant read inventory:
 
-Use `discover_operations` narrowly:
+- Sales or a cross-platform audit: `get_account_summary`, then the targeted
+  list/detail tools; add `get_subscription_info` or `get_usage_summary` when
+  eligibility or capacity matters.
+- Agents work: `get_account_authoring_inventory`; before routines also call
+  `get_routine_authoring_context` and read the authoritative Markdown URLs it
+  returns.
+- UGC work: only the exact models, social accounts, reports, or task state the
+  explicit request needs.
 
-- choose `sales`, `agents`, or `ugc`;
-- browse with a relevant domain or query;
-- request exact `tool_names` before calling so the current schemas are included;
-- call only the returned `gateway_tool`, with schema-shaped arguments and no
-  account ID.
-
-The plugin exposes 11 orchestration tools over 166 statically classified
-operations. It does not expose the browser connector's simplified tool aliases.
-Read [references/platform-model.md](references/platform-model.md) when choosing
-the owning platform. Read [references/safety.md](references/safety.md) before
-private data, tests, spending, activation, external actions, or destructive work.
-
-The bundled public Docs MCP adds `get_docs_structure`, `search_docs`, and
-`read_docs_page`. Use it for current product concepts, feature behavior, and
-human setup instructions that the discovered operation schema does not answer.
-Documentation is not account-state evidence; re-read the account before acting.
+Treat an error or partial section as unknown, not empty. Resolve real IDs from
+fresh list/detail results. Prefer an existing healthy resource over a duplicate.
+When a tool is not visible, search by the exact operation name and server; do
+not substitute a similarly named operation from another platform.
 
 ## Work in bounded stages
 
-1. Inspect the exact target immediately before planning a change.
-2. Explain the outcome, affected resources, full replacements, and what remains
-   unchanged.
+1. Read the exact target and dependencies immediately before proposing a change.
+2. Show the intended outcome, affected resources, complete replacement values,
+   and what remains unchanged.
 3. Obtain approval for one bounded configuration or customer-record stage.
-4. Obtain separate approval for private tests, billed generation, activation,
-   customer contact, publication, scheduling, disabling, replacement, or deletion.
-5. Execute the approved stage once. Never retry a non-read operation after an
-   ambiguous result.
-6. Re-read persisted state and report partial outcomes honestly.
-7. Hand back resource IDs, tests, enabled state, consent/configuration links,
-   remaining human steps, and every live boundary not verified.
+4. Obtain separate approval for a private test, billed preview or generation,
+   activation, customer contact, publication, scheduling, disabling, full
+   replacement, reset, disconnect, or deletion.
+5. Execute the approved operation once. Never automatically retry a non-read
+   operation after an ambiguous result.
+6. Re-read persisted state and report partial or asynchronous outcomes honestly.
+7. Hand back resource IDs, test evidence, enabled state, consent/configuration
+   links, remaining human steps, and every live effect not verified.
 
-Default audits use `call_read_operation`, not
-`call_customer_data_read_operation`. Customer records, messages, bookings,
-orders, audiences, exports, and eval transcripts are read only when the task
-requires them and are summarized without unnecessary identifying detail.
+A general audit does not call `list_clients`, `list_chats`,
+`get_chat_messages`, order/event detail, audience previews, exports, or eval
+detail. Read customer data only when the task requires it; minimize the record
+set and summarize without unnecessary identifying detail.
 
 ## Credentials and human authorization
 
-Never ask for a MyChatBot access token, OAuth token, API key, password, or
-custom MCP authorization header in the conversation. Use the plugin OAuth flow.
-Third-party OAuth uses the consent URL returned by the relevant operation.
-API-key connectors and authenticated custom MCP headers remain app-only; direct
-the user to **Agents → Connectors** rather than routing a secret through Claude.
+Never ask for the MyChatBot account access key, an OAuth token, API key,
+password, or custom MCP Authorization header in the conversation. The account
+key belongs only in Claude Code's masked plugin configuration. Third-party OAuth
+uses the consent URL returned by its setup operation. API-key connectors and
+credential-bearing custom MCP headers remain human entry steps in MyChatBot.
 
-## Missing tools
+## Missing or rejected servers
 
-If the tools are absent, verify the installed plugin before reinstalling:
+Verify before reinstalling:
 
 ```bash
 claude plugin details mychatbot@mychatbot-app
-claude mcp get plugin:mychatbot:mychatbot
+claude mcp get plugin:mychatbot:mychatbot-sales
+claude mcp get plugin:mychatbot:mychatbot-agents
+claude mcp get plugin:mychatbot:mychatbot-ugc
 claude mcp get plugin:mychatbot:mychatbot-docs
-claude mcp login plugin:mychatbot:mychatbot
 ```
 
-After authentication, reload plugins or start a new Claude Code conversation.
+If Sales, Agents, or UGC returns 401, direct the user to `/plugin` → Installed →
+MyChatBot → Configure and let them enter a newly created account key in the
+masked field. Do not run `claude mcp login`; these servers use the plugin's
+sensitive key configuration. Reload plugins after the user applies it.

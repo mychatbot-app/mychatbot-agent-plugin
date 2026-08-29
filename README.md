@@ -1,69 +1,71 @@
-# MyChatBot agent plugin
+# MyChatBot for Claude Code
 
-Claude Code plugin for guided MyChatBot setup and operations workflows.
+Build, test, and operate MyChatBot business systems from Claude Code.
 
-The plugin connects Claude Code to the existing OAuth-backed MyChatBot connector
-and adds the process knowledge needed to use that connector safely: inspect the
-account, propose a bounded plan, obtain approval for mutations, verify persisted
-state, and leave a clear handoff.
+The plugin connects Claude directly to MyChatBot's account-scoped MCP servers
+and adds the workflow knowledge needed to use their larger tool catalog well. It
+covers Sales assistants, Agents Platform systems, Business Knowledge, catalogs
+and FAQs, channels, integrations, CRM operations, outreach, routines,
+automations, private testing, and UGC.
 
-It covers everyday integrator work across Sales assistants, Agents Platform
-systems, Business Knowledge, FAQs and catalogs, feeds, channels, connectors,
-CRM records, outreach and follow-ups, routines and automations, private tests,
-and content generation or publishing.
+## What it connects
 
-Installing or authenticating this plugin connects to a live MyChatBot account.
-Use mock tests during development; do not run account-writing checks without
-authorization for the exact account.
+- **Sales MCP:** assistants, knowledge, integrations, channels, leads,
+  conversations, pipelines, orders, outreach, test chats, evals, and account
+  usage.
+- **Agents MCP:** agents, skills, connectors, Business Knowledge, routines,
+  schedules, triggers, validation, readiness, and tool-free previews.
+- **UGC MCP:** media generation, social publishing, analytics, and ads.
+- **Docs MCP:** public, read-only MyChatBot documentation.
 
-## Product boundary
+The plugin does not use the browser Claude connector as a gateway. One existing
+MyChatBot account access key authenticates the three account servers directly.
+Claude Code asks for it once and stores it as sensitive plugin configuration.
 
-- The browser Claude connector is the beginner path for creating a first demo.
-- This plugin is the advanced path for audits, account configuration, testing,
-  operations, and Agents Platform systems.
-- Skills own workflow and judgment. MCP tools remain the source of truth for
-  schemas, account state, authorization, and writes.
+The catalog-scoped Product MCP is intentionally on demand. Each catalog has a
+different credential-bearing URL, so a universal plugin must not embed or guess
+one. The Business Knowledge skill explains when to add a selected catalog's
+Product MCP for direct search verification.
 
 ## Install from the source marketplace
 
-```bash
-claude plugin marketplace add https://github.com/mychatbot-app/mychatbot-agent-plugin.git
-claude plugin install mychatbot@mychatbot-app
-claude mcp login plugin:mychatbot:mychatbot
-```
+1. In MyChatBot, open any Agent, choose **Tasks → Connect Claude or Codex**, and
+   create an account access key. The full key is shown once.
+2. In Claude Code, run:
 
-Start a new Claude Code conversation after authentication. See
-[`docs/claude-code-install.md`](docs/claude-code-install.md) for the complete
-agent-executable installation and handoff protocol.
+   ```bash
+   claude plugin marketplace add mychatbot-app/mychatbot-agent-plugin
+   claude plugin install mychatbot@mychatbot-app
+   ```
 
-After acceptance into Anthropic's official directory, the same plugin will also
-be installable from the preconfigured official marketplace.
+3. Paste the key only into Claude Code's masked configuration prompt. Do not
+   paste it into a conversation or put it in an install command.
+4. Start a new conversation and ask Claude to audit or build the system you
+   need.
 
-## Permissions and data
+See [the complete Claude Code setup guide](docs/claude-code-install.md) for
+verification and troubleshooting.
 
-- The plugin includes one OAuth account MCP server plus MyChatBot's public,
-  read-only Docs MCP. It installs no local executable, hook, or background
-  process.
-- OAuth selects the user's MyChatBot account; users never paste an account
-  access token into Claude.
-- A general audit reads configuration metadata only. Customer records and
-  messages have a separate tool and are read only for a task that needs them.
+## Operating boundary
+
+- A general audit reads configuration metadata, not customer records or
+  messages.
 - Configuration, private tests, billed generation, activation, customer
   communication, publication, replacement, and deletion are separate approval
-  boundaries.
-- The MCP server receives operation arguments and returns account data needed
-  for the requested workflow. MyChatBot's
-  [privacy policy](https://mychatbot.app/legal/privacy-policy) applies to the
-  service.
+  stages.
+- Direct MCP schemas and fresh account state are authoritative. Skills provide
+  routing and safety judgment; they do not expand account permissions.
+- Installing or configuring the plugin does not authorize an account change.
 
-See [SECURITY.md](SECURITY.md) for vulnerability reporting and the connector
-trust boundary.
+MyChatBot's [privacy policy](https://mychatbot.app/legal/privacy-policy) applies
+to hosted services. See [SECURITY.md](SECURITY.md) for credential handling and
+vulnerability reporting.
 
 ## Develop
 
 ```bash
 npm test
-claude plugin validate ./claude
+claude plugin validate ./claude --strict
 ```
 
 Tests are local and fixture-based. They do not contact MyChatBot services.
@@ -73,10 +75,11 @@ Tests are local and fixture-based. They do not contact MyChatBot services.
 ```text
 .claude-plugin/marketplace.json  Claude marketplace catalog
 claude/                          Claude Code plugin package
-claude/SETUP.md                  Post-install OAuth and server verification guide
-claude/skills/                   Workflow and safety skills
-contracts/                       Pinned MCP capability contracts
+claude/.mcp.json                Four direct hosted MCP server definitions
+claude/SETUP.md                  Connection and verification guide
+claude/skills/                   Integrator workflows and references
+contracts/                       Pinned direct-MCP inventory and risk map
 docs/                            Installation and architecture documents
-scripts/validate.mjs             Zero-dependency static validator
+scripts/validate.mjs             Offline static validator
 test/                            Contract-focused tests
 ```

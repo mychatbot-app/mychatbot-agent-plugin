@@ -13,10 +13,10 @@ and customer-facing activation are separate approvals.
 
 ## Inspect and choose the target
 
-Call `get_account_context`, then discover the Sales operations
-`list_assistants`, `list_integrations`, `list_channels`, `list_pipelines`, and
-`get_subscription_info`. Use `call_read_operation`. Inspect `get_assistant` for
-the exact existing assistant when tuning one; do not create a similarly named
+Use mychatbot-sales to call `get_account_summary`, `list_assistants`,
+`list_integrations`, `list_channels`, `list_pipelines`, and
+`get_subscription_info` as the task requires. Inspect `get_assistant` for the
+exact existing assistant when tuning one; do not create a similarly named
 assistant because a list result was inconvenient to inspect.
 
 Establish who the assistant serves, its job, handoff boundaries, language,
@@ -33,16 +33,16 @@ Show the complete proposal before writing:
 - pipeline/client-context behavior;
 - private tests and later activation stages.
 
-For a new assistant, discover the exact `assistant_create` schema and call it
-once through `call_configuration_operation`. Re-read with `get_assistant`.
+For a new assistant, use the current `assistant_create` schema and call it once
+after approval. Re-read with `get_assistant`.
 Create skills and reversible toolkit configuration as a separately approved
 bounded stage.
 
 `assistant_update_instructions`, `assistant_update_skill`, and
 `assistant_update_client_context_schema` are full replacements. Read the current
-resource, show the complete retained and changed value, then use
-`call_destructive_operation`. `assistant_update` can switch customer-facing
-behavior on or off and therefore uses `call_activation_operation`.
+resource, show the complete retained and changed value, obtain replacement
+approval, then call the exact tool. `assistant_update` can switch
+customer-facing behavior on or off and needs separate activation approval.
 
 ## Add knowledge and business capabilities
 
@@ -50,14 +50,14 @@ Use `business-knowledge` for websites, FAQs, feeds, and catalogs. Use
 `channels-and-integrations` for channels, calendars, and external services.
 Enable order taking only when requested: inspect the exact
 `enable_order_taking` schema, preview required customer/item fields and currency,
-then use `call_activation_operation` after approval.
+then call it only after activation approval.
 
 ## Test, then activate
 
 Use `test-and-evaluate` before any customer-facing activation. After the agreed
 cases pass, propose one channel at a time. Discover its current schema, show
 credential or human OAuth steps, expected public behavior, and rollback path.
-Use `call_activation_operation` only after exact approval.
+Call the exact channel tool only after exact activation approval.
 
 Finish with the assistant ID, knowledge and integration dependencies, tests and
 failures, active channels, order/lead settings, configuration links, remaining

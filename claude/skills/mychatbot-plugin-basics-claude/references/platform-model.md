@@ -35,7 +35,7 @@ generated media is not automatically approved for a live account.
 ## Catalog-scoped Product MCP
 
 The Product MCP is a direct semantic-search capability for one selected catalog.
-Its URL is a credential and is intentionally not proxied by the account-wide
+Its URL is a credential and is intentionally not bundled by the account-wide
 plugin. Configure catalogs through Sales, attach them to Agents through Business
 Knowledge, and verify customer behavior through Sales test chats or evals. Use a
 catalog's explicit **Connect AI tools** flow only when direct semantic catalog

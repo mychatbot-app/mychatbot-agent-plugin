@@ -1,23 +1,17 @@
 # Claude Code installation protocol
 
-This document is the source for the agent-readable `https://mychatbot.app/claude`
-installation page. The source marketplace repository is:
+Source marketplace: `mychatbot-app/mychatbot-agent-plugin`
 
-`https://github.com/mychatbot-app/mychatbot-agent-plugin.git`
+This is an agent-executable setup protocol. Read it completely before running
+commands. Setup is complete only after installation, secure account-key entry,
+four-server verification, and a clean working-conversation handoff.
 
 ## Host gate
 
 Run installation only from Claude Code on the user's machine. A browser-only or
-isolated remote conversation cannot install into the local Claude plugin cache.
-In that case, stop and tell the user to open Claude Code locally and paste:
-
-`Read https://mychatbot.app/claude completely, then install and authenticate the MyChatBot plugin. Start a new conversation and audit my current account without changing it.`
-
-## Execution contract
-
-Read this entire guide before running commands. Setup means install, OAuth
-login, verification, and a clean-session handoff; do not stop after one step.
-Never ask the user to paste a MyChatBot access token.
+isolated remote conversation cannot install into the local plugin cache. In
+that case, tell the user to open Claude Code locally and paste the installation
+instruction from `https://mychatbot.app/claude`.
 
 ## Prerequisites
 
@@ -26,68 +20,74 @@ claude --version
 git --version
 ```
 
-Claude Code 2.x and Git are required.
+Use a current Claude Code 2.x release. Git is required for the source
+marketplace.
+
+## Obtain the account access key
+
+The user creates the key in MyChatBot from any Agent's **Tasks → Connect Claude
+or Codex** dialog. It is shown once and works across the direct Sales, Agents,
+and UGC MCP servers.
+
+Do not ask the user to paste the key in chat. Do not put it in a command, shell
+history, environment file, repository, or issue. Keep the masked configuration
+dialog under the user's control.
 
 ## Install
 
 ```bash
-claude plugin marketplace add https://github.com/mychatbot-app/mychatbot-agent-plugin.git
+claude plugin marketplace add mychatbot-app/mychatbot-agent-plugin
 claude plugin marketplace list
 claude plugin install mychatbot@mychatbot-app
 ```
 
-## Connect the account
+Claude Code prompts for the required **MyChatBot account access key**. Tell the
+user why the prompt appears, then let them paste the key into that masked field.
+Claude Code stores it as sensitive plugin configuration.
 
-```bash
-claude mcp login plugin:mychatbot:mychatbot
-```
-
-Tell the user a browser will open. They authenticate by email and a one-time
-code; the flow can connect an existing account or create a trial account. Wait
-for the CLI to report successful authentication. Do not print browser callback
-parameters or tokens.
-
-If the shell is non-interactive, ask the user to run the login command in their
-own terminal rather than inventing a token-based workaround.
+If installation finishes without configuration, run `/plugin`, open
+**Installed → MyChatBot → Configure**, and let the user enter the key there.
+Then run `/reload-plugins`.
 
 ## Verify
 
 ```bash
 claude plugin details mychatbot@mychatbot-app
-claude mcp get plugin:mychatbot:mychatbot
+claude mcp get plugin:mychatbot:mychatbot-sales
+claude mcp get plugin:mychatbot:mychatbot-agents
+claude mcp get plugin:mychatbot:mychatbot-ugc
 claude mcp get plugin:mychatbot:mychatbot-docs
 ```
 
-Expected: plugin `mychatbot`, server `plugin:mychatbot:mychatbot`, connected URL
-`https://connector.mychatbot.app/mcp`, public server
-`plugin:mychatbot:mychatbot-docs`, and the plugin's workflow skills.
+Expected account servers:
 
-If authentication is still required, repeat only the login step. If the plugin
-is absent, check the marketplace name before reinstalling.
+- Sales: `https://api.mychatbot.app/api/mcp/sales-management`
+- Agents: `https://api.mychatbot.app/api/mcp/agents`
+- UGC: `https://api.mychatbot.app/api/mcp/ugc`
+
+Expected public server:
+
+- Docs: `https://api.mychatbot.app/api/mcp/docs`
+
+All must report connected. If an account server returns 401, configure the key
+again and check for copied whitespace. Do not use `claude mcp login`; the plugin
+does not authenticate these servers through OAuth. If Docs alone is unavailable,
+report documentation lookup as degraded without treating the account as
+unavailable.
 
 ## Required handoff
 
-Reload plugins if the host supports it, then start a new Claude Code
-conversation. Use the requested intent as the final sentence. The default is:
+Reload plugins if needed, then begin a new Claude Code conversation. The first
+turn reads the relevant account inventory and proposes bounded stages. It does
+not write merely because installation was approved.
 
-`The MyChatBot plugin is installed. Start with a read-only account audit of my current Sales Platform and any visible Agents Platform resources. Summarize what exists, what is missing, and a staged plan. Do not change account state until I approve a specific stage.`
+Good handoff prompts include:
 
-Other supported goals:
-
-- Create a Sales assistant: audit the current account, then propose a Sales
-  assistant and its knowledge, testing, and launch stages.
-- Improve business knowledge: inspect existing sources, find gaps, and propose
-  additions without creating duplicates.
-- Test and tune: inspect existing assistants and propose a private regression
-  test matrix before changing instructions.
-- Build an Agents Platform system: inspect the authoring inventory, then propose
-  agents, skills, connectors, Business Knowledge, routines, and disabled-first
-  automation as separately approved stages.
-
-The installation conversation is not the working conversation. If a
-task-spawning control is available, create a one-click handoff using the chosen
-prompt. Otherwise print the exact prompt in a copyable block and tell the user
-to paste it into a new conversation.
+- `Audit my MyChatBot account and propose the highest-impact improvements.`
+- `Build a Sales assistant for my business, including knowledge and private tests.`
+- `Set up an Agents Platform workflow with the right agents, skills, knowledge, and routine.`
+- `Review my catalogs, feeds, FAQs, and Business Knowledge for gaps and duplicates.`
+- `Prepare an outreach campaign, but do not contact anyone until I approve the exact audience and content.`
 
 ## Update
 
@@ -96,4 +96,4 @@ claude plugin marketplace update mychatbot-app
 claude plugin update mychatbot@mychatbot-app
 ```
 
-Reload plugins or begin a new conversation, then rerun verification.
+Run `/reload-plugins` or start a new conversation, then repeat verification.

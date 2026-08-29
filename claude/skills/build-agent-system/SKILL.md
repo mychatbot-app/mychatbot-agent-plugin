@@ -10,18 +10,14 @@ description: >-
 
 # Build an Agents Platform system
 
-Load `mychatbot-plugin-basics-claude` and its safety reference first. Agents
-operations are routed through risk-class gateways to keep Claude's top-level
-tool surface small.
+Load `mychatbot-plugin-basics-claude` and its safety reference first. Use the
+direct mychatbot-agents server for every operation in this workflow.
 
 ## Discover and inspect
 
-Call `get_account_context`, then `discover_operations` with `platform: agents`. The discovery
-result is the authoritative source for operation descriptions, input schemas,
-annotations, and `gateway_class`. Call `call_read_operation` with the exact
-operation name and schema-shaped arguments. Never pass an account ID.
-
-At minimum, inspect `get_account_authoring_inventory`. Before routine work,
+At minimum, call `get_account_authoring_inventory`. The current direct tool
+descriptions and input schemas are authoritative. Never pass an account ID.
+Before routine work,
 also inspect `get_routine_authoring_context` and read the authoritative Markdown
 references it returns. Use `list_routines`, `get_routine`, `get_agent`, and
 `get_skill` only as the target requires.
@@ -34,8 +30,7 @@ metadata but does not read or write vendor data.
 ## Plan one configuration stage
 
 Show the intended resources, dependencies, complete replacement values, and
-what remains unchanged. Obtain approval before calling
-`call_configuration_operation`.
+what remains unchanged. Obtain approval before calling the exact write tool.
 
 - `claim_custom_agent` uses a free custom slot from fresh inventory.
 - `hire_library_agent` adds a library archetype without editing its platform
@@ -67,13 +62,12 @@ Use this sequence:
 
 1. Read `get_routine_authoring_context` and its Markdown references.
 2. Read `get_account_authoring_inventory` and `list_routines`.
-3. Draft complete YAML and run `validate_routine` through the read gateway until
-   valid.
+3. Draft complete YAML and run `validate_routine` until valid.
 4. Show the complete canonical YAML, conservative Agent-call estimate, and
    dependencies; obtain explicit approval.
-5. Call `create_routine` through `call_configuration_operation`. Existing
-   routine replacement uses `update_routine` through
-   `call_destructive_operation` after showing the complete canonical YAML.
+5. Call `create_routine` directly. Existing routine replacement uses
+   `update_routine` only after showing the complete canonical YAML and obtaining
+   separate replacement approval.
 6. Read `get_routine_readiness`; resolve blockers and explain warnings.
 
 Routine creation/update saves live account configuration. It does not launch a
@@ -84,9 +78,8 @@ run or create an automation.
 `start_routine_dry_run` is a billed, persisted, tool-free simulation. It does
 not attach connectors, customer data, Business Knowledge, memory, or live
 effects. Show the sample input, known cost boundary, and limitation, then obtain
-separate approval. Start once through `call_test_operation`, poll with
-`get_routine_run`, and use `cancel_routine_run` only through
-`call_destructive_operation` after exact approval.
+separate approval. Call `start_routine_dry_run` once, poll with
+`get_routine_run`, and use `cancel_routine_run` only after exact approval.
 
 A passing preview demonstrates prompt flow and output shape only. It is not
 production readiness evidence for live tools or external systems.
@@ -99,13 +92,12 @@ rate limit before creation. Re-read readiness after staging.
 
 Enabling via `set_routine_schedule_enabled` starts future cron firing.
 Enabling via `set_trigger_enabled` may create an external subscription. Treat
-each as a separate approval through `call_activation_operation` after
-configuration and private testing.
+each as a separate approval after configuration and private testing, then call
+the exact enable tool directly.
 
-Deletion, disconnection, reset, and cancellation use
-`call_destructive_operation`. Full replacements such as
-`replace_agent_configuration` and `replace_skill` use it too. Name the exact
-resource and cascading effect,
+Deletion, disconnection, reset, cancellation, and full replacements such as
+`replace_agent_configuration` and `replace_skill` need their own exact approval.
+Name the resource and cascading effect,
 obtain separate confirmation, execute once, then verify. Finish with resource
 slugs/IDs, readiness, tests, enabled state, consent links or human steps, and
 every unverified live boundary.

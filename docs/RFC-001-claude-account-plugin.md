@@ -1,190 +1,142 @@
-# RFC 001: Claude Code account plugin
+# RFC 001: Claude Code direct-MCP plugin
 
-Status: implemented foundation for public release
+Status: direct-MCP foundation for public release
 
-Owners: MyChatBot product, platform, connector, and developer experience
+Owners: MyChatBot product, platform, and developer experience
 
 Initial host: Claude Code
 
 ## Decision
 
-Create a Claude Code marketplace plugin that connects to the existing
-`connector.mychatbot.app/mcp` OAuth service and teaches Claude guided MyChatBot
-setup and operations workflows. Evolve `claude-connector` into the single owner-facing
-gateway; do not create a second authentication or proxy service.
+Create a Claude Code marketplace plugin that bundles the existing direct Sales,
+Agents, UGC, and Docs MCP servers. Do not route their operations through the
+browser Claude connector.
 
-The browser connector remains the beginner, demo-first experience. The plugin
-serves integrators and advanced owners who need to inspect, configure, test,
-operate, and hand off a live account.
+The plugin solves a tool-use problem, not a transport problem. MyChatBot already
+has the necessary account operations; integrators need durable process knowledge
+for choosing the owning platform, reading current state, sequencing dependent
+changes, using the right tool among a large inventory, testing privately, and
+separating configuration from live effects.
 
-## User journey
+## Authentication
 
-The landing page presents one stable installation prefix and intent controls
-that change only the final task sentence. Examples:
+One existing `mcp_` account access key resolves the tenant server-side and works
+across Sales, Agents, and UGC. The plugin declares one required, sensitive
+`userConfig` value and substitutes it into each server's Authorization header.
+Claude Code masks the input and stores it in secure plugin configuration.
 
-- Audit and improve my account.
-- Create a Sales assistant.
-- Improve my business knowledge.
-- Test and tune my assistant.
-- Build an Agents Platform system.
+This is the public v1 path because it is already implemented and supports one
+plugin install without backend, database, or consent-page changes. Browser OAuth
+for the direct MCP endpoints remains a worthwhile usability follow-up, but it is
+not a marketplace prerequisite.
 
-The copied instruction sends Claude to `/claude`. That page is human-readable
-in a browser and an executable plain-text protocol for an agent. Installation
-finishes only after marketplace install, OAuth, connection verification, and a
-new-session handoff carrying the selected intent.
+The browser connector remains available for the browser Claude experience and
+beginner onboarding. It is not a dependency of this plugin.
 
-The first account action is read-only. The plugin reports current state and
-a staged plan; it never interprets install authorization as authorization to
-modify the account.
-
-## Architecture
+## Bundled servers
 
 ```text
-mychatbot.app/claude
-        |
-        v
-Claude marketplace plugin ---- workflow skills
-        |                    `---- public Docs MCP (read-only)
-        v OAuth 2.1 + PKCE
-connector.mychatbot.app/mcp ---- curated, annotated account gateway
-        |
-        +---- Sales Management MCP
-        +---- Agents MCP
-        `---- UGC MCP
+Claude Code plugin
+   |-- Sales MCP   https://api.mychatbot.app/api/mcp/sales-management
+   |-- Agents MCP  https://api.mychatbot.app/api/mcp/agents
+   |-- UGC MCP     https://api.mychatbot.app/api/mcp/ugc
+   `-- Docs MCP    https://api.mychatbot.app/api/mcp/docs
 ```
 
-The plugin profile replaces the browser connector's 48 named tools with 11
-top-level orchestration tools: account context, cross-platform discovery, and
-risk-separated routers. The static catalog covers 115 Sales operations, 34
-Agents operations, and 17 UGC operations. Discovery filters current upstream
-descriptions and schemas through that allowlist, so an upstream addition never
-appears automatically.
+The first three receive the same account key. Docs is public and read-only.
+Omitting `domain` on Sales and UGC intentionally exposes every domain on those
+surfaces; Claude Code's MCP tool search can defer large tool catalogs, while
+plugin skills provide semantic routing.
 
-## Invariants
+## Catalog Product MCP boundary
 
-- Tenant identity comes only from the authenticated credential.
+The Product MCP exposes ten read-only search and catalog-inspection tools for
+one selected integration. Its URL contains the account and integration IDs and
+functions as a credential. It therefore cannot be a universal bundled server.
+
+The knowledge workflow configures catalogs through Sales, attaches existing
+catalogs to Agents as Business Knowledge, and uses Sales test chats or evals for
+normal verification. When direct catalog search is specifically required, the
+user obtains that catalog's server URL through its **Connect AI tools** flow and
+adds it as a separate MCP server.
+
+## Tool inventory
+
+The pinned contract contains:
+
+- 115 Sales operations;
+- 34 Agents operations;
+- 17 UGC operations;
+- 3 public Docs operations;
+- 10 optional Product operations.
+
+Runtime `tools/list` schemas and fresh account state are authoritative. The
+contract exists to test complete coverage, route workflows, and classify risk;
+it does not replace server-side schemas or authorization.
+
+## Workflow model
+
+The plugin provides focused skills for:
+
+- account audit and implementation planning;
+- Sales assistant setup;
+- Agents systems and routines;
+- catalogs, feeds, FAQs, websites, and Business Knowledge;
+- channels, integrations, connectors, and custom MCPs;
+- CRM and Sales operations;
+- outreach and follow-ups;
+- routines and automations;
+- private testing and evals;
+- UGC generation, publishing, analytics, and ads.
+
+Each skill names the direct tools to use and the required ordering. The common
+skill explains platform ownership, authentication, approval boundaries, fresh
+reads, ID resolution, verification, partial-state handling, and ambiguous-write
+behavior.
+
+## Safety invariants
+
+- Tenant identity comes only from the account credential.
 - Runtime schemas and fresh account state are authoritative.
-- Skills may route and sequence tools but may not expand authorization.
-- Reads precede writes; IDs are never guessed.
-- Configuration, activation, billed work, customer communication, and
-  destructive work are separate approval stages.
-- High-risk preview/execute boundaries must be enforced by the server where
-  possible, not only stated in prompt text.
-- Customer data is excluded from general audits and summaries are de-identified.
+- Reads precede writes; identifiers are resolved from fresh results and never
+  guessed.
+- A general audit does not read customer records or messages.
+- Configuration, customer-data changes, private tests, spending, activation,
+  external communication, publication, replacement, and deletion are separate
+  approval stages.
+- Full-replacement tools require a current read and an explicit complete value.
 - Writes are never automatically retried after an ambiguous result.
-- Existing Sales resources are reused as Agents Business Knowledge rather than
+- Existing Sales resources are reused as Agents Business Knowledge instead of
   duplicated.
+- API keys, OAuth tokens, and authenticated custom MCP headers are entered only
+  in their human authorization interfaces.
 
-## Authorization
+These are plugin workflow rules. Server-side tenant isolation, ownership checks,
+plan gates, input validation, and routine preview capabilities remain the hard
+enforcement boundary.
 
-The existing connector implements OAuth-as-signup, dynamic client registration,
-PKCE, and bearer validation. Its current access token is an account-wide MCP
-token. Machine-enforced token capabilities or an equivalent connector-bound
-credential are a defense-in-depth follow-up so a stolen token cannot bypass the
-gateway and call every account MCP surface.
+## Verification
 
-Proposed capability vocabulary:
+- Static validation checks the marketplace and plugin manifests, one sensitive
+  required key, exact direct endpoints, skills, references, and complete tool
+  classifications.
+- Contract tests check all tool counts, uniqueness, server ownership, and risk
+  boundaries.
+- Claude's current strict plugin validator checks the package schema.
+- Local packaging tests use no network and no live account.
+- Live read/write checks require separate authorization for the exact test
+  account and exact effects.
 
-- `account.read`
-- `sales.read`, `sales.configure`, `sales.activate`
-- `agents.read`, `agents.configure`, `agents.activate`
-- `customer_data.read`
-- `outreach.send`
-- `ugc.read`, `ugc.generate`, `ugc.publish`
-- `destructive.execute`
+## Release path
 
-Consent should start narrow. Higher-risk capabilities can be authorized later
-without requiring the user to share a secret with Claude.
+1. Finish and validate the source marketplace package.
+2. Document secure key creation and four-server verification.
+3. Test install and read-only inventory with an explicitly authorized account.
+4. Test bounded synthetic writes only after exact approval.
+5. Publish the repository and source marketplace for every account.
+6. Submit through Anthropic's official plugin form.
+7. Update app and landing onboarding after the stable install contract is known.
 
-## Tool safety contract
-
-Every gateway tool supplies annotation title plus explicit read-only,
-destructive, idempotent, and open-world hints. Risk levels are:
-
-1. Read-only configuration.
-2. Customer-data read.
-3. Reversible configuration.
-4. Private test or billed simulation.
-5. Activation or external communication.
-6. Destructive/reset/full replacement.
-
-External communication and destructive operations need an exact preview and a
-separate execution step or a short-lived confirmation capability tied to the
-previewed payload.
-
-## Capability rollout
-
-### Public v1 contract
-
-Use the exact-header plugin profile: one read-only account context,
-cross-platform schema discovery, and separate read, customer-data read,
-configuration, customer-data write, private-test, billed-generation,
-activation, external-action, and destructive gateways. Preserve the Agents MCP
-sequence: authoring context, inventory, validate, show canonical YAML,
-approval, save, readiness, optional approved dry run, and disabled-first
-schedules/triggers. The plugin pins 166 routed operations in
-`contracts/connector-tools.json`; validation fails when a skill references an
-unknown operation.
-
-### Required hardening
-
-Add connector-bound token capabilities, higher-risk consent/confirmation
-contracts, release evidence, and a public-repository/security review. The compact
-gateway shape can remain unchanged.
-
-### Deliberate boundary
-
-UGC generation and publication are in the initial compact surface with distinct
-gateways and workflow approvals; connector-bound token capabilities remain the
-machine-enforced follow-up. The public read-only Docs MCP is bundled directly
-for current platform guidance. Direct Product MCP search is not proxied because
-a catalog URL is itself a credential. Catalog creation, Business Knowledge
-attachment, Sales test chats, and evals cover integrator setup without exposing
-that capability URL.
-
-## Repository changes
-
-- `mychatbot-agent-plugin`: manifests, install protocol, skills, pinned contract,
-  static validation, and behavioral fixtures.
-- `claude-connector`: gateway surface, OAuth capabilities, annotations,
-  account context, upstream proxies, and mocked E2E coverage.
-- `api.mychatbot.app`: scoped token enforcement and missing upstream annotations
-  or confirmation contracts. Database migration is a separately authorized
-  production-impacting step.
-- `mychatbot.app`: `/claude` agent/human page and intent-based copy control.
-- `docs.mychatbot.app`: current five-surface documentation and plugin/operator
-  guides.
-- `app.mychatbot.app`: replace long copy-paste orchestration prompts with plugin
-  entry points where appropriate.
-- `agentos.mychatbot.app` and `product.mychatbot.app`: change only where contract
-  tests demonstrate a real integration gap; avoid speculative churn.
-
-## Test strategy
-
-- Plugin static validation: manifest, marketplace, skill frontmatter, unique
-  capability contract, and known tool references.
-- Connector tests: zero-network OAuth E2E, exact tool allowlist, annotations,
-  read retry/write no-retry, tenant propagation, and upstream failure surfaces.
-- API tests: scoped token allow/deny matrix, legacy compatibility, tenant
-  isolation, migration behavior, and high-risk confirmation replay/expiry.
-- Landing tests: content negotiation, intent-to-prompt mapping, clipboard,
-  keyboard access, responsive layout, and reduced motion.
-- Browser E2E: install page and local landing; later Claude login/install against
-  an explicitly authorized account.
-- Account verification: create dedicated disposable resources with a unique
-  prefix, inspect them, test privately, and remove only those exact resources
-  after separate deletion approval.
-
-## Rollout gates
-
-1. Mocked tests green.
-2. Internal install against local/mock gateway.
-3. OAuth/scoping review and security tests.
-4. Public repository and visible landing route.
-5. Explicitly authorized test-account read audit.
-6. Explicitly authorized bounded test-account writes.
-7. Release to every account with monitoring and rollback readiness.
-
-Each repository ships through a feature branch and PR. Every push restarts the
-required 15-minute CI and automated-review window. Release verification is
-read-only unless a new exact impact is approved.
+Every repository ships through its own feature branch and pull request. Hosted
+service changes, database changes, releases, and live-account tests retain their
+separate authorization requirements.
