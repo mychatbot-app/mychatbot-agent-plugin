@@ -23,6 +23,7 @@ if (entry.name !== plugin.name) fail("marketplace/plugin name mismatch");
 if (entry.source !== "./claude") fail("marketplace source must be ./claude");
 if (entry.version !== plugin.version) fail("marketplace/plugin version mismatch");
 if (entry.repository !== plugin.repository) fail("marketplace/plugin repository mismatch");
+if (entry.homepage !== plugin.homepage) fail("marketplace/plugin homepage mismatch");
 if (plugin.skills !== "./skills/") fail("plugin skills path must be ./skills/");
 if (plugin.mcpServers !== "./.mcp.json") fail("plugin MCP config path must be ./.mcp.json");
 

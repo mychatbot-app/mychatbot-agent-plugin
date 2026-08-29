@@ -16,7 +16,7 @@
       "description": "Build, test, and operate MyChatBot business systems from Claude Code.",
       "version": "0.2.0",
       "category": "productivity",
-      "homepage": "https://mychatbot.app",
+      "homepage": "https://docs.mychatbot.app/agents/claude-code-plugin",
       "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
       "author": {
         "name": "MyChatBot",

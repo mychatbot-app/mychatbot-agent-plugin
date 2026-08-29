@@ -136,11 +136,15 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 
 test("public package includes source, support, setup, and privacy metadata", () => {
   const marketplace = readJson(".claude-plugin/marketplace.json");
-  assert.equal(plugin.homepage, "https://mychatbot.app");
+  assert.equal(
+    plugin.homepage,
+    "https://docs.mychatbot.app/agents/claude-code-plugin",
+  );
   assert.equal(plugin.author.email, "support@mychatbot.app");
   assert.equal(plugin.license, "MIT");
   assert.equal(marketplace.plugins[0].displayName, "MyChatBot");
   assert.equal(marketplace.plugins[0].version, plugin.version);
+  assert.equal(marketplace.plugins[0].homepage, plugin.homepage);
   assert.ok(fs.existsSync(path.join(root, "claude/SETUP.md")));
   assert.ok(fs.existsSync(path.join(root, "SECURITY.md")));
   assert.match(fs.readFileSync(path.join(root, "README.md"), "utf8"), /privacy policy/i);
