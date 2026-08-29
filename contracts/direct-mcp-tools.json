@@ -1,23 +1,37 @@
 {
   "schemaVersion": 3,
   "sourceRepository": "mychatbot-app/api.mychatbot.app",
-  "description": "Pinned direct-MCP inventory and safety classification. Runtime tool schemas and account state remain authoritative.",
+  "description": "Pinned inventory and safety classification for the API-owned plugin MCP. Runtime tool schemas and account state remain authoritative.",
   "servers": {
+    "plugin": {
+      "url": "https://api.mychatbot.app/api/mcp/plugin",
+      "authentication": "oauth",
+      "bundled": true,
+      "composes": ["sales", "agents", "ugc", "docs"]
+    },
     "sales": {
       "url": "https://api.mychatbot.app/api/mcp/sales-management",
-      "authentication": "account-access-key"
+      "authentication": "account-access-key",
+      "bundled": false,
+      "composedBy": "plugin"
     },
     "agents": {
       "url": "https://api.mychatbot.app/api/mcp/agents",
-      "authentication": "account-access-key"
+      "authentication": "account-access-key",
+      "bundled": false,
+      "composedBy": "plugin"
     },
     "ugc": {
       "url": "https://api.mychatbot.app/api/mcp/ugc",
-      "authentication": "account-access-key"
+      "authentication": "account-access-key",
+      "bundled": false,
+      "composedBy": "plugin"
     },
     "docs": {
       "url": "https://api.mychatbot.app/api/mcp/docs",
       "authentication": "public",
+      "bundled": false,
+      "composedBy": "plugin",
       "risk": "read",
       "tools": ["get_docs_structure", "search_docs", "read_docs_page"]
     },
@@ -37,7 +51,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 115,
+      "catalogSize": 117,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -77,7 +91,7 @@
           "create_website_widget", "enable_order_taking", "set_lead_form_mapping"
         ],
         "external_action": [
-          "immediate_outreach_create", "outbound_call", "send_one_off_message"
+          "immediate_outreach_create", "outbound_call", "send_one_off_message", "schedule_message"
         ],
         "destructive": [
           "assistant_update_instructions", "assistant_update_skill", "assistant_delete_skill",
@@ -89,20 +103,20 @@
           "delete_faq_knowledge_base", "update_products", "delete_products_integration",
           "delete_product_feed_integration", "delete_test_orders", "disable_order_taking",
           "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",
-          "eval_run_cancel", "learn_website"
+          "eval_run_cancel", "learn_website", "update_integration_trigger"
         ]
       }
     },
     "agents": {
       "server": "agents",
-      "catalogSize": 34,
+      "catalogSize": 35,
       "riskClasses": {
         "read": [
           "get_routine_authoring_context", "get_account_authoring_inventory", "list_routines",
           "get_routine", "validate_routine", "get_routine_readiness", "get_routine_run",
           "get_agent", "get_skill", "probe_connector"
         ],
-        "customer_data_read": [],
+        "customer_data_read": ["get_routine_session_history"],
         "configuration": [
           "create_routine", "claim_custom_agent", "hire_library_agent", "create_skill",
           "start_connector_authorization", "connect_sales_platform_connector",

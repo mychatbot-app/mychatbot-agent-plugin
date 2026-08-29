@@ -9,7 +9,7 @@ description: >-
 
 # Audit a MyChatBot account
 
-Load `mychatbot-plugin-basics-claude` first. This workflow is read-only.
+Load `mychatbot-plugin-basics` first. This workflow is read-only.
 
 ## Inspect Sales
 

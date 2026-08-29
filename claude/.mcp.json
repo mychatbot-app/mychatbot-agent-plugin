@@ -1,29 +1,9 @@
 {
   "mcpServers": {
-    "mychatbot-sales": {
+    "mychatbot": {
       "type": "http",
-      "url": "https://api.mychatbot.app/api/mcp/sales-management",
-      "headers": {
-        "Authorization": "Bearer ${user_config.account_access_key}"
-      }
-    },
-    "mychatbot-agents": {
-      "type": "http",
-      "url": "https://api.mychatbot.app/api/mcp/agents",
-      "headers": {
-        "Authorization": "Bearer ${user_config.account_access_key}"
-      }
-    },
-    "mychatbot-ugc": {
-      "type": "http",
-      "url": "https://api.mychatbot.app/api/mcp/ugc",
-      "headers": {
-        "Authorization": "Bearer ${user_config.account_access_key}"
-      }
-    },
-    "mychatbot-docs": {
-      "type": "http",
-      "url": "https://api.mychatbot.app/api/mcp/docs"
+      "url": "https://api.mychatbot.app/api/mcp/plugin",
+      "oauth_resource": "https://api.mychatbot.app/api/mcp/plugin"
     }
   }
 }

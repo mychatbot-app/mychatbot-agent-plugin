@@ -1,65 +1,83 @@
-# MyChatBot for Claude Code
+# MyChatBot Agent Plugin
 
-Build, test, and operate MyChatBot business systems from Claude Code.
+Build, test, and operate MyChatBot business systems from Claude Code and
+Codex.
 
-The plugin connects Claude directly to MyChatBot's account-scoped MCP servers
-and adds the workflow knowledge needed to use their larger tool catalog well. It
-covers Sales assistants, Agents Platform systems, Business Knowledge, catalogs
-and FAQs, channels, integrations, CRM operations, outreach, routines,
-automations, private testing, and UGC.
+The plugin adds the workflow knowledge needed to use MyChatBot's broad account
+tool catalog well. It covers sales assistants, Agents Platform systems,
+Business Knowledge, catalogs and FAQs, channels, integrations, CRM work,
+outreach, routines, automations, private testing, and UGC.
 
-## What it connects
+## One connection, complete platform access
 
-- **Sales MCP:** assistants, knowledge, integrations, channels, leads,
-  conversations, pipelines, orders, outreach, test chats, evals, and account
-  usage.
-- **Agents MCP:** agents, skills, connectors, Business Knowledge, routines,
-  schedules, triggers, validation, readiness, and tool-free previews.
-- **UGC MCP:** media generation, social publishing, analytics, and ads.
-- **Docs MCP:** public, read-only MyChatBot documentation.
+The plugin connects to the API-owned MyChatBot plugin MCP at:
 
-The plugin does not use the browser Claude connector as a gateway. One existing
-MyChatBot account access key authenticates the three account servers directly.
-Claude Code asks for it once and stores it as sensitive plugin configuration.
+`https://api.mychatbot.app/api/mcp/plugin`
 
-The catalog-scoped Product MCP is intentionally on demand. Each catalog has a
-different credential-bearing URL, so a universal plugin must not embed or guess
-one. The Business Knowledge skill explains when to add a selected catalog's
-Product MCP for direct search verification.
+That connection composes the existing tool implementations without reducing
+their catalogs:
 
-## Install from the source marketplace
+- **Sales:** assistants, knowledge, integrations, channels, leads,
+  conversations, pipelines, orders, outreach, test chats, evals, and usage.
+- **Agents:** agents, skills, connectors, Business Knowledge, routines,
+  schedules, triggers, validation, readiness, and previews.
+- **UGC:** media generation, social publishing, analytics, and ads.
+- **Docs:** public, read-only MyChatBot documentation.
 
-1. In MyChatBot, open any Agent, choose **Tasks → Connect Claude or Codex**, and
-   create an account access key. The full key is shown once.
-2. In Claude Code, run:
+The browser Claude connector is not used as an MCP tool gateway. Browser signup
+authorization creates or reconnects the MyChatBot account; authenticated tool
+traffic then goes directly to `api.mychatbot.app`.
 
-   ```bash
-   claude plugin marketplace add mychatbot-app/mychatbot-agent-plugin
-   claude plugin install mychatbot@mychatbot-app
-   ```
+The catalog-scoped Product MCP remains on demand because each catalog has a
+different credential-bearing URL. The Business Knowledge skill explains when
+direct catalog search verification needs that additional read-only connection.
 
-3. Paste the key only into Claude Code's masked configuration prompt. Do not
-   paste it into a conversation or put it in an install command.
-4. Start a new conversation and ask Claude to audit or build the system you
-   need.
+## Install from the public source marketplace
+
+### Claude Code
+
+```bash
+claude plugin marketplace add https://github.com/mychatbot-app/mychatbot-agent-plugin.git#main
+claude plugin install mychatbot@mychatbot-app
+```
+
+Then sign in:
+
+```bash
+sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
+```
+
+The browser flow uses an email and one-time code. It can create the MyChatBot
+account, so no dashboard visit or API-key handling is required. Start a new
+conversation after authentication.
 
 See [the complete Claude Code setup guide](docs/claude-code-install.md) for
-verification and troubleshooting.
+verification and troubleshooting. The source install is the public release
+path; an official directory listing is an additional discovery channel, not a
+prerequisite.
+
+### Codex
+
+```bash
+codex plugin marketplace add mychatbot-app/mychatbot-agent-plugin --ref main
+codex plugin add mychatbot@mychatbot-app
+```
+
+Codex authenticates during installation. If needed, run
+`codex mcp login mychatbot`, complete the same browser flow, and start a new
+thread. See [the Codex source-install guide](docs/codex-install.md).
 
 ## Operating boundary
 
-- A general audit reads configuration metadata, not customer records or
-  messages.
+- A general audit reads configuration metadata, not customer records or messages.
 - Configuration, private tests, billed generation, activation, customer
-  communication, publication, replacement, and deletion are separate approval
-  stages.
-- Direct MCP schemas and fresh account state are authoritative. Skills provide
-  routing and safety judgment; they do not expand account permissions.
-- Installing or configuring the plugin does not authorize an account change.
+  communication, publication, replacement, and deletion are separate approval stages.
+- Runtime MCP schemas and fresh account state are authoritative.
+- Installing or authenticating the plugin does not authorize an account change.
 
 MyChatBot's [privacy policy](https://mychatbot.app/legal/privacy-policy) applies
-to hosted services. See [SECURITY.md](SECURITY.md) for credential handling and
-vulnerability reporting.
+to hosted services. See [SECURITY.md](SECURITY.md) for authentication handling
+and vulnerability reporting.
 
 ## Develop
 
@@ -68,18 +86,18 @@ npm test
 claude plugin validate ./claude --strict
 ```
 
-Tests are local and fixture-based. They do not contact MyChatBot services.
+Repository tests are fixture-based and do not contact MyChatBot accounts.
 
 ## Repository layout
 
 ```text
-.claude-plugin/marketplace.json  Claude marketplace catalog
-claude/                          Claude Code plugin package
-claude/.mcp.json                Four direct hosted MCP server definitions
-claude/SETUP.md                  Connection and verification guide
-claude/skills/                   Integrator workflows and references
-contracts/                       Pinned direct-MCP inventory and risk map
+.claude-plugin/marketplace.json  Claude source marketplace
+.agents/plugins/marketplace.json Codex/ChatGPT source marketplace
+claude/                          Claude Code package
+codex/                           Codex/ChatGPT package
+contracts/                       Pinned tool inventory and risk map
+evals/                           Workflow and approval scenarios
 docs/                            Installation and architecture documents
-scripts/validate.mjs             Offline static validator
+scripts/                         Offline validators
 test/                            Contract-focused tests
 ```

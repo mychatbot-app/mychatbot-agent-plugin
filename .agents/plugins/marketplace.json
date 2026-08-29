@@ -1,0 +1,20 @@
+{
+  "name": "mychatbot-app",
+  "interface": {
+    "displayName": "MyChatBot"
+  },
+  "plugins": [
+    {
+      "name": "mychatbot",
+      "source": {
+        "source": "local",
+        "path": "./codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ description: >-
 
 # Configure channels, integrations, and connectors
 
-Load `mychatbot-plugin-basics-claude` and its safety reference first. A saved
+Load `mychatbot-plugin-basics` and its safety reference first. A saved
 configuration, human authorization, live activation, and verified connectivity
 are separate states.
 
@@ -34,7 +34,7 @@ fresh list/detail read shows the connected state.
 `connect_telegram` activate customer-facing behavior and require separate
 activation approval. Prefer a configuration link for credentials.
 If the user explicitly chooses a direct Telegram token flow supported by the
-schema, explain that Claude will transmit it to MyChatBot, never repeat it, and
+schema, explain that Codex will transmit it to MyChatBot, never repeat it, and
 verify only non-secret channel metadata afterward.
 
 `channel_toggle` can disable a live route and needs exact approval in either
@@ -59,7 +59,7 @@ integration request.
   triggers and requires dependency review and exact disconnection approval.
 
 API-key connectors and authenticated custom MCP headers are app-only. Direct the
-user to **Agents → Connectors** for secret entry. Claude may help choose the URL,
+user to **Agents → Connectors** for secret entry. Codex may help choose the URL,
 transport, display name, and expected tools, then inspect and probe the saved
 connector without asking for header values.
 

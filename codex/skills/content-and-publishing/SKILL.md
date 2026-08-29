@@ -8,7 +8,7 @@ description: >-
 
 # Generate and publish content
 
-Load `mychatbot-plugin-basics-claude` and its safety reference. Generation,
+Load `mychatbot-plugin-basics` and its safety reference. Generation,
 approval, and publication are distinct stages.
 
 ## Inspect

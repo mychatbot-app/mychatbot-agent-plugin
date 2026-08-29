@@ -3,15 +3,16 @@
 Source marketplace: `mychatbot-app/mychatbot-agent-plugin`
 
 This is an agent-executable setup protocol. Read it completely before running
-commands. Setup is complete only after installation, secure account-key entry,
-four-server verification, and a clean working-conversation handoff.
+commands. Setup is complete only after source installation, browser
+authentication, connection verification, and a clean handoff to a new
+conversation.
 
 ## Host gate
 
-Run installation only from Claude Code on the user's machine. A browser-only or
-isolated remote conversation cannot install into the local plugin cache. In
-that case, tell the user to open Claude Code locally and paste the installation
-instruction from `https://mychatbot.app/claude`.
+Run installation only from Claude Code on the user's computer. A browser-only
+or isolated remote conversation cannot install into the local plugin cache. In
+that case, tell the user to open Claude Code locally and paste the instruction
+from `https://mychatbot.app/claude`.
 
 ## Prerequisites
 
@@ -20,74 +21,74 @@ claude --version
 git --version
 ```
 
-Use a current Claude Code 2.x release. Git is required for the source
+Use a current Claude Code 2.x release. Git is required for the public source
 marketplace.
 
-## Obtain the account access key
-
-The user creates the key in MyChatBot from any Agent's **Tasks → Connect Claude
-or Codex** dialog. It is shown once and works across the direct Sales, Agents,
-and UGC MCP servers.
-
-Do not ask the user to paste the key in chat. Do not put it in a command, shell
-history, environment file, repository, or issue. Keep the masked configuration
-dialog under the user's control.
-
-## Install
+## Install from source
 
 ```bash
-claude plugin marketplace add mychatbot-app/mychatbot-agent-plugin
+claude plugin marketplace add https://github.com/mychatbot-app/mychatbot-agent-plugin.git#main
 claude plugin marketplace list
 claude plugin install mychatbot@mychatbot-app
 ```
 
-Claude Code prompts for the required **MyChatBot account access key**. Tell the
-user why the prompt appears, then let them paste the key into that masked field.
-Claude Code stores it as sensitive plugin configuration.
+Treat the marketplace command as a long-running clone. Poll until it exits;
+ordinary short-command silence is not failure.
 
-If installation finishes without configuration, run `/plugin`, open
-**Installed → MyChatBot → Configure**, and let the user enter the key there.
-Then run `/reload-plugins`.
+## Sign in or create the account
+
+Do not ask the user to find, copy, or paste an `mcp_…` key. Start the bundled
+OAuth helper:
+
+```bash
+sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
+```
+
+Immediately read and poll `/tmp/mychatbot-login.log`. Claude Code opens a
+MyChatBot authorization page. Tell the user that the page will ask for their
+email and a one-time code. A verified existing email reconnects its account; a
+new email creates an account without requiring a visit to the dashboard first.
+
+The helper uses a pseudo-terminal because `claude mcp login` is interactive.
+On Windows, ask the user to run the following in an interactive PowerShell
+window:
+
+```powershell
+claude mcp login plugin:mychatbot:mychatbot
+```
+
+Wait for the login output to report authentication success. Do not run several
+login attempts at once. A timeout requires a fresh attempt after the current
+one exits; it does not require reinstalling the plugin.
 
 ## Verify
 
 ```bash
 claude plugin details mychatbot@mychatbot-app
-claude mcp get plugin:mychatbot:mychatbot-sales
-claude mcp get plugin:mychatbot:mychatbot-agents
-claude mcp get plugin:mychatbot:mychatbot-ugc
-claude mcp get plugin:mychatbot:mychatbot-docs
+claude mcp get plugin:mychatbot:mychatbot
 ```
 
-Expected account servers:
+Expected server URL:
 
-- Sales: `https://api.mychatbot.app/api/mcp/sales-management`
-- Agents: `https://api.mychatbot.app/api/mcp/agents`
-- UGC: `https://api.mychatbot.app/api/mcp/ugc`
+`https://api.mychatbot.app/api/mcp/plugin`
 
-Expected public server:
-
-- Docs: `https://api.mychatbot.app/api/mcp/docs`
-
-All must report connected. If an account server returns 401, configure the key
-again and check for copied whitespace. Do not use `claude mcp login`; the plugin
-does not authenticate these servers through OAuth. If Docs alone is unavailable,
-report documentation lookup as degraded without treating the account as
-unavailable.
+The single authenticated connection contains the complete Sales, Agents, UGC,
+and Docs tool catalogs. If it reports that authentication is needed, return to
+the login step.
 
 ## Required handoff
 
-Reload plugins if needed, then begin a new Claude Code conversation. The first
-turn reads the relevant account inventory and proposes bounded stages. It does
-not write merely because installation was approved.
+The installation conversation cannot use tools that were added after it
+started. Begin a new Claude Code conversation with the user's actual goal.
+Installing and signing in does not authorize account changes.
 
-Good handoff prompts include:
+Useful starting requests include:
 
 - `Audit my MyChatBot account and propose the highest-impact improvements.`
-- `Build a Sales assistant for my business, including knowledge and private tests.`
-- `Set up an Agents Platform workflow with the right agents, skills, knowledge, and routine.`
+- `Build a sales assistant for my business, add the right knowledge, and test it privately.`
+- `Create an Agents Platform system with the right agents, skills, knowledge, and routine.`
 - `Review my catalogs, feeds, FAQs, and Business Knowledge for gaps and duplicates.`
-- `Prepare an outreach campaign, but do not contact anyone until I approve the exact audience and content.`
+- `Prepare a follow-up campaign, but do not contact anyone until I approve the audience and content.`
 
 ## Update
 
@@ -96,4 +97,4 @@ claude plugin marketplace update mychatbot-app
 claude plugin update mychatbot@mychatbot-app
 ```
 
-Run `/reload-plugins` or start a new conversation, then repeat verification.
+Start a new conversation and repeat connection verification.
