@@ -1,11 +1,13 @@
 {
   "name": "mychatbot-agent-plugin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node scripts/validate.mjs && node scripts/validate-evals.mjs && node --test test/*.test.mjs",
-    "validate": "node scripts/validate.mjs && node scripts/validate-evals.mjs"
+    "test": "node scripts/validate.mjs && node scripts/validate-evals.mjs && node scripts/validate-workflow-coverage.mjs && node --test test/*.test.mjs",
+    "validate": "node scripts/validate.mjs && node scripts/validate-evals.mjs && node scripts/validate-workflow-coverage.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "eval:claude": "node evals/run-claude.mjs"
   },
   "engines": {
     "node": ">=20"

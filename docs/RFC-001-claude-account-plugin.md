@@ -116,8 +116,9 @@ hard enforcement boundary.
 - Static validation checks both host packages, manifests, one OAuth endpoint,
   skills, references, version metadata, and all 172 bundled classifications.
 - Contract tests check counts, uniqueness, ownership, and risk boundaries.
-- Offline workflow evals check realistic integrator prompts, required reads,
-  approval boundaries, and forbidden early actions.
+- A local mocked Claude behavior runner checks realistic integrator prompts,
+  required reads, response concepts, and forbidden early actions. Static tests
+  separately validate the host-neutral eval contract.
 - Claude and Codex package validators check host-specific schemas.
 - Local packaging and unit tests use no network and no live account.
 - Live account checks require separate authorization for the exact account and

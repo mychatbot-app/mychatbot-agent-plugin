@@ -76,9 +76,24 @@ test("base skills enforce one OAuth connection and bounded approvals", () => {
     assert.match(base, /Do not ask the user to\s+copy a\s+token/);
   }
   assert.match(claude, /plugin:mychatbot:mychatbot/);
-  assert.match(claude, /login-mychatbot\.sh/);
+  assert.match(claude, /claude mcp login plugin:mychatbot:mychatbot/);
+  assert.doesNotMatch(claude, /\$\{CLAUDE_PLUGIN_ROOT\}/);
   assert.match(codex, /codex mcp login mychatbot/);
   assert.match(codex, /mcp__mychatbot__\*/);
+});
+
+test("behavior regressions have explicit workflow guardrails", () => {
+  for (const host of ["claude", "codex"]) {
+    expectTerms(host, "build-agent-system", ["even when the compact inventory", "separate approval"]);
+    expectTerms(host, "build-sales-assistant", ["knowledge configuration", "private test", "customer-facing activation"]);
+    expectTerms(host, "business-knowledge", ["reused instead of duplicated", "configuration approval"]);
+    expectTerms(host, "channels-and-integrations", ["before any integration detail", "confirm=false", "browser oauth"]);
+    expectTerms(host, "crm-and-sales-operations", ["through a shell or generated script", "bounded record scope"]);
+    expectTerms(host, "outreach-and-followups", ["exact time and timezone", "schedule_message"]);
+    expectTerms(host, "routines-and-automations", ["label the yaml as a draft", "separate approval"]);
+    expectTerms(host, "test-and-evaluate", ["regression eval", "saved eval scenarios"]);
+    expectTerms(host, "content-and-publishing", ["get_best_times_to_post", "before the exact model"]);
+  }
 });
 
 test("skills contain no retired server split or connector router", () => {
@@ -100,6 +115,8 @@ test("Claude setup performs browser signup and verifies the single server", () =
   assert.match(setup, /email address and a one-time code/);
   assert.match(setup, /creates a MyChatBot account/);
   assert.match(setup, /plugin:mychatbot:mychatbot/);
+  assert.match(setup, /mktemp/);
+  assert.doesNotMatch(setup, /\$\{CLAUDE_PLUGIN_ROOT\}/);
   assert.match(setup, /https:\/\/api\.mychatbot\.app\/api\/mcp\/plugin/);
   assert.doesNotMatch(setup, /Configure.*key/is);
 });

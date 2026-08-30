@@ -11,10 +11,19 @@ description: >-
 Load `mychatbot-plugin-basics` and its safety reference. Customer data
 is not a default audit input. Establish the smallest record set, fields, date
 window, and output needed before reading it.
+After deferred tool discovery, call each returned MCP operation directly. Never
+invoke an MCP operation through a shell or generated script.
 
 ## Pipelines and labels
 
 Use ordinary reads for `list_pipelines`, `get_pipeline`, and `list_labels`.
+For a broad cleanup request, finish these configuration reads and present the
+bounded customer-record scope before calling `list_clients` or `scan_clients`.
+The phrase "update the right records" is not approval to enumerate customer
+records; obtain the separate customer-data-read approval first.
+If the desired cleanup is unclear, propose a bounded record scope and ask for
+customer-data-read approval explicitly; do not end with clarification questions
+alone.
 Create or update bounded configuration with `pipeline_create`,
 `pipeline_update`, `funnel_status_create`, or `label_create` only after
 showing names, ordering implications, and assistant assignments.

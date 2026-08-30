@@ -9,9 +9,12 @@ description: >-
 # Test and evaluate a Sales assistant
 
 Load `mychatbot-plugin-basics` first. Resolve the target with
-`list_assistants` and `get_assistant`. Agree on a compact matrix covering the
+`list_assistants` and `get_assistant`. For every regression or repeatable-eval
+request, also call `eval_scenario_list` before proposing the matrix. Agree on a compact matrix covering the
 assistant's job, business facts, tool use, unsupported requests, lead capture,
 handoff, and safety boundaries.
+Call the proposed matrix a regression eval and explain whether it will use a
+private test chat, saved eval scenarios, or both.
 
 ## Interactive rehearsal
 

@@ -2,6 +2,24 @@
 
 All notable plugin changes are recorded here.
 
+## [0.4.0] - 2026-08-30
+
+### Added
+
+- Intentional workflow ownership and packaged lookup references for all 172
+  bundled operations and all 10 on-demand Product operations.
+- A reproducible Claude Code behavior suite backed by a local synthetic MCP.
+- CI checks for Claude and Codex package discovery plus public and local links.
+
+### Changed
+
+- Browser login now uses Claude Code's direct MCP login command and a portable
+  inline pseudo-terminal fallback, with no plugin-root dependency.
+- Workflow guidance now requires complete initial inventories, bounds customer
+  data access, and separates draft validation from saved or enabled state.
+- Evaluation documentation distinguishes static contract checks, mocked model
+  traces, and separately authorized production checks.
+
 ## [0.3.0] - 2026-08-29
 
 ### Added
@@ -26,5 +44,6 @@ All notable plugin changes are recorded here.
 
 - Initial public Claude Code plugin with direct account workflow skills.
 
+[0.4.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/releases/tag/v0.2.0

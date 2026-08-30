@@ -14,6 +14,24 @@ as live business state even when someone calls it a demo. Read
 `references/platform-model.md` to choose the owning platform and
 `references/safety.md` before customer data, tests, spending, activation,
 external actions, replacement, or deletion.
+For an uncommon operation or an ambiguous workflow, read
+`references/operation-map.md` to find its intended workflow. Load only the
+workflow skill that owns the task; the live tool description and schema remain
+authoritative.
+
+Before any domain MCP call, load the one matching workflow skill with Claude's
+`Skill` tool. Do not continue from this base skill alone:
+
+- account review → `account-audit`
+- Sales assistant → `build-sales-assistant`
+- agent, skill, or multi-agent system → `build-agent-system`
+- FAQ, website, catalog, feed, or Business Knowledge → `business-knowledge`
+- channel, integration, connector, or custom MCP → `channels-and-integrations`
+- lead, chat, pipeline, label, order, or calendar → `crm-and-sales-operations`
+- follow-up, campaign, outbound call, or message → `outreach-and-followups`
+- routine, schedule, trigger, or Lead Forms mapping → `routines-and-automations`
+- private chat test or eval → `test-and-evaluate`
+- media, social post, analytics, or ads → `content-and-publishing`
 
 ## Route through the direct plugin connection
 
@@ -36,6 +54,13 @@ choose a second MyChatBot server. The current tool description and input schema
 are authoritative. Never add or guess an `account_id`; the authenticated
 connection resolves the account.
 
+When Claude uses `ToolSearch`, invoke the returned
+`mcp__plugin_mychatbot_mychatbot__*` tool directly. Never type an MCP operation
+name into Bash or present it as a shell command.
+If a direct tool is deferred, use `ToolSearch` and then emit that MCP tool call.
+Do not construct a Bash script, Python subprocess, or `claude mcp call`
+workaround.
+
 ## Orient before planning
 
 Start with the smallest relevant read inventory:
@@ -51,6 +76,10 @@ Start with the smallest relevant read inventory:
 
 Treat an error or partial section as unknown, not empty. Resolve real IDs from
 fresh list/detail results. Prefer an existing healthy resource over a duplicate.
+An omitted field in a compact list or partial detail response is also unknown;
+do not turn missing response fields into claims that configuration is absent.
+Complete every initial inventory read required by the selected workflow before
+proposing configuration, even when owner details are still needed later.
 When a tool is not visible, search by the exact operation name; do not
 substitute a similarly named operation from another platform.
 
@@ -73,6 +102,9 @@ A general audit does not call `list_clients`, `list_chats`,
 `get_chat_messages`, order/event detail, audience previews, exports, or eval
 detail. Read customer data only when the task requires it; minimize the record
 set and summarize without unnecessary identifying detail.
+A broad request to clean up records, prepare outreach, or update the right
+customers does not authorize an unbounded customer-data read. Inspect ordinary
+configuration first, then ask for the bounded customer-data-read stage.
 
 ## Credentials and human authorization
 
@@ -86,6 +118,12 @@ MyChatBot.
 
 ## Missing or rejected servers
 
+If the user says they do not have a MyChatBot account yet, do not delay for a
+verification command. Give the direct login command immediately and explain
+that its browser flow creates or reconnects the account with email and a
+one-time code. Say explicitly that it can create a new account or reconnect an
+existing one.
+
 Verify before reinstalling:
 
 ```bash
@@ -94,14 +132,25 @@ claude mcp get plugin:mychatbot:mychatbot
 ```
 
 If the connection is missing, reinstall from the source marketplace before
-continuing. If it needs authorization, run the bundled browser-login helper:
+continuing. If it needs authorization, ask the user to run this command in an
+interactive terminal:
 
 ```bash
-sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
+claude mcp login plugin:mychatbot:mychatbot
 ```
 
-Tell the user to complete the browser flow. Poll
-`${TMPDIR:-/tmp}/mychatbot-login.log` for a success or error message without
-printing credential material. After successful authorization, start a new
-Claude Code session so the tools are available. Do not ask the user to copy a
-token from the MyChatBot app.
+When Claude itself must start the interactive command from a non-interactive
+Bash tool, use Python's pseudo-terminal support inline and write progress to a
+new temporary log file; do not depend on `CLAUDE_PLUGIN_ROOT`:
+
+```bash
+login_log="$(mktemp "${TMPDIR:-/tmp}/mychatbot-login.XXXXXX.log")"
+python3 -c 'import pty,sys; pty.spawn(sys.argv[1:])' \
+  claude mcp login plugin:mychatbot:mychatbot > "$login_log" 2>&1 &
+printf 'MyChatBot sign-in started. Follow progress in %s\n' "$login_log"
+```
+
+Tell the user to complete the browser flow. Poll only the printed temporary
+file for a success or error message without printing credential material.
+After successful authorization, start a new Claude Code session so the tools
+are available. Do not ask the user to copy a token from the MyChatBot app.

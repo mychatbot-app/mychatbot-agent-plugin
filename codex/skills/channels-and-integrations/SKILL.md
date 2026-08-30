@@ -19,6 +19,9 @@ For Sales, call `list_channels`, `list_integrations`, and the specific Sales
 Platform `get_integration` operation. For Agents, read
 `get_account_authoring_inventory`. Resolve the assistant/agent and reuse a
 healthy account-scoped connection rather than creating duplicates.
+Complete `list_channels`, `list_integrations`, and
+`get_account_authoring_inventory` before any integration detail lookup or
+proposal; a missing Agents inventory cannot be treated as no connectors.
 
 Sales integrations support customer-facing assistants. Agents connectors give
 operator/back-office agents tools. Connecting a Sales domain to Agents uses
@@ -46,6 +49,11 @@ version guard. First call it with `confirm=false` to obtain the exact preview.
 Show the before/after state and customer-facing effect, obtain exact approval,
 then apply once with `confirm=true`. Never infer approval from a broader
 integration request.
+When trigger work is requested, name the `confirm=false` no-change preview in
+the proposal even if required routing details must be clarified first. Do not
+ask for trigger-change approval until that preview has been shown.
+State that connector authorization uses browser OAuth or another human
+authorization flow and that saved configuration is not proof of authorization.
 
 ## Agents connectors and MCPs
 

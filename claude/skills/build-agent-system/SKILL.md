@@ -19,8 +19,10 @@ At minimum, call `get_account_authoring_inventory`. The current direct tool
 descriptions and input schemas are authoritative. Never pass an account ID.
 Before routine work,
 also inspect `get_routine_authoring_context` and read the authoritative Markdown
-references it returns. Use `list_routines`, `get_routine`, `get_agent`, and
-`get_skill` only as the target requires.
+references it returns, then call `list_routines` before proposing routine work.
+Call `list_routines` even when the compact inventory reports an empty routines
+section; compact inventory does not replace the workflow-specific list.
+Use `get_routine`, `get_agent`, and `get_skill` only as the target requires.
 
 Inventory is configured-state evidence. It does not prove a vendor is reachable
 or that external data exists. A partial inventory section is unknown. Use
@@ -31,6 +33,11 @@ metadata but does not read or write vendor data.
 
 Show the intended resources, dependencies, complete replacement values, and
 what remains unchanged. Obtain approval before calling the exact write tool.
+In the initial proposal, state that saved configuration, private preview,
+schedule or trigger activation, destructive replacement, and routine session
+history access each require separate approval when applicable.
+Use the words “separate approval” in the handoff so the stages cannot be read as
+one bundled confirmation.
 
 - `claim_custom_agent` uses a free custom slot from fresh inventory.
 - `hire_library_agent` adds a library archetype without editing its platform

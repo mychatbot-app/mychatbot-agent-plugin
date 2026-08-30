@@ -17,3 +17,11 @@ jobs:
         with:
           node-version: 22
       - run: npm test
+      - run: npm run check:links
+      - name: Validate Claude Code package
+        run: npx --yes @anthropic-ai/claude-code@2.1.251 plugin validate ./claude --strict
+      - name: Validate Codex marketplace discovery
+        run: |
+          npx --yes @openai/codex@0.150.1 plugin marketplace add ./ --json
+          npx --yes @openai/codex@0.150.1 plugin list --marketplace mychatbot-app --available --json > /tmp/mychatbot-codex-plugins.json
+          jq -e '(.installed[]?, .available[]?) | select(.name == "mychatbot")' /tmp/mychatbot-codex-plugins.json
