@@ -8,6 +8,9 @@ tool catalog well. It covers sales assistants, Agents Platform systems,
 Business Knowledge, catalogs and FAQs, channels, integrations, CRM work,
 outreach, routines, automations, private testing, and UGC.
 
+**Plugin guide:** [Install, connect, and use the MyChatBot plugin with Claude
+Code or Codex](https://docs.mychatbot.app/agents/claude-code-plugin).
+
 ## One connection, complete platform access
 
 The plugin connects to the API-owned MyChatBot plugin MCP at:
