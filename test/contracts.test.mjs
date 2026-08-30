@@ -81,6 +81,13 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
   assert.deepEqual(contract.mcpSafety.readOnlyExceptions, ["export_clients"]);
   assert.equal(sales.get("export_clients"), "customer_data_read");
   assert.equal(sales.get("export_chats"), "customer_data_read");
+  assert.deepEqual(new Set(contract.mcpSafety.openWorldReads), new Set([
+    "probe_connector", "get_docs_structure", "search_docs", "read_docs_page",
+    "get_post", "get_post_analytics", "get_best_times_to_post",
+    "get_daily_metrics", "get_content_decay", "get_posting_frequency",
+    "get_post_timeline", "list_ad_accounts", "list_campaigns",
+    "get_campaign_tree", "list_ads",
+  ]));
 });
 
 test("activation, external effects, generation, and destructive work stay distinct", () => {

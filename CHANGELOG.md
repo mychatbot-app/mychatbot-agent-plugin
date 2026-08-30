@@ -11,7 +11,8 @@ All notable plugin changes are recorded here.
 - Approval-policy refusals are reported as host policy failures instead of
   being misdiagnosed as expired OAuth connections.
 - The public safety contract now keeps customer-data approval classes separate
-  from MCP protocol hints for exports that create external files.
+  from MCP protocol hints for exports that create external files, and marks
+  vendor-backed UGC reads as open-world.
 
 ## [0.4.0] - 2026-08-30
 

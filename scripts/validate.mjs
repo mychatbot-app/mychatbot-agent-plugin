@@ -178,6 +178,20 @@ for (const name of readOnlyExceptions) {
     fail(`MCP read-only exception is not a read-risk operation: ${name}`);
   }
 }
+const protocolReadOnly = new Set([
+  ...protocolReadCandidates,
+  ...contract.servers.docs.tools,
+]);
+for (const name of readOnlyExceptions) protocolReadOnly.delete(name);
+const openWorldReads = contract.mcpSafety?.openWorldReads;
+if (!Array.isArray(openWorldReads) || new Set(openWorldReads).size !== openWorldReads.length) {
+  fail("MCP open-world reads must be a unique array");
+}
+for (const name of openWorldReads) {
+  if (!protocolReadOnly.has(name)) {
+    fail(`MCP open-world read is not protocol read-only: ${name}`);
+  }
+}
 
 const auxiliaryToolNames = new Set();
 for (const serverName of ["docs", "product"]) {
