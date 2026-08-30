@@ -12,7 +12,7 @@ All notable plugin changes are recorded here.
   being misdiagnosed as expired OAuth connections.
 - The public safety contract now keeps customer-data approval classes separate
   from MCP protocol hints for exports that create external files, and marks
-  vendor-backed UGC reads as open-world.
+  vendor-backed Sales and UGC reads as open-world.
 
 ## [0.4.0] - 2026-08-30
 
