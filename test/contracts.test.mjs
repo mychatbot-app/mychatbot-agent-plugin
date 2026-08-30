@@ -78,6 +78,9 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
   for (const name of ["client_create", "client_update", "client_create_note", "client_update_task"]) {
     assert.equal(sales.get(name), "customer_data_write", `${name} classification`);
   }
+  assert.deepEqual(contract.mcpSafety.readOnlyExceptions, ["export_clients"]);
+  assert.equal(sales.get("export_clients"), "customer_data_read");
+  assert.equal(sales.get("export_chats"), "customer_data_read");
 });
 
 test("activation, external effects, generation, and destructive work stay distinct", () => {

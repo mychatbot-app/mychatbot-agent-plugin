@@ -10,6 +10,8 @@ All notable plugin changes are recorded here.
   never report a required failed read as completed.
 - Approval-policy refusals are reported as host policy failures instead of
   being misdiagnosed as expired OAuth connections.
+- The public safety contract now keeps customer-data approval classes separate
+  from MCP protocol hints for exports that create external files.
 
 ## [0.4.0] - 2026-08-30
 

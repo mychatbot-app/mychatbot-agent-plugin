@@ -134,6 +134,7 @@ const allowedRisks = new Set([
   "external_action",
   "destructive",
 ]);
+if (contract.schemaVersion !== 4) fail("unsupported direct MCP contract schema");
 const operationNames = new Set();
 const operationCounts = {};
 for (const [platform, platformContract] of Object.entries(contract.operations ?? {})) {
@@ -160,6 +161,22 @@ for (const [platform, platformContract] of Object.entries(contract.operations ??
 }
 if (operationCounts.sales !== 117 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
   fail("unexpected account operation counts");
+}
+
+const protocolReadCandidates = new Set();
+for (const platform of Object.values(contract.operations)) {
+  for (const risk of ["read", "customer_data_read"]) {
+    for (const name of platform.riskClasses[risk]) protocolReadCandidates.add(name);
+  }
+}
+const readOnlyExceptions = contract.mcpSafety?.readOnlyExceptions;
+if (!Array.isArray(readOnlyExceptions) || new Set(readOnlyExceptions).size !== readOnlyExceptions.length) {
+  fail("MCP read-only exceptions must be a unique array");
+}
+for (const name of readOnlyExceptions) {
+  if (!protocolReadCandidates.has(name)) {
+    fail(`MCP read-only exception is not a read-risk operation: ${name}`);
+  }
 }
 
 const auxiliaryToolNames = new Set();
