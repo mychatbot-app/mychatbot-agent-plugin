@@ -19,6 +19,12 @@ Read `get_routine_authoring_context`, its returned Markdown references,
 `get_account_authoring_inventory`, and existing routines. Validate complete
 YAML with `validate_routine`; show canonical YAML, dependencies, conservative
 Agent-call estimate, and unchanged behavior before saving.
+Validation does not save or enable anything. Label the YAML as a draft and
+never describe a validated, unsaved routine, schedule, or trigger as enabled.
+If required behavior is still unclear, ask for it and state the remaining
+stages explicitly: draft and validate, obtain configuration approval, save with
+schedules and triggers disabled, privately test after separate approval, and
+activate each automation only after another approval.
 
 Call `create_routine` only after configuration approval. `update_routine` is a
 complete replacement and needs separate replacement approval. Re-read

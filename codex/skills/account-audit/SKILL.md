@@ -51,5 +51,8 @@ Separate observed facts from recommendations. Report:
 4. The approval and human authorization required for each stage.
 5. What was not inspected or could not be verified.
 
+Always state explicitly that customer records and messages were not inspected
+unless the user separately approved a bounded customer-data read.
+
 End by asking which proposed stage the owner wants to approve. Do not perform a
 write in the audit turn.

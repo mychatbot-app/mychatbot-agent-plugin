@@ -13,15 +13,20 @@ and customer-facing activation are separate approvals.
 
 ## Inspect and choose the target
 
-Use Sales Platform operations to call `get_account_summary`, `list_assistants`,
-`list_integrations`, `list_channels`, `list_pipelines`, and
-`get_subscription_info` as the task requires. Inspect `get_assistant` for the
+For every build or tuning request, first call `get_account_summary`,
+`list_assistants`, `list_integrations`, `list_channels`, and `list_pipelines`.
+Add `get_subscription_info` when eligibility or capacity matters. Complete this
+inventory before proposing a new assistant, even when business details still
+need clarification. Inspect `get_assistant` for the
 exact existing assistant when tuning one; do not create a similarly named
 assistant because a list result was inconvenient to inspect.
 
 Establish who the assistant serves, its job, handoff boundaries, language,
 channels, required business facts, lead fields, booking/order behavior, and
 success cases. Use only facts supported by the owner or an approved source.
+Even when business details are still needed, the first proposal must name the
+knowledge configuration, private test, and customer-facing activation as
+separate stages requiring their own approvals.
 
 ## Propose a bounded configuration
 

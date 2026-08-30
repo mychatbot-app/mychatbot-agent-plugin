@@ -17,6 +17,14 @@ its platform-model reference.
 Call the Sales Platform operation `list_integrations` first.
 Prefer extending one suitable FAQ knowledge base and one suitable product
 catalog over creating duplicates.
+When the request also targets an Agents Platform agent, call
+`get_account_authoring_inventory` before proposing changes on either platform.
+Do not postpone that cross-platform inventory until after the Sales proposal.
+The proposal must identify the existing suitable Sales knowledge resources and
+say which ones will be reused instead of duplicated.
+Stop after the inventories and clarification questions. Show the exact reuse or
+creation plan and ask for configuration approval before any knowledge write or
+agent enablement.
 
 - Use `learn_website` when a Sales assistant needs stored website-derived FAQ
   and business facts, including voice assistants that cannot live-search.

@@ -5,23 +5,32 @@ not authenticated.
 
 ## Sign in or create an account
 
-Run the bundled login helper:
+From an interactive terminal, run:
 
 ```bash
-sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
+claude mcp login plugin:mychatbot:mychatbot
 ```
 
-It starts Claude Code's MCP OAuth login in an interactive pseudo-terminal and
-writes progress to `/tmp/mychatbot-login.log`. Read and poll that file until it
-reports success. If the browser does not open, copy the authorization URL from
-the log and open it for the user.
+When Claude itself is running setup from a non-interactive Bash tool, start the
+same command through a pseudo-terminal and use a unique temporary log:
+
+```bash
+login_log="$(mktemp "${TMPDIR:-/tmp}/mychatbot-login.XXXXXX.log")"
+python3 -c 'import pty,sys; pty.spawn(sys.argv[1:])' \
+  claude mcp login plugin:mychatbot:mychatbot > "$login_log" 2>&1 &
+printf 'MyChatBot sign-in started. Follow progress in %s\n' "$login_log"
+```
+
+Read and poll only the printed log file until it reports success. If the
+browser does not open, copy the authorization URL from that log and open it for
+the user. Do not print credential material.
 
 The browser flow asks for an email address and a one-time code. It reconnects
 an account with that verified email or creates a MyChatBot account when none
 exists. The user does not need to open MyChatBot first and must never copy an
 `mcp_…` key into Claude.
 
-On Windows, run this in an interactive PowerShell window instead:
+On Windows, run the same direct command in an interactive PowerShell window:
 
 ```powershell
 claude mcp login plugin:mychatbot:mychatbot

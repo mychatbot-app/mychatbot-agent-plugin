@@ -11,10 +11,21 @@ description: >-
 Load `mychatbot-plugin-basics` and its safety reference first. These
 actions can contact real customers.
 
-For inspection, call the Sales Platform operations `list_follow_ups` and
-`get_follow_up`.
+For every campaign-preparation or scheduled-message request, first call the
+Sales Platform operations `list_follow_ups`, `list_assistants`, and
+`list_channels`. Use `get_follow_up` when an existing campaign is relevant.
 Read recipients, audiences, chats, or orders only when the requested work
-requires them, and do not reproduce identifying content in the summary.
+requires them. Before calling `list_clients` or an audience preview, show the
+bounded recipient/audience read and obtain its separate customer-data-read
+approval. Do not reproduce identifying content in the summary.
+Stop after the configuration reads and ask for that approval in the current
+turn. Even an explicit request to prepare, personalize, or schedule outreach
+does not authorize `list_clients`, `get_client`, or an audience preview in the
+same turn.
+For scheduled work, ask for the exact time and timezone in that same handoff,
+even when the user gave a relative time such as tomorrow morning.
+Name the later `schedule_message` action explicitly so approval to read a
+recipient cannot be mistaken for approval to schedule contact.
 
 `follow_up_create` saves a disabled draft. Show its ordered steps, targeting,
 working hours, rate/cap, and stop conditions before calling it.

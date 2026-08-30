@@ -47,12 +47,14 @@ claude plugin install mychatbot@mychatbot-app
 Then sign in:
 
 ```bash
-sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
+claude mcp login plugin:mychatbot:mychatbot
 ```
 
 The browser flow uses an email and one-time code. It can create the MyChatBot
 account, so no dashboard visit or API-key handling is required. Start a new
-conversation after authentication.
+conversation after authentication. When Claude is performing setup from a
+non-interactive tool, the bundled setup instructions show how to launch this
+same command through a pseudo-terminal without relying on a plugin-root path.
 
 See [the complete Claude Code setup guide](docs/claude-code-install.md) for
 verification and troubleshooting. The source install is the public release
@@ -86,10 +88,13 @@ and vulnerability reporting.
 
 ```bash
 npm test
+npm run check:links
 claude plugin validate ./claude --strict
+npm run eval:claude -- --summary-only  # uses the configured Claude model
 ```
 
-Repository tests are fixture-based and do not contact MyChatBot accounts.
+Repository tests and the mocked behavior suite do not contact MyChatBot
+accounts. The behavior suite incurs model usage; see [its controls](evals/README.md).
 
 ## Repository layout
 
@@ -98,8 +103,8 @@ Repository tests are fixture-based and do not contact MyChatBot accounts.
 .agents/plugins/marketplace.json Codex/ChatGPT source marketplace
 claude/                          Claude Code package
 codex/                           Codex/ChatGPT package
-contracts/                       Pinned tool inventory and risk map
-evals/                           Workflow and approval scenarios
+contracts/                       Tool inventory, risk map, and workflow ownership
+evals/                           Workflow scenarios and mocked Claude runner
 docs/                            Installation and architecture documents
 scripts/                         Offline validators
 test/                            Contract-focused tests

@@ -12,7 +12,7 @@ conversation.
 Run installation only from Claude Code on the user's computer. A browser-only
 or isolated remote conversation cannot install into the local plugin cache. In
 that case, tell the user to open Claude Code locally and paste the instruction
-from `https://mychatbot.app/claude`.
+from `https://docs.mychatbot.app/agents/claude-code-plugin.md`.
 
 ## Prerequisites
 
@@ -37,25 +37,22 @@ ordinary short-command silence is not failure.
 
 ## Sign in or create the account
 
-Do not ask the user to find, copy, or paste an `mcp_…` key. Start the bundled
-OAuth helper:
+Do not ask the user to find, copy, or paste an `mcp_…` key. In an interactive
+terminal, start OAuth directly:
 
 ```bash
-sh "${CLAUDE_PLUGIN_ROOT}/skills/mychatbot-plugin-basics-claude/login-mychatbot.sh"
-```
-
-Immediately read and poll `/tmp/mychatbot-login.log`. Claude Code opens a
-MyChatBot authorization page. Tell the user that the page will ask for their
-email and a one-time code. A verified existing email reconnects its account; a
-new email creates an account without requiring a visit to the dashboard first.
-
-The helper uses a pseudo-terminal because `claude mcp login` is interactive.
-On Windows, ask the user to run the following in an interactive PowerShell
-window:
-
-```powershell
 claude mcp login plugin:mychatbot:mychatbot
 ```
+
+Claude Code opens a MyChatBot authorization page. Tell the user that the page
+will ask for their email and a one-time code. A verified existing email
+reconnects its account; a new email creates an account without requiring a
+visit to the dashboard first.
+
+When Claude is executing setup through a non-interactive Bash tool, use the
+inline pseudo-terminal command in `claude/SETUP.md`. It creates a unique log and
+does not rely on `CLAUDE_PLUGIN_ROOT`. On Windows, ask the user to run the
+direct login command in an interactive PowerShell window.
 
 Wait for the login output to report authentication success. Do not run several
 login attempts at once. A timeout requires a fresh attempt after the current

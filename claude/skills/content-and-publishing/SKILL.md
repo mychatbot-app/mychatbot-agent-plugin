@@ -17,6 +17,8 @@ Use content operations from the single MyChatBot connection. Read `list_models`,
 `list_accounts`, and only the analytics or ads reports needed, such as `list_ad_accounts`,
 `list_campaigns`, `get_campaign_tree`, or `list_ads`. Subscription gates and
 current tool schemas are authoritative.
+When the user asks for best-time publication, also call
+`get_best_times_to_post` before the proposal.
 
 ## Generate
 
@@ -25,6 +27,9 @@ dimensions/duration, variants, source assets, and known cost or limit. Obtain
 approval, call the exact generation tool once, then poll `get_media_task`.
 Do not create a duplicate because processing is slow or a write response was
 ambiguous.
+The initial request to generate and publish establishes the goal, but it is not
+approval to incur generation usage before the exact model, prompt, dimensions,
+variants, and known cost boundary have been shown. Stop for that confirmation.
 
 Treat generated output as a draft. Inspect the returned artifact and report
 failures or moderation limits; do not imply it has been posted.

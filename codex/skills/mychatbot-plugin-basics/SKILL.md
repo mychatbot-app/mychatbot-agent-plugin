@@ -17,6 +17,24 @@ as live business state even when someone calls it a demo. Read
 `references/platform-model.md` to choose the owning platform and
 `references/safety.md` before customer data, tests, spending, activation,
 external actions, replacement, or deletion.
+For an uncommon operation or an ambiguous workflow, read
+`references/operation-map.md` to find its intended workflow. Load only the
+workflow skill that owns the task; the live tool description and schema remain
+authoritative.
+
+Before any domain MCP call, load the one matching workflow skill. Do not
+continue from this base skill alone:
+
+- account review → `account-audit`
+- Sales assistant → `build-sales-assistant`
+- agent, skill, or multi-agent system → `build-agent-system`
+- FAQ, website, catalog, feed, or Business Knowledge → `business-knowledge`
+- channel, integration, connector, or custom MCP → `channels-and-integrations`
+- lead, chat, pipeline, label, order, or calendar → `crm-and-sales-operations`
+- follow-up, campaign, outbound call, or message → `outreach-and-followups`
+- routine, schedule, trigger, or Lead Forms mapping → `routines-and-automations`
+- private chat test or eval → `test-and-evaluate`
+- media, social post, analytics, or ads → `content-and-publishing`
 
 ## Route through the direct plugin connection
 
@@ -39,6 +57,12 @@ orchestration wrapper or register a second MyChatBot server. The active MCP
 schema is authoritative. Never add or guess an `account_id`; the authenticated
 connection resolves the account.
 
+When Codex discovers a deferred `mcp__mychatbot__*` operation, invoke that MCP
+tool directly. Never type an MCP operation name into the shell or present it as
+a command-line program.
+If a direct tool is deferred, discover and then emit that MCP tool call. Do not
+construct a shell script, subprocess, or `codex mcp call` workaround.
+
 ## Orient before planning
 
 Start with the smallest relevant read inventory:
@@ -54,6 +78,10 @@ Start with the smallest relevant read inventory:
 
 Treat an error or partial section as unknown, not empty. Resolve real IDs from
 fresh list/detail results. Prefer an existing healthy resource over a duplicate.
+An omitted field in a compact list or partial detail response is also unknown;
+do not turn missing response fields into claims that configuration is absent.
+Complete every initial inventory read required by the selected workflow before
+proposing configuration, even when owner details are still needed later.
 When a tool is not visible, search by the exact operation name; do not
 substitute a similarly named operation from another platform.
 
@@ -76,6 +104,9 @@ A general audit does not call `list_clients`, `list_chats`,
 `get_chat_messages`, order/event detail, audience previews, exports, or eval
 detail. Read customer data only when the task requires it; minimize the record
 set and summarize without unnecessary identifying detail.
+A broad request to clean up records, prepare outreach, or update the right
+customers does not authorize an unbounded customer-data read. Inspect ordinary
+configuration first, then ask for the bounded customer-data-read stage.
 
 ## Credentials and human authorization
 
@@ -87,6 +118,12 @@ uses the consent URL returned by its setup operation. API-key connectors and
 credential-bearing custom MCP headers remain human entry steps in MyChatBot.
 
 ## Missing or rejected connection
+
+If the user says they do not have a MyChatBot account yet, do not delay for a
+verification command. Offer the direct login command immediately and explain
+that its browser flow creates or reconnects the account with email and a
+one-time code. Say explicitly that it can create a new account or reconnect an
+existing one.
 
 Verify the configured server with `codex mcp get mychatbot`. If OAuth is needed,
 offer to run `codex mcp login mychatbot`; it opens the browser signup/sign-in
