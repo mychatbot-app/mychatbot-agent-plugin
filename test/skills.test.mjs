@@ -84,6 +84,13 @@ test("base skills enforce one OAuth connection and bounded approvals", () => {
 
 test("behavior regressions have explicit workflow guardrails", () => {
   for (const host of ["claude", "codex"]) {
+    expectTerms(host, "account-audit", [
+      "attempted but did not complete",
+      "approval-policy refusal",
+      "Recommend reconnecting only when",
+      "attempted, successful, and failed counts",
+      "Never label",
+    ]);
     expectTerms(host, "build-agent-system", ["even when the compact inventory", "separate approval"]);
     expectTerms(host, "build-sales-assistant", ["knowledge configuration", "private test", "customer-facing activation"]);
     expectTerms(host, "business-knowledge", ["reused instead of duplicated", "configuration approval"]);

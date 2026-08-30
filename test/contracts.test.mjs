@@ -126,7 +126,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.4.0");
+  assert.equal(claudePlugin.version, "0.4.1");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");
