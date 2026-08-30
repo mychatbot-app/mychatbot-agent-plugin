@@ -17,6 +17,8 @@ const claudePlugin = json("claude/.claude-plugin/plugin.json");
 const codexPlugin = json("codex/.codex-plugin/plugin.json");
 const claudeServers = json("claude/.mcp.json").mcpServers;
 const codexServers = json("codex/.mcp.json").mcpServers;
+const readme = read("README.md");
+const canonicalPluginHomepage = "https://docs.mychatbot.app/agents/claude-code-plugin";
 
 if (packageJSON.version !== claudePlugin.version || packageJSON.version !== codexPlugin.version) {
   fail("package, Claude, and Codex versions must match");
@@ -31,6 +33,7 @@ for (const [host, plugin] of [["Claude", claudePlugin], ["Codex", codexPlugin]])
   if (plugin.repository !== "https://github.com/mychatbot-app/mychatbot-agent-plugin.git") {
     fail(`${host} repository URL mismatch`);
   }
+  if (plugin.homepage !== canonicalPluginHomepage) fail(`${host} homepage URL mismatch`);
   if (plugin.license !== "MIT") fail(`${host} license must be MIT`);
   if (plugin.userConfig !== undefined) fail(`${host} plugin must not request pasted credentials`);
 }
@@ -45,6 +48,11 @@ if (claudeEntry.source !== "./claude") fail("Claude marketplace source must be .
 if (claudeEntry.version !== undefined) fail("Claude marketplace must use manifest version only");
 if (claudeEntry.repository !== claudePlugin.repository) fail("Claude repository mismatch");
 if (claudeEntry.homepage !== claudePlugin.homepage) fail("Claude homepage mismatch");
+if (claudeEntry.homepage !== canonicalPluginHomepage) fail("Claude marketplace homepage URL mismatch");
+
+if (!readme.includes(`](${canonicalPluginHomepage})`)) {
+  fail("README must link to the canonical plugin homepage");
+}
 
 if (codexMarketplace.name !== "mychatbot-app") fail("unexpected Codex marketplace name");
 if (!Array.isArray(codexMarketplace.plugins) || codexMarketplace.plugins.length !== 1) {
