@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "sourceRepository": "mychatbot-app/api.mychatbot.app",
   "description": "Pinned inventory and safety classification for the API-owned plugin MCP. Runtime tool schemas and account state remain authoritative.",
   "servers": {
@@ -47,6 +47,17 @@
         "get_available_filters", "get_products_by_ids"
       ]
     }
+  },
+  "mcpSafety": {
+    "readOnlyExceptions": ["export_clients"],
+    "openWorldReads": [
+      "probe_connector", "get_docs_structure", "search_docs", "read_docs_page",
+      "list_lead_forms", "get_lead_forms_automation",
+      "get_post", "get_post_analytics", "get_best_times_to_post",
+      "get_daily_metrics", "get_content_decay", "get_posting_frequency",
+      "get_post_timeline", "list_ad_accounts", "list_campaigns",
+      "get_campaign_tree", "list_ads"
+    ]
   },
   "operations": {
     "sales": {

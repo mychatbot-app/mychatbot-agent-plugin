@@ -2,6 +2,18 @@
 
 All notable plugin changes are recorded here.
 
+## [0.4.1] - 2026-08-30
+
+### Fixed
+
+- Account audits now distinguish attempted, successful, and failed reads and
+  never report a required failed read as completed.
+- Approval-policy refusals are reported as host policy failures instead of
+  being misdiagnosed as expired OAuth connections.
+- The public safety contract now keeps customer-data approval classes separate
+  from MCP protocol hints for exports that create external files, and marks
+  vendor-backed Sales and UGC reads as open-world.
+
 ## [0.4.0] - 2026-08-30
 
 ### Added
@@ -44,6 +56,7 @@ All notable plugin changes are recorded here.
 
 - Initial public Claude Code plugin with direct account workflow skills.
 
+[0.4.1]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/releases/tag/v0.2.0
