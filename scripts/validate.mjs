@@ -222,6 +222,12 @@ const documentedNonTools = new Set([
   "client_context",
   "client_id",
 ]);
+// Tools that run inside a Sales assistant during customer chats. Skills may name
+// them to explain assistant behavior, but they are not MCP operations.
+const assistantRuntimeTools = new Set(["create_checkout_link"]);
+for (const name of assistantRuntimeTools) {
+  if (referencedNames.has(name)) fail(`assistant runtime tool ${name} collides with an MCP operation`);
+}
 const hostSkills = [
   { host: "Claude", root: "claude/skills", base: "mychatbot-plugin-basics-claude" },
   { host: "Codex", root: "codex/skills", base: "mychatbot-plugin-basics" },
@@ -232,8 +238,8 @@ for (const host of hostSkills) {
     .readdirSync(skillsRoot, { withFileTypes: true })
     .filter((item) => item.isDirectory())
     .map((item) => item.name);
-  if (skillFolders.length !== 11 || !skillFolders.includes(host.base)) {
-    fail(`${host.host} must contain the base skill and ten workflow skills`);
+  if (skillFolders.length !== 12 || !skillFolders.includes(host.base)) {
+    fail(`${host.host} must contain the base skill and eleven workflow skills`);
   }
   for (const folder of skillFolders) {
     const file = path.join(skillsRoot, folder, "SKILL.md");
@@ -248,7 +254,7 @@ for (const host of hostSkills) {
     }
     if (/\b(?:TODO|TBD|FIXME)\b/.test(body)) fail(`unfinished placeholder in ${host.host} ${folder}`);
     for (const match of body.matchAll(toolLike)) {
-      if (documentedNonTools.has(match[1])) continue;
+      if (documentedNonTools.has(match[1]) || assistantRuntimeTools.has(match[1])) continue;
       if (!referencedNames.has(match[1])) {
         fail(`${host.host} ${folder} references unknown direct tool ${match[1]}`);
       }
@@ -278,7 +284,7 @@ if (/account_access_key|Bearer \$\{user_config/i.test(publicCopy)) {
 }
 
 console.log(
-  `Validated Claude and Codex packages, 22 skills, and 172 bundled tools ` +
+  `Validated Claude and Codex packages, 24 skills, and 172 bundled tools ` +
     `(${operationCounts.sales} Sales, ${operationCounts.agents} Agents, ` +
     `${operationCounts.ugc} content, 3 Docs), plus 10 on-demand Product tools.`,
 );

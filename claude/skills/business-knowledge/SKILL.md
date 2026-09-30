@@ -34,6 +34,9 @@ agent enablement.
 - Use `create_faq_knowledge_base` for maintained question/answer content.
 - Use `create_products_integration` for a manually maintained catalog.
 - Use `create_product_feed_integration` when the owner already has a feed.
+  A Shopify storefront URL (`https://yourstore.com` or its `/products.json`)
+  is a valid feed URL. To sell a Shopify store in chats with checkout links,
+  load `sell-shopify-store`.
 
 Show the proposed source, content count, ownership, and update strategy, then
 obtain approval before calling the exact create tool. Never invent

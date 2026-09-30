@@ -20,6 +20,7 @@ const workflowNames = [
   "crm-and-sales-operations",
   "outreach-and-followups",
   "routines-and-automations",
+  "sell-shopify-store",
   "test-and-evaluate",
 ];
 const expectTerms = (host, name, terms) => {
@@ -47,6 +48,8 @@ test("both hosts cover every recurring integrator job family", () => {
     expectTerms(host, "test-and-evaluate", ["test_chat", "eval", "regression", "tool-call"]);
     expectTerms(host, "content-and-publishing", ["generate", "publish", "schedule", "analytics", "ads"]);
     expectTerms(host, "build-agent-system", ["get_routine_session_history", "customer inputs"]);
+    expectTerms(host, "sell-shopify-store", ["products.json", "create_product_feed_integration", "autoupdate_interval_hours", "get_integration", "test_chat_get_history", "checkout link", "conversion summary"]);
+    expectTerms(host, "business-knowledge", ["shopify", "sell-shopify-store"]);
   }
 });
 
@@ -100,6 +103,15 @@ test("behavior regressions have explicit workflow guardrails", () => {
     expectTerms(host, "routines-and-automations", ["label the yaml as a draft", "separate approval"]);
     expectTerms(host, "test-and-evaluate", ["regression eval", "saved eval scenarios"]);
     expectTerms(host, "content-and-publishing", ["get_best_times_to_post", "before the exact model"]);
+    expectTerms(host, "sell-shopify-store", [
+      "not a MyChatBot MCP operation, so never call it",
+      "password-protected",
+      "Google Shopping feed",
+      "not synced",
+      "owner gave the assistant",
+      "Do not place an order",
+      "separate approvals",
+    ]);
   }
 });
 

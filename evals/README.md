@@ -46,3 +46,9 @@ and identity leakage. The remaining response and inventory misses produced the
 final explicit workflow guardrails in 0.4.0. Because those last instruction
 changes were made after the trace, the file is evidence of the audit findings,
 not a claim that the current model will deterministically score 11/11.
+
+`baselines/claude-haiku-2026-09-30-shopify.json` is the compact trace for the
+`sell-shopify-store` case added in 0.5.0, recorded in its own budgeted run. It
+met every automated criterion once; like the earlier file, it is evidence, not
+a guarantee. `npm test` requires the baselines together to list every scenario
+in suite order.

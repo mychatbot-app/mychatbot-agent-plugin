@@ -6,7 +6,9 @@ Codex.
 The plugin adds the workflow knowledge needed to use MyChatBot's broad account
 tool catalog well. It covers sales assistants, Agents Platform systems,
 Business Knowledge, catalogs and FAQs, channels, integrations, CRM work,
-outreach, routines, automations, private testing, and UGC.
+outreach, routines, automations, private testing, and UGC. A focused workflow
+helps Shopify merchants sell their store's products in chats with checkout
+links.
 
 **Plugin guide:** [Install, connect, and use the MyChatBot plugin with Claude
 Code or Codex](https://docs.mychatbot.app/agents/claude-code-plugin).
