@@ -2,6 +2,23 @@
 
 All notable plugin changes are recorded here.
 
+## [0.5.1] - 2026-09-30
+
+### Changed
+
+- `sell-shopify-store` passes `fast_start: true` for a new store and tells the
+  owner the first 250 products are searchable within a couple of minutes, with
+  the rest of the catalog syncing right after.
+- `sell-shopify-store` warns that creating a feed also attaches its knowledge
+  base to every assistant with no knowledge base yet, so it reads
+  `list_assistants` and names those assistants in the proposal.
+- `sell-shopify-store` explains one checkout link per store when an assistant
+  uses catalogs from two Shopify stores, and that the assistant asks for the
+  variant instead of picking one.
+- Shopify limitations no longer depend on `/products.json`: password-protected
+  stores, headless storefronts (use the `*.myshopify.com` address), and the
+  Google Shopping feed app fallback without checkout links.
+
 ## [0.5.0] - 2026-09-30
 
 ### Added
@@ -68,6 +85,7 @@ All notable plugin changes are recorded here.
 
 - Initial public Claude Code plugin with direct account workflow skills.
 
+[0.5.1]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.3.0...v0.4.0
