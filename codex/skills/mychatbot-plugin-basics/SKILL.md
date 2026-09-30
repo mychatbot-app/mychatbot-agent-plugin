@@ -27,6 +27,7 @@ continue from this base skill alone:
 
 - account review → `account-audit`
 - Sales assistant → `build-sales-assistant`
+- Shopify store sold through a Sales assistant → `sell-shopify-store`
 - agent, skill, or multi-agent system → `build-agent-system`
 - FAQ, website, catalog, feed, or Business Knowledge → `business-knowledge`
 - channel, integration, connector, or custom MCP → `channels-and-integrations`

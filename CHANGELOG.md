@@ -2,6 +2,18 @@
 
 All notable plugin changes are recorded here.
 
+## [0.5.0] - 2026-09-30
+
+### Added
+
+- A `sell-shopify-store` workflow for Shopify merchants: add the store as a
+  Product Feed from its storefront URL with auto-update, build a Sales
+  assistant that sends checkout links to the store's own Shopify checkout,
+  test it privately, connect channels, and explain the `mychatbot` referral
+  code, freshness, and limits to the owner.
+- Business Knowledge guidance that a Shopify storefront URL is a valid feed URL.
+- A mocked behavior scenario and compact trace for the Shopify workflow.
+
 ## [0.4.1] - 2026-08-30
 
 ### Fixed
@@ -56,6 +68,7 @@ All notable plugin changes are recorded here.
 
 - Initial public Claude Code plugin with direct account workflow skills.
 
+[0.5.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mychatbot-app/mychatbot-agent-plugin/compare/v0.2.0...v0.3.0
