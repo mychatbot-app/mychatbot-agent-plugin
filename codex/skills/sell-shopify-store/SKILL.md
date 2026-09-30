@@ -21,8 +21,8 @@ testing, and customer-facing activation are separate approvals.
 - The store is added as a Product Feed from its public storefront URL:
   `https://yourstore.com`, `https://yourstore.com/products.json`, or one
   collection at `https://yourstore.com/collections/<handle>/products.json`.
-  No Shopify app, API key, or admin access is needed. MyChatBot reads the
-  store's public `/products.json` catalog page by page, plus the store currency.
+  No Shopify app, API key, or admin access is needed. MyChatBot reads the same
+  public product data the storefront shows shoppers, plus the store currency.
 - Synced: product title, description, type, vendor, tags, images, product
   link, and every variant with its options (such as size or color), price,
   compare-at price, in-stock or sold-out state, and SKU. Each product is one
@@ -41,11 +41,17 @@ already exists, reuse it and check it with `get_integration` instead of
 creating a duplicate. A knowledge base holds at most three Product Feed
 integrations.
 
+Creating a feed also attaches its knowledge base to every assistant on the
+account that has no knowledge base yet. Use the `list_assistants` result to
+see each assistant's knowledge base, put the feed in the knowledge base of the
+assistant that should sell, and name in the proposal every assistant without a
+knowledge base that will be attached as well.
+
 Even when the store URL or language still needs confirming, the first reply
-after these reads must outline the whole plan: the storefront feed (read from
-the store's public `/products.json`) with auto-update, the assistant that sends
-checkout links, the private test, and channel activation. Name each of these
-as a stage that needs its own approval.
+after these reads must outline the whole plan: the storefront feed with fast
+start and auto-update, the assistant that sends checkout links, the private
+test, and channel activation. Name each of these as a stage that needs its own
+approval.
 
 ## Stage 1: add the store catalog
 
@@ -58,15 +64,26 @@ quickly; the allowed values are 1, 3, 6, 12, and 24. If the live
 pass it; tell the owner to turn on auto-update for the feed in the MyChatBot
 dashboard.
 
+For a store that is not in the account yet, pass `fast_start: true`, and tell
+the owner that the first 250 products are searchable within a couple of
+minutes and the rest of the catalog syncs right after. If the live schema does
+not list `fast_start`, omit it; the whole catalog then indexes in one pass.
+
 After configuration approval, call `create_product_feed_integration` once.
 Indexing runs in the background: poll `get_integration` at a reasonable
 interval until the feed is ready or has failed, and report the product count.
-Never recreate the feed because it is still processing.
+While `feed_fast_start_pending` is true, the first 250 products are still
+indexing; after it clears, the rest of the catalog syncs, so report the final
+count only once that sync finishes. Never recreate the feed because it is
+still processing.
 
 If the store cannot be read, explain the likely cause instead of retrying:
-password-protected stores and stores that block `/products.json` cannot be
-read this way. The owner can add the feed URL from a Google Shopping feed app
-instead; the catalog then works, but checkout links do not.
+
+- A password-protected store cannot be read until the password is removed.
+- A store whose storefront is not served by Shopify at that address (a
+  headless storefront) can be added by its `*.myshopify.com` address instead.
+- Otherwise, the owner can add the feed URL from a Google Shopping feed app;
+  the catalog then works, but checkout links do not.
 
 ## Stage 2: build or update the assistant
 
@@ -78,7 +95,11 @@ Assistants that use a Shopify feed automatically get the assistant tool
 `create_checkout_link`. It runs inside the assistant during customer chats; it
 is not a MyChatBot MCP operation, so never call it or search for it. The link
 opens the store's own Shopify checkout with the chosen items and variants
-already in the cart.
+already in the cart. When a product has several variants, the assistant asks
+the shopper which size or color before it creates the link; it never picks one
+silently. If the assistant uses catalogs from more than one Shopify store, one
+call returns one checkout link per store, and the shopper pays at each store
+separately.
 
 Propose instructions that tell the assistant to:
 
@@ -117,6 +138,8 @@ Tell the owner:
   is set. Shopify may show an item as sold out at checkout if stock changed
   since the last sync.
 - Checkout links do not support subscriptions (selling plans).
+- With catalogs from two Shopify stores, a shopper who buys from both gets one
+  checkout link per store and pays at each store separately.
 - The official Shopify connector for Claude manages the store itself
   (products, inventory, orders). MyChatBot builds the assistant that sells in
   chats. Both can be used in the same conversation; neither replaces the other.
