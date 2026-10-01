@@ -41,11 +41,14 @@ already exists, reuse it and check it with `get_integration` instead of
 creating a duplicate. A knowledge base holds at most three Product Feed
 integrations.
 
-Creating a feed also attaches its knowledge base to every assistant on the
-account that has no knowledge base yet. Use the `list_assistants` result to
-see each assistant's knowledge base, put the feed in the knowledge base of the
-assistant that should sell, and name in the proposal every assistant without a
-knowledge base that will be attached as well.
+Pass `assistant_id` for the assistant that should sell when you create the
+feed. That assistant is attached to the feed's knowledge base if it has none
+yet; one that already uses another knowledge base is never switched over, and
+the result's `attach_note` says so. Without `assistant_id`, the feed attaches
+only when exactly one assistant has no knowledge base; with several, none is
+attached and `attach_note` lists them, so ask the owner which one and create
+the next source with its `assistant_id`. The result's `attached_assistants`
+lists every assistant that answers from that knowledge base.
 
 Even when the store URL or language still needs confirming, the first reply
 after these reads must outline the whole plan: the storefront feed with fast
