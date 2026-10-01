@@ -2,6 +2,15 @@
 
 All notable plugin changes are recorded here.
 
+## [0.5.2] - 2026-10-02
+
+### Changed
+
+- `sell-shopify-store` passes `assistant_id` when it creates the feed and reads
+  `attached_assistants` / `attach_note` from the result. The api no longer
+  attaches a new knowledge base to every assistant without one (api#2146):
+  only the named assistant, or the only blank one when none is named.
+
 ## [0.5.1] - 2026-09-30
 
 ### Changed
