@@ -2,6 +2,29 @@
 
 All notable plugin changes are recorded here.
 
+## [0.6.0] - 2026-10-20
+
+### Added
+
+- Eight Sales tools for editing long instructions and skills safely:
+  `assistant_view_instructions`, `assistant_patch_instructions`,
+  `assistant_list_instruction_versions`, `assistant_restore_instructions`,
+  `assistant_view_skill`, `assistant_patch_skill`,
+  `assistant_list_skill_versions`, and `assistant_restore_skill`. Views and
+  version lists are reads; patches and restores are reversible configuration
+  writes. The bundled catalog grows from 172 to 180 tools (125 Sales).
+- `build-sales-assistant` teaches the edit loop: read the outline, patch with
+  `dry_run`, apply with `expected_version`, re-test privately, and restore the
+  previous version when a change makes the assistant worse. It names the live
+  effects (a save is live at once; flagged text switches the assistant off) and
+  stops instead of falling back to a full replacement when skill history is
+  unavailable.
+
+### Changed
+
+- `test-and-evaluate` routes fixes to existing instruction or skill text
+  through the patch flow instead of full replacements.
+
 ## [0.5.2] - 2026-10-02
 
 ### Changed

@@ -62,7 +62,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 117,
+      "catalogSize": 125,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -73,7 +73,9 @@
           "get_integration", "get_integration_config_link", "get_account_summary",
           "get_subscription_info", "get_token_usage", "get_usage_summary", "get_order_stats",
           "get_event_stats", "list_calendar_staff", "list_calendar_services",
-          "list_lead_forms", "get_lead_forms_automation", "eval_scenario_list"
+          "list_lead_forms", "get_lead_forms_automation", "eval_scenario_list",
+          "assistant_view_instructions", "assistant_list_instruction_versions",
+          "assistant_view_skill", "assistant_list_skill_versions"
         ],
         "customer_data_read": [
           "list_clients", "scan_clients", "get_client", "client_list_notes", "client_get_note",
@@ -88,7 +90,9 @@
           "assistant_toggle_strip_kb_history", "label_create", "pipeline_create",
           "pipeline_update", "funnel_status_create", "follow_up_create",
           "create_faq_knowledge_base", "add_website_knowledge",
-          "create_product_feed_integration", "create_products_integration"
+          "create_product_feed_integration", "create_products_integration",
+          "assistant_patch_instructions", "assistant_restore_instructions",
+          "assistant_patch_skill", "assistant_restore_skill"
         ],
         "customer_data_write": [
           "client_create", "client_update", "client_context_merge", "client_create_note",

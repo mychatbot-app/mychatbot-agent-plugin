@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 117);
+  assert.equal(sales.size, 125);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 169);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 172);
+  assert.equal(new Set(accountTools).size, 177);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 180);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -119,6 +119,25 @@ test("activation, external effects, generation, and destructive work stay distin
   }
 });
 
+test("instruction and skill editing keeps reads apart from reversible writes", () => {
+  for (const name of [
+    "assistant_view_instructions",
+    "assistant_list_instruction_versions",
+    "assistant_view_skill",
+    "assistant_list_skill_versions",
+  ]) {
+    assert.equal(sales.get(name), "read", `${name} classification`);
+  }
+  for (const name of [
+    "assistant_patch_instructions",
+    "assistant_restore_instructions",
+    "assistant_patch_skill",
+    "assistant_restore_skill",
+  ]) {
+    assert.equal(sales.get(name), "configuration", `${name} classification`);
+  }
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -137,7 +156,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.5.2");
+  assert.equal(claudePlugin.version, "0.6.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

@@ -24,7 +24,8 @@ Load `build-sales-assistant` for:
 `list_assistants`, `get_assistant`, `assistant_list_skills`, `assistant_get_config_link`, `get_assistant_available_tools`, `assistant_create`.
 `assistant_clone`, `assistant_create_skill`, `assistant_toggle_contact_details`, `assistant_toggle_client_context`, `assistant_toggle_strip_kb_history`, `assistant_update`.
 `assistant_update_instructions`, `assistant_update_skill`, `assistant_delete_skill`, `assistant_update_client_context_schema`, `delete_assistant`, `enable_order_taking`.
-`disable_order_taking`.
+`disable_order_taking`, `assistant_view_instructions`, `assistant_patch_instructions`, `assistant_list_instruction_versions`, `assistant_restore_instructions`, `assistant_view_skill`.
+`assistant_patch_skill`, `assistant_list_skill_versions`, `assistant_restore_skill`.
 
 ## Business Knowledge
 
