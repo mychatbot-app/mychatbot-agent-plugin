@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 125);
+  assert.equal(sales.size, 140);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 177);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 180);
+  assert.equal(new Set(accountTools).size, 192);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 195);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -138,6 +138,29 @@ test("instruction and skill editing keeps reads apart from reversible writes", (
   }
 });
 
+test("assistant setup tools keep reads, configuration, activation, and removals apart", () => {
+  for (const name of [
+    "assistant_get_settings",
+    "assistant_get_working_hours",
+    "assistant_get_flight_control",
+    "assistant_list_control_numbers",
+    "assistant_list_live_notes",
+  ]) {
+    assert.equal(sales.get(name), "read", `${name} classification`);
+  }
+  for (const name of ["assistant_update_settings", "set_channel_options", "assistant_add_live_note"]) {
+    assert.equal(sales.get(name), "configuration", `${name} classification`);
+  }
+  // Live on an active assistant at once: a new endpoint tool, the hours that
+  // switch the assistant on and off, a phone that can instruct it.
+  for (const name of ["api_action_create", "api_action_attach", "assistant_set_working_hours", "assistant_add_control_number"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  for (const name of ["api_action_update", "assistant_remove_control_number", "assistant_remove_live_note"]) {
+    assert.equal(sales.get(name), "destructive", `${name} classification`);
+  }
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -156,7 +179,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.6.0");
+  assert.equal(claudePlugin.version, "0.7.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

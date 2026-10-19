@@ -55,6 +55,23 @@ ask for trigger-change approval until that preview has been shown.
 State that connector authorization uses browser OAuth or another human
 authorization flow and that saved configuration is not proof of authorization.
 
+## API actions and channel options
+
+`api_action_create` gives an assistant a tool that calls the owner's HTTPS
+endpoint with the fields it collects (Pro plan or higher). It is live at once on
+an active assistant, as is `api_action_attach` to another assistant: preview the
+endpoint host, fields, and customer-facing effect and get activation approval.
+`api_action_update` replaces the fields named, with no version history: show the
+before and after and get exact approval. `send_client_context` sends the
+customer's name, phone, and chat to the endpoint; name that explicitly. Header
+values (API keys, bearer tokens) are dashboard-only: never ask for them, and
+send the owner to Integrations → API Action. An action with header values keeps
+its host here; moving it to another host is a dashboard change.
+
+`set_channel_options` sets one channel's reply delay (0-180 seconds) and
+reaction handling. Read `list_channels` first and show the current and new
+values.
+
 ## Agents connectors and MCPs
 
 - `start_connector_authorization` returns a human OAuth URL. Authorization is

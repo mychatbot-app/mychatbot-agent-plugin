@@ -2,6 +2,34 @@
 
 All notable plugin changes are recorded here.
 
+## [0.7.0] - 2026-10-20
+
+### Added
+
+- API Actions and channel options are public Sales tools (they were available
+  only to MyChatBot's support routine): `api_action_create`,
+  `api_action_update`, `api_action_attach`, and `set_channel_options`. The owner
+  sets the endpoint URL and customer-details sharing; header values (API keys)
+  stay dashboard-only, and an action with header values keeps its host.
+- Assistant setup tools: `assistant_get_settings` and
+  `assistant_update_settings` (manager mode, hand-off, auto-return,
+  end-of-conversation, link handling, reply language, web search, and
+  communication guidelines, checked as the dashboard checks them, with
+  before/after and `dry_run`), `assistant_get_working_hours` and
+  `assistant_set_working_hours`, `assistant_get_flight_control`, control numbers
+  (`assistant_list_control_numbers`, `assistant_add_control_number`,
+  `assistant_remove_control_number`), and live notes
+  (`assistant_list_live_notes`, `assistant_add_live_note`,
+  `assistant_remove_live_note`). The bundled catalog grows from 180 to 195
+  tools (140 Sales).
+- `build-sales-assistant` covers settings, Work Hours (an activation: the
+  assistant then switches itself on and off), Flight Control (a person connects
+  the Telegram group), control numbers (only a number the owner gave, notes-only
+  by default), live notes, and the price of a model change.
+- `channels-and-integrations` covers API actions (activation on create and
+  attach, customer-details sharing named explicitly, header values
+  dashboard-only) and channel options.
+
 ## [0.6.0] - 2026-10-20
 
 ### Added

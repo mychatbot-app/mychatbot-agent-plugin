@@ -159,7 +159,7 @@ for (const [platform, platformContract] of Object.entries(contract.operations ??
   }
   operationCounts[platform] = count;
 }
-if (operationCounts.sales !== 125 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
+if (operationCounts.sales !== 140 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
   fail("unexpected account operation counts");
 }
 
@@ -209,8 +209,8 @@ if (contract.servers.docs.tools.length !== 3) fail("Docs must pin three tools");
 if (contract.servers.product.bundled !== false || contract.servers.product.tools.length !== 10) {
   fail("Product must remain a ten-tool on-demand server");
 }
-if (operationNames.size + contract.servers.docs.tools.length !== 180) {
-  fail("bundled plugin contract must contain exactly 180 tools");
+if (operationNames.size + contract.servers.docs.tools.length !== 195) {
+  fail("bundled plugin contract must contain exactly 195 tools");
 }
 
 const referencedNames = new Set([...operationNames, ...auxiliaryToolNames]);
@@ -221,6 +221,9 @@ const documentedNonTools = new Set([
   "channel_id",
   "client_context",
   "client_id",
+  // Argument and result fields of the assistant setup and API Action tools.
+  "connect_link",
+  "send_client_context",
 ]);
 // Tools that run inside a Sales assistant during customer chats. Skills may name
 // them to explain assistant behavior, but they are not MCP operations.
@@ -284,7 +287,7 @@ if (/account_access_key|Bearer \$\{user_config/i.test(publicCopy)) {
 }
 
 console.log(
-  `Validated Claude and Codex packages, 24 skills, and 180 bundled tools ` +
+  `Validated Claude and Codex packages, 24 skills, and 195 bundled tools ` +
     `(${operationCounts.sales} Sales, ${operationCounts.agents} Agents, ` +
     `${operationCounts.ugc} content, 3 Docs), plus 10 on-demand Product tools.`,
 );
