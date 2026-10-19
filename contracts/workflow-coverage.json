@@ -20,7 +20,11 @@
         "assistant_toggle_strip_kb_history", "assistant_update",
         "assistant_update_instructions", "assistant_update_skill",
         "assistant_delete_skill", "assistant_update_client_context_schema",
-        "delete_assistant", "enable_order_taking", "disable_order_taking"
+        "delete_assistant", "enable_order_taking", "disable_order_taking",
+        "assistant_view_instructions", "assistant_patch_instructions",
+        "assistant_list_instruction_versions", "assistant_restore_instructions",
+        "assistant_view_skill", "assistant_patch_skill",
+        "assistant_list_skill_versions", "assistant_restore_skill"
       ]
     },
     "business-knowledge": {

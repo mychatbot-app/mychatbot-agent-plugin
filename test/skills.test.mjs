@@ -40,6 +40,7 @@ test("both hosts cover every recurring integrator job family", () => {
   for (const host of ["claude", "codex"]) {
     expectTerms(host, "build-agent-system", ["agents platform", "skills", "connectors", "business knowledge", "routine", "schedules", "triggers"]);
     expectTerms(host, "build-sales-assistant", ["sales assistant", "instructions", "knowledge", "pipeline", "order", "channel"]);
+    expectTerms(host, "build-sales-assistant", ["assistant_view_instructions", "dry_run", "expected_version", "assistant_restore_instructions", "assistant_patch_skill"]);
     expectTerms(host, "business-knowledge", ["website", "faq", "catalog", "feed", "business knowledge"]);
     expectTerms(host, "channels-and-integrations", ["channels", "integrations", "connectors", "custom mcp"]);
     expectTerms(host, "crm-and-sales-operations", ["leads", "pipelines", "labels", "notes", "tasks", "attachments", "orders", "calendar", "conversations"]);

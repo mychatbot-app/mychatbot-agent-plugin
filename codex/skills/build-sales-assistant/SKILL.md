@@ -49,6 +49,29 @@ resource, show the complete retained and changed value, obtain replacement
 approval, then call the exact tool. `assistant_update` can switch
 customer-facing behavior on or off and needs separate activation approval.
 
+## Edit existing instructions and skills
+
+Prefer patches to full replacements when changing text that already exists:
+
+1. Read the outline with `assistant_view_instructions` (or `assistant_view_skill`),
+   then only the section, line range, or search hits you need. Keep the returned
+   `version`.
+2. Call `assistant_patch_instructions` (or `assistant_patch_skill`) with
+   `dry_run: true`. Every `find` must match the current text exactly once; on a
+   refusal, read again and make the `find` longer, never looser. Show the owner
+   the returned diff and get configuration approval.
+3. Apply the same edits without `dry_run`, passing `expected_version`. A version
+   conflict means someone else changed the text: read again and redo the edits.
+   Report any `warnings`, such as a pending builder draft that would overwrite
+   the change if accepted later in the dashboard.
+4. Re-test the changed behavior privately with `test-and-evaluate`.
+5. If the result is worse, find the previous version with
+   `assistant_list_instruction_versions` (or `assistant_list_skill_versions`),
+   preview it with `assistant_restore_instructions` (or `assistant_restore_skill`)
+   and `dry_run: true`, then restore it after approval. A restore saves the
+   current text as a version first, so it can be undone; a deleted skill can be
+   restored the same way.
+
 ## Add knowledge and business capabilities
 
 Use `business-knowledge` for websites, FAQs, feeds, and catalogs. Use

@@ -26,9 +26,11 @@ These calls do not contact customers.
 
 Evaluate factual grounding, policy, workflow, and tool results—not fluency alone.
 Record each failure with input, observed behavior, expected behavior, evidence,
-and likely configuration cause. Full instruction or skill replacements require a
-complete proposed value and separate replacement approval; repeat failing cases
-from a clean session.
+and likely configuration cause. Fix existing instruction or skill text with the
+view, dry-run patch, patch flow in `build-sales-assistant`; full replacements
+require a complete proposed value and separate replacement approval. Repeat
+failing cases from a clean session, and restore the previous version if a change
+made them worse.
 
 Use `test_chat_end` only when the owner wants the stored test transcript cleared.
 
