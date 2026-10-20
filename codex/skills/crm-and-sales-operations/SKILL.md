@@ -32,6 +32,39 @@ Deleting a pipeline, funnel status, or label may affect many leads. Inspect
 dependencies first, obtain exact delete approval, and state whether the
 operation will remove labels from customer records or invalidate assignments.
 
+`funnel_status_update` renames, recolours, or moves one status. A rename also
+renames the status on every lead that has it, while follow-ups, automations,
+and assistant settings that name the old status keep the old name. Run it with
+`dry_run: true`, show the lead count and the settings it lists, and obtain
+approval before the change.
+
+## Team and lead fields
+
+`list_managers` lists the people a lead can be assigned to; use its
+`manager_id` values, never a guessed UUID. `list_lead_fields` shows the
+account's custom lead fields. `lead_field_create` and `lead_field_update`
+change that list (text, or dropdown with options) and need configuration
+approval: show the key as it will be saved (lowercase, spaces as underscores)
+and run `dry_run: true` first. `lead_field_delete` removes a key from the list
+but keeps the values already on leads; run its dry run, obtain exact delete
+approval, then call it with `confirm: true`.
+
+## Duplicates and bulk changes
+
+`list_duplicate_clients` reads customer data (names and phone numbers), so
+obtain customer-data-read approval first. `client_merge` moves the source
+lead's chats, orders, notes, tasks, and attachments to the target and deletes
+the source; it cannot be undone. Run it with `dry_run: true`, show both leads
+and what will be filled in, obtain exact approval, then repeat the same call
+with the `preview_token` the dry run returned.
+
+`client_bulk_update` changes status (with its pipeline), labels (replace, add,
+or remove), or the manager of many leads at once, and never deletes a lead.
+Run it with `dry_run: true` first and show the count, the sample, and the exact
+patch. After exact approval, repeat the same call with `expected_count` and the
+`preview_token`. A count that moved since the dry run is refused: preview
+again rather than adjusting the number.
+
 ## Leads and related records
 
 Use Sales Platform operations for `list_clients`, `scan_clients`,

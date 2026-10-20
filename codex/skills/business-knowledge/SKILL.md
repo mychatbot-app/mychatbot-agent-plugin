@@ -31,6 +31,10 @@ agent enablement.
   It replaces the stored knowledge it wrote before, so inspect the target and
   call it only after showing that replacement effect and obtaining approval.
 - Use `add_website_knowledge` when the site should remain a live source.
+- Use `add_document_knowledge` for a PDF, DOCX, TXT, or CSV file the owner
+  links over https (up to 25 MB). It adds the file to the group's Business
+  Files source and indexes it in the background. Run it with `dry_run: true`
+  first to check the download and the file type.
 - Use `create_faq_knowledge_base` for maintained question/answer content.
 - Use `create_products_integration` for a manually maintained catalog.
 - Use `create_product_feed_integration` when the owner already has a feed.
@@ -51,6 +55,13 @@ content and therefore need exact approval.
 Feed and product processing may be asynchronous. Poll `get_integration` at a
 reasonable interval until it reaches a terminal or usable state; do not recreate
 the integration merely because it is still processing.
+
+`list_knowledge_sources` shows each source's indexing status, error or
+warning, documents, and the assistants that use its group.
+`refresh_knowledge_source` re-indexes one source after configuration approval;
+a website source is read live and needs none. After a change, ask
+`test_knowledge_search` a customer's question to see the snippets and search
+results the assistant retrieves; it runs knowledge searches only.
 
 `update_faq_knowledge_base_entries` and `update_products` can remove omitted or
 explicitly removed content. Show the exact add/change/remove diff and obtain

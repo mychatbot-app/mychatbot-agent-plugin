@@ -48,9 +48,11 @@ bounded stage.
 resource, show the complete retained and changed value, obtain replacement
 approval, then call the exact tool. `assistant_update` can switch
 customer-facing behavior on or off and needs separate activation approval.
-A `model` change can change what each message costs. No tool returns model
-prices: tell the owner to check the price per message in the dashboard's model
-picker, name the current and new model, and get approval for that change.
+A `model` change can change what each message costs. Read
+`assistant_get_model` first: it returns the model the assistant answers with,
+whether that is its own, the account's, or the default, its price per message
+(per 100 messages), and the selectable models at the same price. Name the
+current and new model with both prices and get approval for that change.
 
 ## Edit existing instructions and skills
 

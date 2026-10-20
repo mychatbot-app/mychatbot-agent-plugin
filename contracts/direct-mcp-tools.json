@@ -51,7 +51,7 @@
   "mcpSafety": {
     "readOnlyExceptions": ["export_clients"],
     "openWorldReads": [
-      "probe_connector", "get_docs_structure", "search_docs", "read_docs_page",
+      "probe_connector", "test_knowledge_search", "get_docs_structure", "search_docs", "read_docs_page",
       "list_lead_forms", "get_lead_forms_automation",
       "get_post", "get_post_analytics", "get_best_times_to_post",
       "get_daily_metrics", "get_content_decay", "get_posting_frequency",
@@ -62,7 +62,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 140,
+      "catalogSize": 154,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -77,14 +77,16 @@
           "assistant_view_instructions", "assistant_list_instruction_versions",
           "assistant_view_skill", "assistant_list_skill_versions",
           "assistant_get_settings", "assistant_get_working_hours", "assistant_get_flight_control",
-          "assistant_list_control_numbers", "assistant_list_live_notes"
+          "assistant_list_control_numbers", "assistant_list_live_notes",
+          "list_managers", "list_lead_fields", "list_knowledge_sources", "test_knowledge_search",
+          "assistant_get_model"
         ],
         "customer_data_read": [
           "list_clients", "scan_clients", "get_client", "client_list_notes", "client_get_note",
           "client_list_tasks", "client_list_attachments", "client_get_attachment", "export_clients",
           "list_chats", "get_chat", "get_chat_messages", "export_chats",
           "immediate_outreach_preview_audience", "list_orders", "get_order", "list_events",
-          "get_event", "eval_scenario_get", "eval_run_get"
+          "get_event", "eval_scenario_get", "eval_run_get", "list_duplicate_clients"
         ],
         "configuration": [
           "assistant_create", "assistant_clone", "assistant_create_skill",
@@ -95,7 +97,9 @@
           "create_product_feed_integration", "create_products_integration",
           "assistant_patch_instructions", "assistant_restore_instructions",
           "assistant_patch_skill", "assistant_restore_skill",
-          "assistant_update_settings", "set_channel_options", "assistant_add_live_note"
+          "assistant_update_settings", "set_channel_options", "assistant_add_live_note",
+          "lead_field_create", "lead_field_update", "funnel_status_update",
+          "add_document_knowledge", "refresh_knowledge_source"
         ],
         "customer_data_write": [
           "client_create", "client_update", "client_context_merge", "client_create_note",
@@ -124,7 +128,8 @@
           "delete_product_feed_integration", "delete_test_orders", "disable_order_taking",
           "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",
           "eval_run_cancel", "learn_website", "update_integration_trigger",
-          "api_action_update", "assistant_remove_control_number", "assistant_remove_live_note"
+          "api_action_update", "assistant_remove_control_number", "assistant_remove_live_note",
+          "lead_field_delete", "client_merge", "client_bulk_update"
         ]
       }
     },
