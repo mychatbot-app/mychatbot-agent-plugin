@@ -48,6 +48,9 @@ bounded stage.
 resource, show the complete retained and changed value, obtain replacement
 approval, then call the exact tool. `assistant_update` can switch
 customer-facing behavior on or off and needs separate activation approval.
+A `model` change can change what each message costs. No tool returns model
+prices: tell the owner to check the price per message in the dashboard's model
+picker, name the current and new model, and get approval for that change.
 
 ## Edit existing instructions and skills
 
@@ -83,6 +86,48 @@ Prefer patches to full replacements when changing text that already exists:
 If skill version history is not set up (`skill_history_unavailable`), stop and
 report it. Do not fall back to `assistant_update_skill`: a full replacement then
 cannot be undone and needs separate replacement approval.
+
+## Adjust behavior, hours, and Flight Control
+
+Read the current state first: `assistant_get_settings`,
+`assistant_get_working_hours`, `assistant_get_flight_control`,
+`assistant_list_control_numbers`, or `assistant_list_live_notes`.
+
+- `assistant_update_settings` changes only the keys passed: manager mode
+  (`manageLeads`), the hand-off stop word or implicit hand-off, silent hand-off,
+  auto-return and its interval, `end_conversation`, link handling, reply
+  language, web search, and communication guidelines. Call it with
+  `dry_run: true`, show the before and after, and get configuration approval.
+  Three keys need activation approval instead, with their effect named: web
+  search sends customers' questions to an external search provider and adds AI
+  usage; communication guidelines add an extra AI pass over every reply; manager
+  mode lets the assistant change lead statuses and labels in live chats. The
+  server applies the dashboard's couplings (a stop word turns implicit hand-off
+  off; turning auto-return off clears its interval), so report the returned
+  `after`, not the request.
+- `assistant_set_working_hours` changes only the days given (null closes a
+  day; whole hours only). With hours set, the assistant switches itself on
+  inside them and off outside them, plan and balance permitting: dry-run, show
+  the week and timezone, and get activation approval. A week with no hours
+  leaves the assistant on or off as it was last switched: read its status again
+  with `get_assistant` and report it.
+- A Flight Control Telegram group is connected by a person in Telegram from
+  `connect_link`. Do not report it connected until `telegram_group_connected`
+  is true.
+- A control number gives a phone standing authority to instruct the assistant
+  over WhatsApp (Pro plan or higher, at most 5). Add one with
+  `assistant_add_control_number` only for a number the owner gave you for that
+  purpose, with notes-only access unless they ask for more. Before adding
+  access, name what each group lets that phone read: `clients` the customers,
+  their chats and messages; `orders` orders; `bookings` calendar bookings;
+  `setup` the assistant and its FAQ; `usage` usage figures. Dry-run, then get
+  activation approval. `assistant_remove_control_number` needs exact approval.
+- A live note (`assistant_add_live_note`, Pro plan or higher; at most 500
+  characters and 20 in force) is temporary context every reply sees from the
+  next message. Set `until` (for example `+2h`, `end_of_today`, `closing`),
+  dry-run, show the text and the returned end in the assistant's timezone, and
+  get configuration approval. `assistant_remove_live_note` ends one now: dry-run
+  shows the note; get exact approval.
 
 ## Add knowledge and business capabilities
 

@@ -25,7 +25,9 @@ Load `build-sales-assistant` for:
 `assistant_clone`, `assistant_create_skill`, `assistant_toggle_contact_details`, `assistant_toggle_client_context`, `assistant_toggle_strip_kb_history`, `assistant_update`.
 `assistant_update_instructions`, `assistant_update_skill`, `assistant_delete_skill`, `assistant_update_client_context_schema`, `delete_assistant`, `enable_order_taking`.
 `disable_order_taking`, `assistant_view_instructions`, `assistant_patch_instructions`, `assistant_list_instruction_versions`, `assistant_restore_instructions`, `assistant_view_skill`.
-`assistant_patch_skill`, `assistant_list_skill_versions`, `assistant_restore_skill`.
+`assistant_patch_skill`, `assistant_list_skill_versions`, `assistant_restore_skill`, `assistant_get_settings`, `assistant_update_settings`, `assistant_get_working_hours`.
+`assistant_set_working_hours`, `assistant_get_flight_control`, `assistant_list_control_numbers`, `assistant_add_control_number`, `assistant_remove_control_number`, `assistant_list_live_notes`.
+`assistant_add_live_note`, `assistant_remove_live_note`.
 
 ## Business Knowledge
 
@@ -43,7 +45,7 @@ Load `channels-and-integrations` for:
 
 `list_channels`, `channel_get_config_link`, `get_integration_config_link`, `create_calls_channel_sdk`, `connect_telegram`, `create_website_widget`.
 `channel_toggle`, `delete_channel`, `update_integration_trigger`, `start_connector_authorization`, `connect_sales_platform_connector`, `probe_connector`.
-`disconnect_connector`.
+`disconnect_connector`, `set_channel_options`, `api_action_create`, `api_action_update`, `api_action_attach`.
 
 ## Crm And Sales Operations
 
