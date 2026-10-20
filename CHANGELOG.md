@@ -10,8 +10,9 @@ All notable plugin changes are recorded here.
   the custom lead-field list (`list_lead_fields`, `lead_field_create`,
   `lead_field_update`, and `lead_field_delete`, which keeps the values already
   on leads and needs `confirm: true` after its dry run), `funnel_status_update`
-  (rename, recolour, or move a status; a rename also renames it on its leads
-  and lists the settings that still name the old status),
+  (rename, recolor, or move a status; a rename also renames it on its leads
+  and lists the settings that still name the old status, so it is classed
+  destructive),
   `list_duplicate_clients`, `client_merge` (the dashboard's merge, with a dry
   run), and `client_bulk_update` (status, labels, or manager for many leads,
   with a dry run, a sample, and the dashboard's count check; never a delete).
@@ -25,12 +26,15 @@ All notable plugin changes are recorded here.
   from, its price per 100 messages, and the selectable models at the same
   price.
 - The bundled catalog grows from 195 to 209 tools (154 Sales).
-- `crm-and-sales-operations` covers the team, lead fields, status updates,
-  duplicates and merges, and bulk changes (dry run, exact approval, then the
-  same call with `expected_count` and the `preview_token`).
-  `business-knowledge` covers documents by link, source status, re-indexing,
-  and the search test. `build-sales-assistant` reads the model and its price
-  before a model change.
+- `crm-and-sales-operations` covers the team, lead fields, status updates and
+  the settings a rename leaves behind, duplicates and merges (propose the phone
+  owner as the target), and bulk changes (what a filter selects, the status
+  hand-back effect; dry run, exact approval, then the same call with
+  `expected_count` and the `preview_token`). `business-knowledge` covers
+  documents by link (one at a time, 30 per source, direct file links),
+  source status, re-indexing, and the search test. `build-sales-assistant`
+  reads the model and its price before a model change, and asks the owner to
+  check the price of a model outside the same-price list.
 
 ## [0.7.0] - 2026-10-20
 

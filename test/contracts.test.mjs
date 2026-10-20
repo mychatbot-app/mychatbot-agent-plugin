@@ -167,12 +167,14 @@ test("lead structure and knowledge tools keep reads, customer data, configuratio
   }
   // Duplicate pairs name customers and their phone numbers.
   assert.equal(sales.get("list_duplicate_clients"), "customer_data_read");
-  for (const name of ["lead_field_create", "lead_field_update", "funnel_status_update", "add_document_knowledge", "refresh_knowledge_source"]) {
+  for (const name of ["lead_field_create", "lead_field_update", "add_document_knowledge", "refresh_knowledge_source"]) {
     assert.equal(sales.get(name), "configuration", `${name} classification`);
   }
-  // No undo: a merge deletes the source lead, a bulk update overwrites many
-  // leads' status, labels or manager, a field key leaves the account's list.
-  for (const name of ["lead_field_delete", "client_merge", "client_bulk_update"]) {
+  // No undo, or many records at once: a merge deletes the source lead, a bulk
+  // update overwrites many leads' status, labels or manager, a status rename
+  // rewrites every lead in the status and leaves name-keyed settings behind,
+  // a field key leaves the account's list.
+  for (const name of ["lead_field_delete", "client_merge", "client_bulk_update", "funnel_status_update"]) {
     assert.equal(sales.get(name), "destructive", `${name} classification`);
   }
   // A website source is searched live.

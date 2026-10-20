@@ -98,7 +98,7 @@
           "assistant_patch_instructions", "assistant_restore_instructions",
           "assistant_patch_skill", "assistant_restore_skill",
           "assistant_update_settings", "set_channel_options", "assistant_add_live_note",
-          "lead_field_create", "lead_field_update", "funnel_status_update",
+          "lead_field_create", "lead_field_update",
           "add_document_knowledge", "refresh_knowledge_source"
         ],
         "customer_data_write": [
@@ -129,7 +129,7 @@
           "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",
           "eval_run_cancel", "learn_website", "update_integration_trigger",
           "api_action_update", "assistant_remove_control_number", "assistant_remove_live_note",
-          "lead_field_delete", "client_merge", "client_bulk_update"
+          "lead_field_delete", "client_merge", "client_bulk_update", "funnel_status_update"
         ]
       }
     },
