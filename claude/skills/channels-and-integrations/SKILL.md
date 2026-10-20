@@ -69,7 +69,8 @@ higher. `send_client_context` sends the
 customer's name, phone, and chat to the endpoint; name that explicitly. Header
 values (API keys, bearer tokens) are dashboard-only: never ask for them, and
 send the owner to Integrations → API Action. An action with header values keeps
-its host here; moving it to another host is a dashboard change.
+its server here (scheme, host, and port); moving it to another one is a
+dashboard change.
 
 `set_channel_options` sets one channel's reply delay (0-180 seconds) and
 reaction handling. `list_channels` does not show these values: call

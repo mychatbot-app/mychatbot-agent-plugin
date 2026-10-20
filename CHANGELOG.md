@@ -10,7 +10,8 @@ All notable plugin changes are recorded here.
   only to MyChatBot's support routine): `api_action_create`,
   `api_action_update`, `api_action_attach`, and `set_channel_options`. The owner
   sets the endpoint URL and customer-details sharing; header values (API keys)
-  stay dashboard-only, and an action with header values keeps its host.
+  stay dashboard-only, and an action with header values keeps its server
+  (scheme, host, and port).
 - Assistant setup tools: `assistant_get_settings` and
   `assistant_update_settings` (manager mode, hand-off, auto-return,
   end-of-conversation, link handling, reply language, web search, and

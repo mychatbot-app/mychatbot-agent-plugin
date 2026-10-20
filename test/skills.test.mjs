@@ -42,7 +42,7 @@ test("both hosts cover every recurring integrator job family", () => {
     expectTerms(host, "build-sales-assistant", ["sales assistant", "instructions", "knowledge", "pipeline", "order", "channel"]);
     expectTerms(host, "build-sales-assistant", ["assistant_view_instructions", "dry_run", "expected_version", "assistant_restore_instructions", "assistant_patch_skill"]);
     expectTerms(host, "build-sales-assistant", ["assistant_update_settings", "assistant_set_working_hours", "connect_link", "assistant_add_control_number", "owner gave you", "assistant_add_live_note", "price per message", "their chats and messages", "external search provider"]);
-    expectTerms(host, "channels-and-integrations", ["api_action_create", "send_client_context", "header values", "set_channel_options", "its host here", "dry_run: true", "get_integration"]);
+    expectTerms(host, "channels-and-integrations", ["api_action_create", "send_client_context", "header values", "set_channel_options", "its server here", "dry_run: true", "get_integration"]);
     expectTerms(host, "business-knowledge", ["website", "faq", "catalog", "feed", "business knowledge"]);
     expectTerms(host, "channels-and-integrations", ["channels", "integrations", "connectors", "custom mcp"]);
     expectTerms(host, "crm-and-sales-operations", ["leads", "pipelines", "labels", "notes", "tasks", "attachments", "orders", "calendar", "conversations"]);
