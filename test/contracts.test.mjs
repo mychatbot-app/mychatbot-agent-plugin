@@ -151,8 +151,8 @@ test("assistant setup tools keep reads, configuration, activation, and removals 
   for (const name of ["assistant_update_settings", "set_channel_options", "assistant_add_live_note"]) {
     assert.equal(sales.get(name), "configuration", `${name} classification`);
   }
-  // Live on an active assistant at once: a new endpoint tool, the hours that
-  // switch the assistant on and off, a phone that can instruct it.
+  // Activation: a new outbound data flow (an endpoint tool), hours that switch
+  // the assistant on and off, a phone with standing authority over it.
   for (const name of ["api_action_create", "api_action_attach", "assistant_set_working_hours", "assistant_add_control_number"]) {
     assert.equal(sales.get(name), "activation", `${name} classification`);
   }

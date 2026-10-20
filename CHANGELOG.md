@@ -22,13 +22,15 @@ All notable plugin changes are recorded here.
   (`assistant_list_live_notes`, `assistant_add_live_note`,
   `assistant_remove_live_note`). The bundled catalog grows from 180 to 195
   tools (140 Sales).
-- `build-sales-assistant` covers settings, Work Hours (an activation: the
+- `build-sales-assistant` covers settings (activation approval for web search,
+  communication guidelines and manager mode), Work Hours (an activation: the
   assistant then switches itself on and off), Flight Control (a person connects
-  the Telegram group), control numbers (only a number the owner gave, notes-only
-  by default), live notes, and the price of a model change.
+  the Telegram group), control numbers (only a number the owner gave,
+  notes-only by default, what each access group exposes), live notes, and the
+  price of a model change.
 - `channels-and-integrations` covers API actions (activation on create and
   attach, customer-details sharing named explicitly, header values
-  dashboard-only) and channel options.
+  dashboard-only) and channel options (dry run to read the current values).
 
 ## [0.6.0] - 2026-10-20
 

@@ -61,16 +61,20 @@ authorization flow and that saved configuration is not proof of authorization.
 endpoint with the fields it collects (Pro plan or higher). It is live at once on
 an active assistant, as is `api_action_attach` to another assistant: preview the
 endpoint host, fields, and customer-facing effect and get activation approval.
-`api_action_update` replaces the fields named, with no version history: show the
-before and after and get exact approval. `send_client_context` sends the
+`api_action_update` changes only the properties given (a `parameters` list
+replaces the whole list), with no version history and no dry run: read the
+action with `get_integration` (it shows the endpoint's host, not the full URL),
+show the before and after, and get exact approval. Attaching also needs Pro or
+higher. `send_client_context` sends the
 customer's name, phone, and chat to the endpoint; name that explicitly. Header
 values (API keys, bearer tokens) are dashboard-only: never ask for them, and
 send the owner to Integrations → API Action. An action with header values keeps
 its host here; moving it to another host is a dashboard change.
 
 `set_channel_options` sets one channel's reply delay (0-180 seconds) and
-reaction handling. Read `list_channels` first and show the current and new
-values.
+reaction handling. `list_channels` does not show these values: call
+`set_channel_options` with `dry_run: true` to read the current ones (`before`),
+show them with the new ones, and get configuration approval.
 
 ## Agents connectors and MCPs
 
