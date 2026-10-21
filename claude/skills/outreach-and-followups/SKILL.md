@@ -32,13 +32,16 @@ working hours, rate/cap, and stop conditions before calling it.
 `follow_up_update` can replace a sequence, publish it, or unpublish it; call it
 only after an exact before/after review and separate approval.
 
-A postponed or trigger follow-up runs for an assistant only while it is attached
-to it. `assistant_attach_follow_up` attaches one: a live sequence then arms for
-that assistant's matching chats and messages those leads on its schedule, so it
-needs activation approval; a draft waits until it is published.
-`assistant_detach_follow_up` stops it arming for that assistant and keeps the
-sequence. Both preview without `confirm`; show the result, obtain exact
-approval, then apply once with `confirm=true`. Immediate outreach is never
+A postponed follow-up starts for an assistant's chats only while it is attached
+to that assistant. Prefer attaching it as a draft, so that publishing stays the
+single activation step. `assistant_attach_follow_up` attaches one: a live
+sequence then arms for that assistant's matching chats on their next message or
+status change and messages those leads on its schedule, so attaching a live one
+needs activation approval. `assistant_detach_follow_up` stops it arming for
+that assistant and keeps the sequence; chats already armed or part-way through
+keep their queued steps until the sequence is unpublished with
+`follow_up_update`. Both preview without `confirm`; show the result, obtain
+exact approval, then apply once with `confirm=true`. Immediate outreach is never
 attached to an assistant.
 
 ## One recipient

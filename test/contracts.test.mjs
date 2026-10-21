@@ -181,6 +181,16 @@ test("lead structure and knowledge tools keep reads, customer data, configuratio
   assert.ok(contract.mcpSafety.openWorldReads.includes("test_knowledge_search"));
 });
 
+test("automation pause and follow-up attachment keep activation and removal apart", () => {
+  // Pausing or resuming an automation, and attaching a follow-up, change who is
+  // messaged: resuming and attaching start outreach, pausing drops what was queued.
+  for (const name of ["automation_set_paused", "assistant_attach_follow_up"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  // A removal, like remove_lead_form_mapping and assistant_remove_control_number.
+  assert.equal(sales.get("assistant_detach_follow_up"), "destructive");
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
