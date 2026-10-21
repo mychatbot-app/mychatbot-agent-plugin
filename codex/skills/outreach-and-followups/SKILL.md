@@ -32,6 +32,15 @@ working hours, rate/cap, and stop conditions before calling it.
 `follow_up_update` can replace a sequence, publish it, or unpublish it; call it
 only after an exact before/after review and separate approval.
 
+A postponed or trigger follow-up runs for an assistant only while it is attached
+to it. `assistant_attach_follow_up` attaches one: a live sequence then arms for
+that assistant's matching chats and messages those leads on its schedule, so it
+needs activation approval; a draft waits until it is published.
+`assistant_detach_follow_up` stops it arming for that assistant and keeps the
+sequence. Both preview without `confirm`; show the result, obtain exact
+approval, then apply once with `confirm=true`. Immediate outreach is never
+attached to an assistant.
+
 ## One recipient
 
 Resolve the recipient ID from `list_clients` or `get_client`, the assistant from

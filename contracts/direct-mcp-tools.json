@@ -62,7 +62,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 154,
+      "catalogSize": 157,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -99,7 +99,8 @@
           "assistant_patch_skill", "assistant_restore_skill",
           "assistant_update_settings", "set_channel_options", "assistant_add_live_note",
           "lead_field_create", "lead_field_update",
-          "add_document_knowledge", "refresh_knowledge_source"
+          "add_document_knowledge", "refresh_knowledge_source",
+          "assistant_detach_follow_up"
         ],
         "customer_data_write": [
           "client_create", "client_update", "client_context_merge", "client_create_note",
@@ -112,7 +113,7 @@
           "assistant_update", "create_calls_channel_sdk", "connect_telegram",
           "create_website_widget", "enable_order_taking", "set_lead_form_mapping",
           "api_action_create", "api_action_attach", "assistant_set_working_hours",
-          "assistant_add_control_number"
+          "assistant_add_control_number", "automation_set_paused", "assistant_attach_follow_up"
         ],
         "external_action": [
           "immediate_outreach_create", "outbound_call", "send_one_off_message", "schedule_message"

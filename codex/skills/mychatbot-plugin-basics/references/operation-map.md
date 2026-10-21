@@ -67,16 +67,17 @@ Load `crm-and-sales-operations` for:
 Load `outreach-and-followups` for:
 
 `list_follow_ups`, `get_follow_up`, `immediate_outreach_preview_audience`, `follow_up_create`, `follow_up_update`, `follow_up_delete`.
-`immediate_outreach_create`, `immediate_outreach_update_status`, `outbound_call`, `send_one_off_message`, `schedule_message`.
+`immediate_outreach_create`, `immediate_outreach_update_status`, `outbound_call`, `send_one_off_message`, `schedule_message`, `assistant_attach_follow_up`.
+`assistant_detach_follow_up`.
 
 ## Routines And Automations
 
 Load `routines-and-automations` for:
 
-`list_lead_forms`, `get_lead_forms_automation`, `set_lead_form_mapping`, `remove_lead_form_mapping`, `get_routine_authoring_context`, `list_routines`.
-`get_routine`, `validate_routine`, `get_routine_readiness`, `get_routine_run`, `create_routine`, `start_routine_dry_run`.
-`create_routine_schedule`, `create_trigger`, `set_routine_schedule_enabled`, `set_trigger_enabled`, `cancel_routine_run`, `update_routine`.
-`delete_routine_schedule`, `delete_trigger`, `get_routine_session_history`.
+`list_lead_forms`, `get_lead_forms_automation`, `set_lead_form_mapping`, `remove_lead_form_mapping`, `automation_set_paused`, `get_routine_authoring_context`.
+`list_routines`, `get_routine`, `validate_routine`, `get_routine_readiness`, `get_routine_run`, `create_routine`.
+`start_routine_dry_run`, `create_routine_schedule`, `create_trigger`, `set_routine_schedule_enabled`, `set_trigger_enabled`, `cancel_routine_run`.
+`update_routine`, `delete_routine_schedule`, `delete_trigger`, `get_routine_session_history`.
 
 ## Build Agent System
 

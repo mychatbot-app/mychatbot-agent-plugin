@@ -2,6 +2,26 @@
 
 All notable plugin changes are recorded here.
 
+## [0.9.0] - 2026-10-21
+
+### Added
+
+- `automation_set_paused`: pause or resume one Sales automation without
+  deleting it (Trigger Outreach, Instagram/Facebook Keyword Responder, Lead
+  Forms, Lead Form Instant Outreach), with a preview before `confirm=true`.
+  Settings, webhook URLs and assistant links stay. A paused Lead Forms
+  automation still captures leads into the CRM; the others do nothing while
+  paused. Kinds that do not read the switch are refused.
+- `assistant_attach_follow_up` and `assistant_detach_follow_up`: attach a
+  postponed or trigger follow-up to an assistant (a live one then arms for
+  that assistant's matching chats; a draft waits until published) or detach
+  it, keeping the sequence. Both preview before `confirm=true`.
+- The bundled catalog grows from 209 to 212 tools (157 Sales). Resuming an
+  automation and attaching a follow-up are activation; detaching is
+  configuration.
+- `routines-and-automations` covers pausing and resuming;
+  `outreach-and-followups` covers attaching and detaching follow-ups.
+
 ## [0.8.0] - 2026-10-20
 
 ### Added
