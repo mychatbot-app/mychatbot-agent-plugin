@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 140);
+  assert.equal(sales.size, 154);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 192);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 195);
+  assert.equal(new Set(accountTools).size, 206);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 209);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -82,7 +82,7 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
   assert.equal(sales.get("export_clients"), "customer_data_read");
   assert.equal(sales.get("export_chats"), "customer_data_read");
   assert.deepEqual(new Set(contract.mcpSafety.openWorldReads), new Set([
-    "probe_connector", "get_docs_structure", "search_docs", "read_docs_page",
+    "probe_connector", "test_knowledge_search", "get_docs_structure", "search_docs", "read_docs_page",
     "list_lead_forms", "get_lead_forms_automation",
     "get_post", "get_post_analytics", "get_best_times_to_post",
     "get_daily_metrics", "get_content_decay", "get_posting_frequency",
@@ -161,6 +161,26 @@ test("assistant setup tools keep reads, configuration, activation, and removals 
   }
 });
 
+test("lead structure and knowledge tools keep reads, customer data, configuration, and removals apart", () => {
+  for (const name of ["list_managers", "list_lead_fields", "list_knowledge_sources", "test_knowledge_search", "assistant_get_model"]) {
+    assert.equal(sales.get(name), "read", `${name} classification`);
+  }
+  // Duplicate pairs name customers and their phone numbers.
+  assert.equal(sales.get("list_duplicate_clients"), "customer_data_read");
+  for (const name of ["lead_field_create", "lead_field_update", "add_document_knowledge", "refresh_knowledge_source"]) {
+    assert.equal(sales.get(name), "configuration", `${name} classification`);
+  }
+  // No undo, or many records at once: a merge deletes the source lead, a bulk
+  // update overwrites many leads' status, labels or manager, a status rename
+  // rewrites every lead in the status and leaves name-keyed settings behind,
+  // a field key leaves the account's list.
+  for (const name of ["lead_field_delete", "client_merge", "client_bulk_update", "funnel_status_update"]) {
+    assert.equal(sales.get(name), "destructive", `${name} classification`);
+  }
+  // A website source is searched live.
+  assert.ok(contract.mcpSafety.openWorldReads.includes("test_knowledge_search"));
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -179,7 +199,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.7.0");
+  assert.equal(claudePlugin.version, "0.8.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

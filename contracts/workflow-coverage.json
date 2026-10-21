@@ -30,7 +30,7 @@
         "assistant_get_flight_control", "assistant_list_control_numbers",
         "assistant_add_control_number", "assistant_remove_control_number",
         "assistant_list_live_notes", "assistant_add_live_note",
-        "assistant_remove_live_note"
+        "assistant_remove_live_note", "assistant_get_model"
       ]
     },
     "business-knowledge": {
@@ -46,7 +46,9 @@
         "filter_category_products", "get_all_categories", "get_product_details",
         "get_product_variants", "find_similar_products",
         "get_category_attributes", "get_category_attribute_values",
-        "get_available_filters", "get_products_by_ids"
+        "get_available_filters", "get_products_by_ids",
+        "add_document_knowledge", "list_knowledge_sources",
+        "refresh_knowledge_source", "test_knowledge_search"
       ]
     },
     "channels-and-integrations": {
@@ -75,7 +77,10 @@
         "client_create_attachment", "client_update_attachment", "client_delete",
         "client_delete_note", "client_delete_task", "client_delete_attachment",
         "label_delete", "pipeline_delete", "funnel_status_delete",
-        "delete_test_orders"
+        "delete_test_orders", "list_managers", "list_lead_fields",
+        "lead_field_create", "lead_field_update", "lead_field_delete",
+        "list_duplicate_clients", "client_merge", "client_bulk_update",
+        "funnel_status_update"
       ]
     },
     "outreach-and-followups": {

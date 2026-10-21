@@ -2,6 +2,40 @@
 
 All notable plugin changes are recorded here.
 
+## [0.8.0] - 2026-10-20
+
+### Added
+
+- Lead structure tools: `list_managers` (the team a lead can be assigned to),
+  the custom lead-field list (`list_lead_fields`, `lead_field_create`,
+  `lead_field_update`, and `lead_field_delete`, which keeps the values already
+  on leads and needs `confirm: true` after its dry run), `funnel_status_update`
+  (rename, recolor, or move a status; a rename also renames it on its leads
+  and lists the settings that still name the old status, so it is classed
+  destructive),
+  `list_duplicate_clients`, `client_merge` (the dashboard's merge, with a dry
+  run), and `client_bulk_update` (status, labels, or manager for many leads,
+  with a dry run, a sample, and the dashboard's count check; never a delete).
+- Knowledge tools: `add_document_knowledge` (a PDF, DOCX, TXT, or CSV file from
+  an https link, up to 25 MB, fetched from public addresses only),
+  `list_knowledge_sources` (indexing status, documents, and the assistants
+  that use each group), `refresh_knowledge_source`, and
+  `test_knowledge_search` (what an assistant's knowledge retrieves for a
+  question; knowledge searches only).
+- `assistant_get_model`: the model an assistant answers with, where it comes
+  from, its price per 100 messages, and the selectable models at the same
+  price.
+- The bundled catalog grows from 195 to 209 tools (154 Sales).
+- `crm-and-sales-operations` covers the team, lead fields, status updates and
+  the settings a rename leaves behind, duplicates and merges (propose the phone
+  owner as the target), and bulk changes (what a filter selects, the status
+  hand-back effect; dry run, exact approval, then the same call with
+  `expected_count` and the `preview_token`). `business-knowledge` covers
+  documents by link (one at a time, 30 per source, direct file links),
+  source status, re-indexing, and the search test. `build-sales-assistant`
+  reads the model and its price before a model change, and asks the owner to
+  check the price of a model outside the same-price list.
+
 ## [0.7.0] - 2026-10-20
 
 ### Added

@@ -27,7 +27,7 @@ Load `build-sales-assistant` for:
 `disable_order_taking`, `assistant_view_instructions`, `assistant_patch_instructions`, `assistant_list_instruction_versions`, `assistant_restore_instructions`, `assistant_view_skill`.
 `assistant_patch_skill`, `assistant_list_skill_versions`, `assistant_restore_skill`, `assistant_get_settings`, `assistant_update_settings`, `assistant_get_working_hours`.
 `assistant_set_working_hours`, `assistant_get_flight_control`, `assistant_list_control_numbers`, `assistant_add_control_number`, `assistant_remove_control_number`, `assistant_list_live_notes`.
-`assistant_add_live_note`, `assistant_remove_live_note`.
+`assistant_add_live_note`, `assistant_remove_live_note`, `assistant_get_model`.
 
 ## Business Knowledge
 
@@ -37,7 +37,8 @@ Load `business-knowledge` for:
 `create_product_feed_integration`, `create_products_integration`, `update_faq_knowledge_base_entries`, `delete_faq_knowledge_base`, `update_products`, `delete_products_integration`.
 `delete_product_feed_integration`, `learn_website`, `create_knowledge_source`, `update_knowledge_source`, `delete_knowledge_source`, `semantic_product_search`.
 `filter_category_products`, `get_all_categories`, `get_product_details`, `get_product_variants`, `find_similar_products`, `get_category_attributes`.
-`get_category_attribute_values`, `get_available_filters`, `get_products_by_ids`.
+`get_category_attribute_values`, `get_available_filters`, `get_products_by_ids`, `add_document_knowledge`, `list_knowledge_sources`, `refresh_knowledge_source`.
+`test_knowledge_search`.
 
 ## Channels And Integrations
 
@@ -58,7 +59,8 @@ Load `crm-and-sales-operations` for:
 `label_create`, `pipeline_create`, `pipeline_update`, `funnel_status_create`, `client_create`, `client_update`.
 `client_context_merge`, `client_create_note`, `client_update_note`, `client_create_task`, `client_update_task`, `client_create_attachment`.
 `client_update_attachment`, `client_delete`, `client_delete_note`, `client_delete_task`, `client_delete_attachment`, `label_delete`.
-`pipeline_delete`, `funnel_status_delete`, `delete_test_orders`.
+`pipeline_delete`, `funnel_status_delete`, `delete_test_orders`, `list_managers`, `list_lead_fields`, `lead_field_create`.
+`lead_field_update`, `lead_field_delete`, `list_duplicate_clients`, `client_merge`, `client_bulk_update`, `funnel_status_update`.
 
 ## Outreach And Followups
 
