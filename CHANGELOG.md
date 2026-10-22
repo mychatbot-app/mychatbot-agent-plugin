@@ -2,6 +2,33 @@
 
 All notable plugin changes are recorded here.
 
+## [0.10.0] - 2026-10-22
+
+### Added
+
+- `create_integration_trigger` and `delete_integration_trigger`: add a webhook
+  trigger to an assistant's Trigger Outreach automation (the automation is
+  created and linked when the assistant has none) or delete one, each with a
+  preview before `confirm=true`. Creating returns the trigger's webhook URL, a
+  credential to give only to the system that will call it. Deleting stops the
+  URL for good (a new trigger gets a new one) and drops its queued sends; leads
+  it captured stay. Edit a trigger with `update_integration_trigger`.
+- `list_social_posts`: the newest posts of the Instagram account or Facebook
+  page connected to an assistant, with whether its Keyword Responder watches
+  each one.
+- `set_keyword_responder`: create or change an assistant's Keyword Responder
+  (keywords, watched posts, the public reply, the DM). Added posts are checked
+  with Meta first. It answers comments as soon as it is saved.
+- `set_lead_form_instant_outreach`: create or change a Lead Form Instant
+  Outreach automation (the sender of the lead-form emails, collect-only or
+  collect-and-outreach, channels, instruction, funnel status, send schedule).
+  The assistant needs its mailbox connected. It runs as soon as it is saved.
+- Creating a trigger, the Keyword Responder and Lead Form Instant Outreach are
+  activation: each goes live when saved, and messages people in its outreach
+  modes (capture-only and collect-only only capture leads). Deleting a trigger
+  is destructive. Sales 157 -> 162, bundled
+  212 -> 217.
+
 ## [0.9.0] - 2026-10-21
 
 ### Added

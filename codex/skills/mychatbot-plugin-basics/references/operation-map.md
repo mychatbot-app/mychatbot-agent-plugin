@@ -74,10 +74,11 @@ Load `outreach-and-followups` for:
 
 Load `routines-and-automations` for:
 
-`list_lead_forms`, `get_lead_forms_automation`, `set_lead_form_mapping`, `remove_lead_form_mapping`, `automation_set_paused`, `get_routine_authoring_context`.
-`list_routines`, `get_routine`, `validate_routine`, `get_routine_readiness`, `get_routine_run`, `create_routine`.
-`start_routine_dry_run`, `create_routine_schedule`, `create_trigger`, `set_routine_schedule_enabled`, `set_trigger_enabled`, `cancel_routine_run`.
-`update_routine`, `delete_routine_schedule`, `delete_trigger`, `get_routine_session_history`.
+`list_lead_forms`, `get_lead_forms_automation`, `set_lead_form_mapping`, `remove_lead_form_mapping`, `automation_set_paused`, `create_integration_trigger`.
+`delete_integration_trigger`, `list_social_posts`, `set_keyword_responder`, `set_lead_form_instant_outreach`, `get_routine_authoring_context`, `list_routines`.
+`get_routine`, `validate_routine`, `get_routine_readiness`, `get_routine_run`, `create_routine`, `start_routine_dry_run`.
+`create_routine_schedule`, `create_trigger`, `set_routine_schedule_enabled`, `set_trigger_enabled`, `cancel_routine_run`, `update_routine`.
+`delete_routine_schedule`, `delete_trigger`, `get_routine_session_history`.
 
 ## Build Agent System
 

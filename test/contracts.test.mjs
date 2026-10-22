@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 157);
+  assert.equal(sales.size, 162);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 209);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 212);
+  assert.equal(new Set(accountTools).size, 214);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 217);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -83,7 +83,7 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
   assert.equal(sales.get("export_chats"), "customer_data_read");
   assert.deepEqual(new Set(contract.mcpSafety.openWorldReads), new Set([
     "probe_connector", "test_knowledge_search", "get_docs_structure", "search_docs", "read_docs_page",
-    "list_lead_forms", "get_lead_forms_automation",
+    "list_lead_forms", "get_lead_forms_automation", "list_social_posts",
     "get_post", "get_post_analytics", "get_best_times_to_post",
     "get_daily_metrics", "get_content_decay", "get_posting_frequency",
     "get_post_timeline", "list_ad_accounts", "list_campaigns",
@@ -191,6 +191,19 @@ test("automation pause and follow-up attachment keep activation and removal apar
   assert.equal(sales.get("assistant_detach_follow_up"), "destructive");
 });
 
+test("automation setup keeps creation, deletion and the post listing apart", () => {
+  // A trigger, a Keyword Responder or a Lead Form Instant Outreach messages
+  // people as soon as it is saved (or its webhook is called).
+  for (const name of ["create_integration_trigger", "set_keyword_responder", "set_lead_form_instant_outreach"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  // Its webhook URL stops working and cannot be re-created.
+  assert.equal(sales.get("delete_integration_trigger"), "destructive");
+  // Reads the connected Instagram account or Facebook page from Meta.
+  assert.equal(sales.get("list_social_posts"), "read");
+  assert.ok(contract.mcpSafety.openWorldReads.includes("list_social_posts"));
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -209,7 +222,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.9.0");
+  assert.equal(claudePlugin.version, "0.10.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");
