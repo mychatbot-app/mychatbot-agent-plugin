@@ -2,9 +2,10 @@
 name: routines-and-automations
 description: >-
   Design, validate, stage, test, activate, pause, or remove MyChatBot automation:
-  Agents routines, schedules and triggers, Sales Lead Forms routing, a Sales
-  automation's pause switch, or follow-up workflow dependencies. Use when event or time-driven behavior is
-  the primary task.
+  Agents routines, schedules and triggers, Sales Lead Forms routing, Sales
+  Trigger Outreach, Keyword Responder and Lead Form Instant Outreach setup, a
+  Sales automation's pause switch, or follow-up workflow dependencies. Use when
+  event or time-driven behavior is the primary task.
 ---
 
 # Build routines and automations
@@ -61,6 +62,32 @@ approval because a confirmed mapping can message future
 leads. Call first without confirmation, show the returned before/after preview,
 obtain exact approval, then apply once. `remove_lead_form_mapping` needs
 separate removal approval.
+
+## Set up Sales Trigger Outreach, Keyword Responder, Lead Form Instant Outreach
+
+Each of these messages people as soon as it is saved (or its webhook is
+called), so each needs activation approval. Call the tool without `confirm`,
+show the returned preview and its warnings (a paused automation, an assistant
+switched off, an automation shared with another assistant), obtain exact
+approval, then apply once with `confirm=true`.
+
+- `create_integration_trigger` adds a webhook trigger to the assistant's
+  Trigger Outreach automation, creating the automation when there is none.
+  Draft its name, capture-and-outreach or capture-only, channels (each connected
+  for the assistant), instruction or exact message, and schedule. The result
+  carries the webhook URL: a credential, so hand it only to the owner or the
+  system that will call it, and never paste it into chats, tickets or logs.
+  `delete_integration_trigger` needs separate removal approval: the URL stops
+  for good and queued sends are dropped.
+- `set_keyword_responder` creates or changes the assistant's Keyword Responder.
+  Pick posts with `list_social_posts`, then draft the keywords, the public reply
+  (200 characters at most, or none) and the DM: an instruction the assistant
+  composes from, or an exact message. Only what you pass changes.
+- `set_lead_form_instant_outreach` creates (with `assistant_id`) or changes
+  (with `integration_id`) one automation per lead-form sender address. The lead
+  emails arrive in the assistant's connected mailbox. Collect-only captures the
+  lead; collect-and-outreach also messages it on the channels given, composed
+  from the instruction.
 
 ## Pause or resume a Sales automation
 
