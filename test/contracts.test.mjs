@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 154);
+  assert.equal(sales.size, 157);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 206);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 209);
+  assert.equal(new Set(accountTools).size, 209);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 212);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -181,6 +181,16 @@ test("lead structure and knowledge tools keep reads, customer data, configuratio
   assert.ok(contract.mcpSafety.openWorldReads.includes("test_knowledge_search"));
 });
 
+test("automation pause and follow-up attachment keep activation and removal apart", () => {
+  // Pausing or resuming an automation, and attaching a follow-up, change who is
+  // messaged: resuming and attaching start outreach, pausing drops what was queued.
+  for (const name of ["automation_set_paused", "assistant_attach_follow_up"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  // A removal, like remove_lead_form_mapping and assistant_remove_control_number.
+  assert.equal(sales.get("assistant_detach_follow_up"), "destructive");
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -199,7 +209,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.8.0");
+  assert.equal(claudePlugin.version, "0.9.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

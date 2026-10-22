@@ -2,8 +2,8 @@
 name: routines-and-automations
 description: >-
   Design, validate, stage, test, activate, pause, or remove MyChatBot automation:
-  Agents routines, schedules and triggers, Sales Lead Forms routing, or
-  follow-up workflow dependencies. Use when event or time-driven behavior is
+  Agents routines, schedules and triggers, Sales Lead Forms routing, a Sales
+  automation's pause switch, or follow-up workflow dependencies. Use when event or time-driven behavior is
   the primary task.
 ---
 
@@ -61,6 +61,21 @@ approval because a confirmed mapping can message future
 leads. Call first without confirmation, show the returned before/after preview,
 obtain exact approval, then apply once. `remove_lead_form_mapping` needs
 separate removal approval.
+
+## Pause or resume a Sales automation
+
+`automation_set_paused` pauses or resumes one automation without deleting it:
+Trigger Outreach, the Instagram/Facebook Keyword Responder, Lead Forms, or Lead
+Form Instant Outreach. Its settings, webhook URLs, and assistant links stay.
+Find its `integration_id` with `list_integrations` type=automation. Call it
+without `confirm`, show what the pause does to that kind, obtain exact approval,
+then apply once with `confirm=true`. The approval must name what is lost: while
+paused, sends already queued are dropped, and a lead that arrives through
+Trigger Outreach or Lead Form Instant Outreach is not captured; a paused Lead
+Forms automation still captures leads into the CRM. Nothing is replayed on
+resume, and resuming starts messaging leads again, so it needs separate
+activation approval. Any other automation kind is refused: stop it in the
+dashboard instead.
 
 Finish with saved resource IDs, readiness blockers/warnings, preview evidence,
 enabled state, next-fire/event behavior, and unverified external effects.

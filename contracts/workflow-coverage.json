@@ -88,13 +88,14 @@
         "list_follow_ups", "get_follow_up", "immediate_outreach_preview_audience",
         "follow_up_create", "follow_up_update", "follow_up_delete",
         "immediate_outreach_create", "immediate_outreach_update_status",
-        "outbound_call", "send_one_off_message", "schedule_message"
+        "outbound_call", "send_one_off_message", "schedule_message",
+        "assistant_attach_follow_up", "assistant_detach_follow_up"
       ]
     },
     "routines-and-automations": {
       "tools": [
         "list_lead_forms", "get_lead_forms_automation", "set_lead_form_mapping",
-        "remove_lead_form_mapping", "get_routine_authoring_context",
+        "remove_lead_form_mapping", "automation_set_paused", "get_routine_authoring_context",
         "list_routines", "get_routine", "validate_routine",
         "get_routine_readiness", "get_routine_run", "create_routine",
         "start_routine_dry_run", "create_routine_schedule", "create_trigger",
