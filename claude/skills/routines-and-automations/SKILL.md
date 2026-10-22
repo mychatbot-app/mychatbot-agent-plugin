@@ -65,8 +65,10 @@ separate removal approval.
 
 ## Set up Sales Trigger Outreach, Keyword Responder, Lead Form Instant Outreach
 
-Each of these messages people as soon as it is saved (or its webhook is
-called), so each needs activation approval. Call the tool without `confirm`,
+Each goes live as soon as it is saved: a trigger acts on every call to its
+webhook, the others on every matching comment or lead email. In the outreach
+modes they message people; capture-only and collect-only only capture leads
+into the CRM. Each needs activation approval. Call the tool without `confirm`,
 show the returned preview and its warnings (a paused automation, an assistant
 switched off, an automation shared with another assistant), obtain exact
 approval, then apply once with `confirm=true`.

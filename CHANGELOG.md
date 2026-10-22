@@ -24,7 +24,9 @@ All notable plugin changes are recorded here.
   collect-and-outreach, channels, instruction, funnel status, send schedule).
   The assistant needs its mailbox connected. It runs as soon as it is saved.
 - Creating a trigger, the Keyword Responder and Lead Form Instant Outreach are
-  activation; deleting a trigger is destructive. Sales 157 -> 162, bundled
+  activation: each goes live when saved, and messages people in its outreach
+  modes (capture-only and collect-only only capture leads). Deleting a trigger
+  is destructive. Sales 157 -> 162, bundled
   212 -> 217.
 
 ## [0.9.0] - 2026-10-21
