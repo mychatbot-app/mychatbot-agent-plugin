@@ -109,9 +109,11 @@ dashboard link instead.
   show the preview, its effect and any warnings (a session export that calls
   the server stops), and get exact approval.
 - `custom_mcp_create` needs the Pro plan, an https URL on port 443 or 8443, and
-  a unique name. It refuses a URL that looks like it carries a key: one with a
-  query, or a long code in its path. The owner adds such a server in the
-  dashboard. Its preview says what will happen. `ready`: the server answers,
+  a unique name. It refuses a URL that carries a credential: a login
+  (`user:password@`), a query, or a long code in its path. Never pass such a
+  URL; the owner adds that server in the dashboard. Call it first without
+  `confirm`. Its preview says what will happen. Show that preview and get
+  activation approval, then repeat the same call with `confirm: true`. `ready`: the server answers,
   and the tools it lists (or those named in `tools`) go live on confirm.
   `needs_headers`: the server is saved with no tools on; the owner adds the
   headers on the server's tab, then `integration_verify` lists its tools and
