@@ -94,8 +94,10 @@ dashboard link instead.
   returned. Find a connected server with `list_integrations`.
 - After the owner connects it, find it with `list_integrations` and run
   `integration_verify`. It makes one read with the stored credentials (it calls
-  the vendor or the owner's server) and changes nothing; one integration can be
-  checked once every 20 seconds. Report its `status`: `ok`, `needs_owner` (with
+  the vendor or the owner's server) and changes nothing about the integration;
+  the one exception is a Custom MCP server that signs in, whose token it may
+  renew and store, as a chat does. One integration can be checked once every
+  20 seconds. Report its `status`: `ok`, `needs_owner` (with
   the `fix` and the link), `unreachable` (try later), `failed`, or
   `not_supported`. A saved integration is not proof that it works.
 - `integration_attach` puts an integration that is already connected (a CRM, a

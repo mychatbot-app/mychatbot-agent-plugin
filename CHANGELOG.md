@@ -12,7 +12,8 @@ All notable plugin changes are recorded here.
   integration on the assistant blocks it. Keys and sign-ins are entered there
   only, never through a tool.
 - `integration_verify`: one read with an integration's stored credentials,
-  changing nothing. A Custom MCP server lists its tools; KeyCRM, Hubspot,
+  changing nothing about it (a Custom MCP server that signs in may renew its
+  own token, as a chat does). A Custom MCP server lists its tools; KeyCRM, Hubspot,
   Sitniks, NetHunt and Monday answer with the stored key; Spreadsheet Orders,
   Product Spreadsheet and Business Documents open their Google files; Google
   Calendar's connection is active. It returns `ok`, or what the owner fixes in
