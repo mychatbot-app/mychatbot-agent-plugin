@@ -24,15 +24,17 @@ All notable plugin changes are recorded here.
 - `custom_mcp_create`: connect a Custom MCP server by its https URL. A server
   that answers is connected with its tools; one that needs headers is saved
   with no tools on, for the owner to finish in the dashboard; one that asks for
-  a sign-in is left to the dashboard. Header values are never passed. Pro plan
-  or higher.
+  a sign-in is left to the dashboard. Header values are never passed, and a URL
+  that looks like it carries a key is refused (the dashboard takes it). Pro
+  plan or higher.
 - `custom_mcp_set_tools`: choose which of a server's tools its assistants use,
   as the dashboard's tool picker does.
 - The two reads are read-only (`integration_verify` is open world). Attaching,
   creating a server and switching its tools on are activation; detaching is
   destructive. Sales 162 -> 168, bundled 217 -> 223.
 - `channels-and-integrations` covers the setup link, the check, attaching and
-  detaching, and Custom MCP servers. The plugin's skill validation now also
+  detaching, and Custom MCP servers, including which customer data an attached
+  CRM or server receives. The plugin's skill validation now also
   checks references to `integration_*` and `custom_*` operations.
 
 ### Changed
