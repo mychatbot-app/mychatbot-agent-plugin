@@ -12,7 +12,7 @@ conversation.
 Run installation only from Claude Code on the user's computer. A browser-only
 or isolated remote conversation cannot install into the local plugin cache. In
 that case, tell the user to open Claude Code locally and paste the instruction
-from `https://docs.mychatbot.app/agents/claude-code-plugin.md`.
+from `https://docs.mychatbot.app/mcp/claude-code-plugin.md`.
 
 ## Prerequisites
 

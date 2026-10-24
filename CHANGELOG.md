@@ -35,6 +35,12 @@ All notable plugin changes are recorded here.
   detaching, and Custom MCP servers. The plugin's skill validation now also
   checks references to `integration_*` and `custom_*` operations.
 
+### Changed
+
+- The plugin's homepage and documentation links point at the docs' new MCP
+  section (`https://docs.mychatbot.app/mcp/claude-code-plugin`); the old
+  `/agents/claude-code-plugin` address redirects there.
+
 ## [0.10.0] - 2026-10-22
 
 ### Added

@@ -18,7 +18,7 @@ const codexPlugin = json("codex/.codex-plugin/plugin.json");
 const claudeServers = json("claude/.mcp.json").mcpServers;
 const codexServers = json("codex/.mcp.json").mcpServers;
 const readme = read("README.md");
-const canonicalPluginHomepage = "https://docs.mychatbot.app/agents/claude-code-plugin";
+const canonicalPluginHomepage = "https://docs.mychatbot.app/mcp/claude-code-plugin";
 
 if (packageJSON.version !== claudePlugin.version || packageJSON.version !== codexPlugin.version) {
   fail("package, Claude, and Codex versions must match");
