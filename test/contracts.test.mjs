@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 168);
+  assert.equal(sales.size, 180);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 220);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 223);
+  assert.equal(new Set(accountTools).size, 232);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 235);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -220,6 +220,26 @@ test("integration setup keeps links and checks apart from what goes live", () =>
   assert.equal(sales.get("integration_detach"), "destructive");
 });
 
+test("the built-in calendar keeps reads, settings, new bookables, removals and bookings apart", () => {
+  for (const name of ["calendar_get_settings", "calendar_get_staff_hours"]) {
+    assert.equal(sales.get(name), "read", `${name} classification`);
+  }
+  // Settings, hours and edits of what already exists.
+  for (const name of ["calendar_update_settings", "calendar_set_staff_hours", "calendar_staff_update", "calendar_service_update"]) {
+    assert.equal(sales.get(name), "configuration", `${name} classification`);
+  }
+  // A new member or service can be booked by the assistant at once.
+  for (const name of ["calendar_staff_create", "calendar_service_create"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  // Removals, and moving or cancelling a customer's booking.
+  for (const name of ["calendar_staff_delete", "calendar_service_delete", "calendar_booking_update"]) {
+    assert.equal(sales.get(name), "destructive", `${name} classification`);
+  }
+  // A booking carries the customer's name and phone or email.
+  assert.equal(sales.get("calendar_booking_create"), "customer_data_write");
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -238,7 +258,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.11.0");
+  assert.equal(claudePlugin.version, "0.12.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

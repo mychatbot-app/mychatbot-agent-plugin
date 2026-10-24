@@ -2,6 +2,26 @@
 
 All notable plugin changes are recorded here.
 
+## [0.12.0] - 2026-10-24
+
+### Added
+
+- The built-in Calendar's setup, in twelve Sales tools. Reads:
+  `calendar_get_settings` (every calendar, or one) and
+  `calendar_get_staff_hours`. Configuration: `calendar_update_settings`
+  (timezone, default duration, business hours, currency, booking
+  instructions), `calendar_set_staff_hours` (the whole week, with the bookings
+  to come that fall outside), `calendar_staff_update`, and
+  `calendar_service_update`. Activation: `calendar_staff_create` and
+  `calendar_service_create`; the assistant can book them at once. Destructive:
+  `calendar_staff_delete` and `calendar_service_delete` (refused while bookings
+  are to come), and `calendar_booking_update` (move, cancel, complete).
+  Customer-data write: `calendar_booking_create`. Every write previews before
+  `confirm=true`. Bookings are not notified to the customer.
+- Sales 168 -> 180, bundled 223 -> 235. `crm-and-sales-operations` owns the
+  twelve and gains a calendar setup section; skill validation also checks
+  `calendar_*` references.
+
 ## [0.11.0] - 2026-10-24
 
 ### Added

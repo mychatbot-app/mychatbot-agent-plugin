@@ -92,6 +92,42 @@ Create/update notes, tasks, and attachment records only for already authorized
 content and exact targets. Deletion requires separate exact approval; do not
 delete a client merely to correct one field.
 
+## Built-in calendar setup
+
+The built-in Calendar (not Google Calendar) has its settings, staff, services,
+weekly hours, and bookings. An account can hold several calendars, one per
+assistant: pass `integration_id` (from `calendar_get_settings`) whenever it
+has more than one. `list_calendar_staff` and `list_calendar_services` show
+each row's `integration_id`.
+
+- Read first: `calendar_get_settings` (timezone, default duration, business
+  hours, currency, booking instructions, staff and service counts) and
+  `calendar_get_staff_hours`. A member without hours of their own works the
+  business hours, Monday to Friday. The assistant offers times inside each
+  member's hours; a booking itself is checked only against other bookings.
+- Every calendar write runs twice: first without `confirm` (the preview, which
+  changes nothing), then, after the approval its class needs, the same call
+  with `confirm: true`. Never send `confirm: true` without having shown the
+  preview of that exact call.
+- `calendar_update_settings`, `calendar_set_staff_hours`,
+  `calendar_staff_update`, and `calendar_service_update` are configuration:
+  show the before and after and get configuration approval. A new timezone keeps every booking at its moment and
+  reads all hours on the new clock: say so. `calendar_set_staff_hours` replaces
+  the whole week (a day left out is a day off; `{}` returns the member to the
+  business hours), lists bookings to come that fall outside, and keeps them.
+- `calendar_staff_create` and `calendar_service_create` are activation: the
+  assistant can book the new member or service at once; show the preview and
+  get activation approval. `calendar_staff_delete` and
+  `calendar_service_delete` are destructive and are refused while bookings are
+  still to come; show the preview and get exact approval.
+- `calendar_booking_create` writes a customer's booking: show its preview
+  (staff, service, start and end, the customer) and get customer-data write
+  approval. `calendar_booking_update` moves, cancels, or completes one by its
+  `EVT-…` reference: show the before and after and get exact approval. A moved
+  booking keeps its length. Neither notifies the customer: say that the owner
+  tells them. Group classes are booked and moved in the
+  dashboard; a reference two bookings share is refused.
+
 ## Conversations, orders, and calendar
 
 Chats, messages, orders, bookings, eval transcripts, and exports are sensitive
