@@ -2,6 +2,39 @@
 
 All notable plugin changes are recorded here.
 
+## [0.11.0] - 2026-10-24
+
+### Added
+
+- `integration_setup_link`: the dashboard link that opens one integration card
+  (a CRM by key or sign-in, Spreadsheet Orders, Google Calendar, Custom MCP, the
+  built-in Calendar) on one assistant, and whether the plan or another
+  integration on the assistant blocks it. Keys and sign-ins are entered there
+  only, never through a tool.
+- `integration_verify`: one read with an integration's stored credentials,
+  changing nothing. A Custom MCP server lists its tools; KeyCRM, Hubspot,
+  Sitniks, NetHunt and Monday answer with the stored key; Spreadsheet Orders,
+  Product Spreadsheet and Business Documents open their Google files; Google
+  Calendar's connection is active. It returns `ok`, or what the owner fixes in
+  the dashboard. It never returns a key or a token.
+- `integration_attach` and `integration_detach`: put a connected CRM, Custom MCP
+  server, Spreadsheet Orders or Google Calendar on another assistant (with the
+  dashboard's plan gate and its one-CRM and calendar rules), or take one off an
+  assistant and keep it. Both preview before `confirm=true`.
+- `custom_mcp_create`: connect a Custom MCP server by its https URL. A server
+  that answers is connected with its tools; one that needs headers is saved
+  with no tools on, for the owner to finish in the dashboard; one that asks for
+  a sign-in is left to the dashboard. Header values are never passed. Pro plan
+  or higher.
+- `custom_mcp_set_tools`: choose which of a server's tools its assistants use,
+  as the dashboard's tool picker does.
+- The two reads are read-only (`integration_verify` is open world). Attaching,
+  creating a server and switching its tools on are activation; detaching is
+  destructive. Sales 162 -> 168, bundled 217 -> 223.
+- `channels-and-integrations` covers the setup link, the check, attaching and
+  detaching, and Custom MCP servers. The plugin's skill validation now also
+  checks references to `integration_*` and `custom_*` operations.
+
 ## [0.10.0] - 2026-10-22
 
 ### Added

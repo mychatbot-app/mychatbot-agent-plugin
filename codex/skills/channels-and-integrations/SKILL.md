@@ -77,6 +77,46 @@ reaction handling. `list_channels` does not show these values: call
 `set_channel_options` with `dry_run: true` to read the current ones (`before`),
 show them with the new ones, and get configuration approval.
 
+## Integrations by key or sign-in, and Custom MCP servers
+
+Credentials never pass through a tool or the chat: API keys, header values,
+passwords, and sign-ins are entered by the owner in the dashboard. Never ask for
+them. If the owner pastes one anyway, do not repeat it; send them to the
+dashboard link instead.
+
+- `integration_setup_link` returns the dashboard link that opens one card (a CRM
+  by key or sign-in, Spreadsheet Orders, Google Calendar, Custom MCP, the
+  built-in Calendar) on one assistant. It also says when the plan or another
+  integration blocks it: one CRM per assistant, and Google Calendar never next
+  to the built-in Calendar, Altegio, or Wlaunch. When the card is already
+  connected it returns the `integration_id` instead.
+- After the owner connects it, find it with `list_integrations` and run
+  `integration_verify`. It makes one read with the stored credentials (it calls
+  the vendor or the owner's server) and changes nothing; one integration can be
+  checked once every 20 seconds. Report its `status`: `ok`, `needs_owner` (with
+  the `fix` and the link), `unreachable` (try later), `failed`, or
+  `not_supported`. A saved integration is not proof that it works.
+- `integration_attach` puts an integration that is already connected (a CRM, a
+  Custom MCP server, Spreadsheet Orders, Google Calendar) on another assistant,
+  and its tools go live for that assistant's customers at once: show the
+  `confirm=false` preview and get activation approval. `integration_detach`
+  takes it off one assistant and keeps the integration and its credentials:
+  show the preview, its effect and any warnings (a session export that calls
+  the server stops), and get exact approval.
+- `custom_mcp_create` needs the Pro plan, an https URL on port 443 or 8443, and
+  a unique name. Its preview says what will happen. `ready`: the server answers,
+  and the tools it lists (or those named in `tools`) go live on confirm.
+  `needs_headers`: the server is saved with no tools on; the owner adds the
+  headers on the server's tab, then `integration_verify` lists its tools and
+  `custom_mcp_set_tools` switches them on. `sign_in`: nothing is saved, and the
+  owner adds the server in the dashboard with Sign in. Results show the
+  server's host only; treat a URL's path and query as a possible credential and
+  never repeat them.
+- `custom_mcp_set_tools` takes the whole list of tools to keep on, by the names
+  `integration_verify` shows. Every assistant that uses the server changes at
+  once. Show the preview, name the tools the server does not mark read-only, and
+  get activation approval.
+
 ## Agents connectors and MCPs
 
 - `start_connector_authorization` returns a human OAuth URL. Authorization is

@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 162);
+  assert.equal(sales.size, 168);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 214);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 217);
+  assert.equal(new Set(accountTools).size, 220);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 223);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -83,7 +83,7 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
   assert.equal(sales.get("export_chats"), "customer_data_read");
   assert.deepEqual(new Set(contract.mcpSafety.openWorldReads), new Set([
     "probe_connector", "test_knowledge_search", "get_docs_structure", "search_docs", "read_docs_page",
-    "list_lead_forms", "get_lead_forms_automation", "list_social_posts",
+    "list_lead_forms", "get_lead_forms_automation", "list_social_posts", "integration_verify",
     "get_post", "get_post_analytics", "get_best_times_to_post",
     "get_daily_metrics", "get_content_decay", "get_posting_frequency",
     "get_post_timeline", "list_ad_accounts", "list_campaigns",
@@ -204,6 +204,22 @@ test("automation setup keeps creation, deletion and the post listing apart", () 
   assert.ok(contract.mcpSafety.openWorldReads.includes("list_social_posts"));
 });
 
+test("integration setup keeps links and checks apart from what goes live", () => {
+  // A link to the dashboard card and a check with the stored credentials
+  // change nothing; the check calls the vendor or the owner's server.
+  assert.equal(sales.get("integration_setup_link"), "read");
+  assert.equal(sales.get("integration_verify"), "read");
+  assert.ok(contract.mcpSafety.openWorldReads.includes("integration_verify"));
+  assert.ok(!contract.mcpSafety.openWorldReads.includes("integration_setup_link"));
+  // Attaching, connecting a server and switching its tools on put tools in
+  // front of a live assistant's customers.
+  for (const name of ["integration_attach", "custom_mcp_create", "custom_mcp_set_tools"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  // The assistant loses the integration's tools.
+  assert.equal(sales.get("integration_detach"), "destructive");
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -222,7 +238,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.10.0");
+  assert.equal(claudePlugin.version, "0.11.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");
