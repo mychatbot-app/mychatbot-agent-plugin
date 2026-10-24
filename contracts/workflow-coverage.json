@@ -59,7 +59,9 @@
         "start_connector_authorization", "connect_sales_platform_connector",
         "probe_connector", "disconnect_connector",
         "set_channel_options", "api_action_create", "api_action_update",
-        "api_action_attach"
+        "api_action_attach", "integration_setup_link", "integration_verify",
+        "integration_attach", "integration_detach", "custom_mcp_create",
+        "custom_mcp_set_tools"
       ]
     },
     "crm-and-sales-operations": {

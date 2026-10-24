@@ -46,7 +46,8 @@ Load `channels-and-integrations` for:
 
 `list_channels`, `channel_get_config_link`, `get_integration_config_link`, `create_calls_channel_sdk`, `connect_telegram`, `create_website_widget`.
 `channel_toggle`, `delete_channel`, `update_integration_trigger`, `start_connector_authorization`, `connect_sales_platform_connector`, `probe_connector`.
-`disconnect_connector`, `set_channel_options`, `api_action_create`, `api_action_update`, `api_action_attach`.
+`disconnect_connector`, `set_channel_options`, `api_action_create`, `api_action_update`, `api_action_attach`, `integration_setup_link`.
+`integration_verify`, `integration_attach`, `integration_detach`, `custom_mcp_create`, `custom_mcp_set_tools`.
 
 ## Crm And Sales Operations
 

@@ -18,7 +18,7 @@ const codexPlugin = json("codex/.codex-plugin/plugin.json");
 const claudeServers = json("claude/.mcp.json").mcpServers;
 const codexServers = json("codex/.mcp.json").mcpServers;
 const readme = read("README.md");
-const canonicalPluginHomepage = "https://docs.mychatbot.app/agents/claude-code-plugin";
+const canonicalPluginHomepage = "https://docs.mychatbot.app/mcp/claude-code-plugin";
 
 if (packageJSON.version !== claudePlugin.version || packageJSON.version !== codexPlugin.version) {
   fail("package, Claude, and Codex versions must match");
@@ -159,7 +159,7 @@ for (const [platform, platformContract] of Object.entries(contract.operations ??
   }
   operationCounts[platform] = count;
 }
-if (operationCounts.sales !== 162 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
+if (operationCounts.sales !== 168 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
   fail("unexpected account operation counts");
 }
 
@@ -209,12 +209,12 @@ if (contract.servers.docs.tools.length !== 3) fail("Docs must pin three tools");
 if (contract.servers.product.bundled !== false || contract.servers.product.tools.length !== 10) {
   fail("Product must remain a ten-tool on-demand server");
 }
-if (operationNames.size + contract.servers.docs.tools.length !== 217) {
-  fail("bundled plugin contract must contain exactly 217 tools");
+if (operationNames.size + contract.servers.docs.tools.length !== 223) {
+  fail("bundled plugin contract must contain exactly 223 tools");
 }
 
 const referencedNames = new Set([...operationNames, ...auxiliaryToolNames]);
-const toolLike = /`((?:add|assistant|cancel|channel|claim|client|connect|create|delete|disable|disconnect|enable|eval|export|filter|find|follow|funnel|generate|get|hire|immediate|label|learn|list|outbound|pipeline|probe|remove|replace|reset|scan|schedule|semantic|send|set|start|test|tts|update|validate)_[a-z0-9_]+)`/g;
+const toolLike = /`((?:add|assistant|cancel|channel|claim|client|connect|create|delete|disable|disconnect|enable|eval|export|custom|filter|find|follow|funnel|generate|get|hire|immediate|integration|label|learn|list|outbound|pipeline|probe|remove|replace|reset|scan|schedule|semantic|send|set|start|test|tts|update|validate)_[a-z0-9_]+)`/g;
 const documentedNonTools = new Set([
   "account_id",
   "assistant_id",
@@ -226,6 +226,9 @@ const documentedNonTools = new Set([
   "send_client_context",
   // Argument fields of the lead structure tools.
   "pipeline_id",
+  "custom_lead_fields",
+  // Argument field of the integration and automation tools.
+  "integration_id",
 ]);
 // Tools that run inside a Sales assistant during customer chats. Skills may name
 // them to explain assistant behavior, but they are not MCP operations.
@@ -289,7 +292,7 @@ if (/account_access_key|Bearer \$\{user_config/i.test(publicCopy)) {
 }
 
 console.log(
-  `Validated Claude and Codex packages, 24 skills, and 217 bundled tools ` +
+  `Validated Claude and Codex packages, 24 skills, and 223 bundled tools ` +
     `(${operationCounts.sales} Sales, ${operationCounts.agents} Agents, ` +
     `${operationCounts.ugc} content, 3 Docs), plus 10 on-demand Product tools.`,
 );
