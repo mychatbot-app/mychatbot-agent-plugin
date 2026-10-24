@@ -11,7 +11,7 @@ helps Shopify merchants sell their store's products in chats with checkout
 links.
 
 **Plugin guide:** [Install, connect, and use the MyChatBot plugin with Claude
-Code or Codex](https://docs.mychatbot.app/agents/claude-code-plugin).
+Code or Codex](https://docs.mychatbot.app/mcp/claude-code-plugin).
 
 ## One connection, complete platform access
 
