@@ -62,7 +62,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 168,
+      "catalogSize": 180,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -80,7 +80,7 @@
           "assistant_list_control_numbers", "assistant_list_live_notes",
           "list_managers", "list_lead_fields", "list_knowledge_sources", "test_knowledge_search",
           "assistant_get_model", "list_social_posts", "integration_setup_link",
-          "integration_verify"
+          "integration_verify", "calendar_get_settings", "calendar_get_staff_hours"
         ],
         "customer_data_read": [
           "list_clients", "scan_clients", "get_client", "client_list_notes", "client_get_note",
@@ -100,12 +100,13 @@
           "assistant_patch_skill", "assistant_restore_skill",
           "assistant_update_settings", "set_channel_options", "assistant_add_live_note",
           "lead_field_create", "lead_field_update",
-          "add_document_knowledge", "refresh_knowledge_source"
+          "add_document_knowledge", "refresh_knowledge_source", "calendar_update_settings",
+          "calendar_set_staff_hours", "calendar_staff_update", "calendar_service_update"
         ],
         "customer_data_write": [
           "client_create", "client_update", "client_context_merge", "client_create_note",
           "client_update_note", "client_create_task", "client_update_task",
-          "client_create_attachment", "client_update_attachment"
+          "client_create_attachment", "client_update_attachment", "calendar_booking_create"
         ],
         "test": ["test_chat_send", "test_chat_get_history", "eval_run_start"],
         "generation": [],
@@ -115,7 +116,8 @@
           "api_action_create", "api_action_attach", "assistant_set_working_hours",
           "assistant_add_control_number", "automation_set_paused", "assistant_attach_follow_up",
           "create_integration_trigger", "set_keyword_responder", "set_lead_form_instant_outreach",
-          "integration_attach", "custom_mcp_create", "custom_mcp_set_tools"
+          "integration_attach", "custom_mcp_create", "custom_mcp_set_tools", "calendar_staff_create",
+          "calendar_service_create"
         ],
         "external_action": [
           "immediate_outreach_create", "outbound_call", "send_one_off_message", "schedule_message"
@@ -133,7 +135,8 @@
           "eval_run_cancel", "learn_website", "update_integration_trigger",
           "api_action_update", "assistant_remove_control_number", "assistant_remove_live_note",
           "lead_field_delete", "client_merge", "client_bulk_update", "funnel_status_update",
-          "assistant_detach_follow_up", "delete_integration_trigger", "integration_detach"
+          "assistant_detach_follow_up", "delete_integration_trigger", "integration_detach",
+          "calendar_staff_delete", "calendar_service_delete", "calendar_booking_update"
         ]
       }
     },

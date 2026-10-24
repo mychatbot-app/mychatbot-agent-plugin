@@ -62,6 +62,8 @@ Load `crm-and-sales-operations` for:
 `client_update_attachment`, `client_delete`, `client_delete_note`, `client_delete_task`, `client_delete_attachment`, `label_delete`.
 `pipeline_delete`, `funnel_status_delete`, `delete_test_orders`, `list_managers`, `list_lead_fields`, `lead_field_create`.
 `lead_field_update`, `lead_field_delete`, `list_duplicate_clients`, `client_merge`, `client_bulk_update`, `funnel_status_update`.
+`calendar_get_settings`, `calendar_get_staff_hours`, `calendar_update_settings`, `calendar_set_staff_hours`, `calendar_staff_create`, `calendar_staff_update`.
+`calendar_staff_delete`, `calendar_service_create`, `calendar_service_update`, `calendar_service_delete`, `calendar_booking_create`, `calendar_booking_update`.
 
 ## Outreach And Followups
 
