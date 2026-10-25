@@ -3,8 +3,9 @@ name: crm-and-sales-operations
 description: >-
   Inspect or maintain MyChatBot leads, pipelines, labels, custom lead fields,
   duplicates and merges, bulk lead changes, notes, tasks,
-  attachments, orders, calendars, and conversation records. Use for CRM and
-  operational data work, not for general account audits or outbound messaging.
+  attachments, orders, calendars, conversation records, and whether the AI or a
+  person answers a chat. Use for CRM and operational data work, not for general
+  account audits or outbound messaging.
 ---
 
 # Work with CRM and Sales operations
@@ -28,6 +29,14 @@ alone.
 Create or update bounded configuration with `pipeline_create`,
 `pipeline_update`, `funnel_status_create`, or `label_create` only after
 showing names, ordering implications, and assistant assignments.
+
+`assistant_set_pipeline` chooses the pipeline an assistant files its leads in
+(`pipeline_id` from `list_pipelines`), as the dashboard's Lead Management card
+does. New leads of that assistant go into it and the assistant sets statuses
+from its statuses. Leads already filed keep their pipeline and status; the
+assistant moves one into the new pipeline when it next sets that lead's status.
+Run it with `dry_run: true`, show the before and after pipeline, its statuses,
+and the notes it returns, and get configuration approval.
 
 Deleting a pipeline, funnel status, or label may affect many leads. Inspect
 dependencies first, obtain exact delete approval, and state whether the
@@ -75,6 +84,38 @@ operator-held chats. Run it with `dry_run: true` first and show the count, the
 sample, and the exact patch. After exact approval, repeat the same call with
 `expected_count` and the `preview_token`. A count that moved since the dry run
 is refused: preview again rather than adjusting the number.
+
+## Who answers a chat: the AI or a person
+
+`chat_set_mode` switches one chat (`chat_id` from `list_chats`) between `ai`
+(the assistant answers) and `manager` (it stays silent and a person answers),
+exactly as the AI switch in the dashboard's chat does; the chat also leaves the
+Needs-attention queue. Run it with `dry_run: true`, name the chat and both
+modes, and get activation approval. A chat given back to the AI is not answered
+for what the customer wrote meanwhile: the assistant answers their next
+message. A chat handed to a manager gets its lead assigned by the assistant's
+auto-assignment rules, as when the assistant hands a chat over.
+
+`chat_bulk_return_to_ai` gives chats stuck with a manager back to the AI, in
+two calls:
+
+1. Call it with the filters: `assistant_id`, `communication_channel`,
+   `page_id`, `quiet_hours` (how long nobody on the team has written, 24 by
+   default; 0 takes every chat with a manager), `include_escalations`, and
+   `limit` (at most 100). As called it is a dry run and changes nothing. It
+   returns how many chats match, their `chat_ids`, a sample with customer
+   names, what stays with a manager (the assistant's own escalations nobody
+   answered, and spam), and a `preview_token`. It reads customer data: get
+   customer-data-read approval first.
+2. Show the count, the sample, and what stays, and get activation approval for
+   that list. Then repeat the same filters with `dry_run: false`, the
+   `chat_ids` exactly as listed, and the `preview_token` (good for 30 minutes).
+   Only those chats change; one that changed meanwhile (a manager wrote, or it
+   is with the AI already) is skipped and reported. Never assemble `chat_ids`
+   or a token yourself; for more chats, run the dry run again.
+
+Leave `include_escalations` off unless the owner asks for the chats the
+assistant escalated: those customers were told a person is coming.
 
 ## Leads and related records
 

@@ -2,6 +2,32 @@
 
 All notable plugin changes are recorded here.
 
+## [0.13.0] - 2026-10-25
+
+### Added
+
+- Who answers a chat, in two Sales tools (activation). `chat_set_mode`
+  switches one chat between the AI and a person exactly as the dashboard's AI
+  switch does, and takes it out of the Needs-attention queue.
+  `chat_bulk_return_to_ai` gives chats stuck with a manager back to the AI,
+  chosen by assistant, channel, and how long nobody on the team has written:
+  a dry run first (the default) lists the chats with a `preview_token`, then
+  the same call with `dry_run: false`, those `chat_ids`, and the token changes
+  exactly them, at most 100 per call. The assistant's own unanswered
+  escalations and spam stay with the manager unless asked otherwise.
+- `channel_get_health` (read): each channel's on/off state and why, its
+  assistant's state, when a customer last wrote and when the business last
+  answered, open disconnect alerts, and Personal WhatsApp's stored sign-in
+  state, from stored data only. Credentials are never shown.
+- `assistant_set_pipeline` (configuration): the pipeline an assistant files its
+  leads in, as the dashboard's Lead Management card sets it; leads already
+  filed are not moved.
+- `assistant_update_settings` takes three more keys: `allow_ai_postpone_messages`,
+  `hide_calculus`, and `send_google_docs_as_attachments`.
+- Sales 180 -> 184, bundled 235 -> 239. `crm-and-sales-operations` owns the chat
+  mode tools and the pipeline; `channels-and-integrations` owns channel health;
+  operation maps regenerated; skill validation also checks `chat_*` references.
+
 ## [0.12.0] - 2026-10-24
 
 ### Added
