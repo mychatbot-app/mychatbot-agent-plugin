@@ -55,6 +55,22 @@ ask for trigger-change approval until that preview has been shown.
 State that connector authorization uses browser OAuth or another human
 authorization flow and that saved configuration is not proof of authorization.
 
+## Channel health
+
+`channel_get_health` reads, for every channel or a filtered set
+(`assistant_id`, `communication_channel`, `page_id`), what MyChatBot has
+stored: on or off and why, whether its assistant is on and why not, when a
+customer last wrote and when the business last answered (over the channel's 20
+most recently active chats in the last 90 days), open disconnect alerts, and
+for Personal WhatsApp the stored sign-in state (`signed_in`, `logged_out` with
+its removal date, `never_scanned`, `being_removed`). Only Personal WhatsApp
+records why the platform switched a channel off (balance, or WhatsApp logged
+the number out); any other channel that is off reads as switched off by hand.
+It makes no live call to Meta, WhatsApp, or any other platform, so a stored
+state can lag a change made there: say so when it matters, and confirm a fix
+with a fresh read. Read it before `channel_toggle` or a reconnect link, and
+never present it as a live connection test.
+
 ## API actions and channel options
 
 `api_action_create` gives an assistant a tool that calls the owner's HTTPS

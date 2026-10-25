@@ -47,7 +47,7 @@ Load `channels-and-integrations` for:
 `list_channels`, `channel_get_config_link`, `get_integration_config_link`, `create_calls_channel_sdk`, `connect_telegram`, `create_website_widget`.
 `channel_toggle`, `delete_channel`, `update_integration_trigger`, `start_connector_authorization`, `connect_sales_platform_connector`, `probe_connector`.
 `disconnect_connector`, `set_channel_options`, `api_action_create`, `api_action_update`, `api_action_attach`, `integration_setup_link`.
-`integration_verify`, `integration_attach`, `integration_detach`, `custom_mcp_create`, `custom_mcp_set_tools`.
+`integration_verify`, `integration_attach`, `integration_detach`, `custom_mcp_create`, `custom_mcp_set_tools`, `channel_get_health`.
 
 ## Crm And Sales Operations
 
@@ -64,6 +64,7 @@ Load `crm-and-sales-operations` for:
 `lead_field_update`, `lead_field_delete`, `list_duplicate_clients`, `client_merge`, `client_bulk_update`, `funnel_status_update`.
 `calendar_get_settings`, `calendar_get_staff_hours`, `calendar_update_settings`, `calendar_set_staff_hours`, `calendar_staff_create`, `calendar_staff_update`.
 `calendar_staff_delete`, `calendar_service_create`, `calendar_service_update`, `calendar_service_delete`, `calendar_booking_create`, `calendar_booking_update`.
+`chat_set_mode`, `chat_bulk_return_to_ai`, `assistant_set_pipeline`.
 
 ## Outreach And Followups
 

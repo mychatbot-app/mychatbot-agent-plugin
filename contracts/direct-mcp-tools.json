@@ -62,7 +62,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 180,
+      "catalogSize": 184,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -80,7 +80,8 @@
           "assistant_list_control_numbers", "assistant_list_live_notes",
           "list_managers", "list_lead_fields", "list_knowledge_sources", "test_knowledge_search",
           "assistant_get_model", "list_social_posts", "integration_setup_link",
-          "integration_verify", "calendar_get_settings", "calendar_get_staff_hours"
+          "integration_verify", "calendar_get_settings", "calendar_get_staff_hours",
+          "channel_get_health"
         ],
         "customer_data_read": [
           "list_clients", "scan_clients", "get_client", "client_list_notes", "client_get_note",
@@ -101,7 +102,8 @@
           "assistant_update_settings", "set_channel_options", "assistant_add_live_note",
           "lead_field_create", "lead_field_update",
           "add_document_knowledge", "refresh_knowledge_source", "calendar_update_settings",
-          "calendar_set_staff_hours", "calendar_staff_update", "calendar_service_update"
+          "calendar_set_staff_hours", "calendar_staff_update", "calendar_service_update",
+          "assistant_set_pipeline"
         ],
         "customer_data_write": [
           "client_create", "client_update", "client_context_merge", "client_create_note",
@@ -117,7 +119,7 @@
           "assistant_add_control_number", "automation_set_paused", "assistant_attach_follow_up",
           "create_integration_trigger", "set_keyword_responder", "set_lead_form_instant_outreach",
           "integration_attach", "custom_mcp_create", "custom_mcp_set_tools", "calendar_staff_create",
-          "calendar_service_create"
+          "calendar_service_create", "chat_set_mode", "chat_bulk_return_to_ai"
         ],
         "external_action": [
           "immediate_outreach_create", "outbound_call", "send_one_off_message", "schedule_message"

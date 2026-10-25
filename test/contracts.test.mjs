@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 180);
+  assert.equal(sales.size, 184);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 232);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 235);
+  assert.equal(new Set(accountTools).size, 236);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 239);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -240,6 +240,16 @@ test("the built-in calendar keeps reads, settings, new bookables, removals and b
   assert.equal(sales.get("calendar_booking_create"), "customer_data_write");
 });
 
+test("a chat's mode, channel health and an assistant's pipeline keep their classes", () => {
+  // Stored data only, no live call to a platform.
+  assert.equal(sales.get("channel_get_health"), "read");
+  // Either puts the AI in front of customers again (or takes it away).
+  for (const name of ["chat_set_mode", "chat_bulk_return_to_ai"]) {
+    assert.equal(sales.get(name), "activation", `${name} classification`);
+  }
+  assert.equal(sales.get("assistant_set_pipeline"), "configuration");
+});
+
 test("Agents replacements, tests, activation, and cleanup retain exact classes", () => {
   assert.equal(agents.get("start_routine_dry_run"), "test");
   assert.equal(agents.get("set_routine_schedule_enabled"), "activation");
@@ -258,7 +268,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.12.0");
+  assert.equal(claudePlugin.version, "0.13.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

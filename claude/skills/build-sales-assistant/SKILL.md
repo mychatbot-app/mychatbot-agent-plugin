@@ -102,12 +102,18 @@ Read the current state first: `assistant_get_settings`,
 - `assistant_update_settings` changes only the keys passed: manager mode
   (`manageLeads`), the hand-off stop word or implicit hand-off, silent hand-off,
   auto-return and its interval, `end_conversation`, link handling, reply
-  language, web search, and communication guidelines. Call it with
-  `dry_run: true`, show the before and after, and get configuration approval.
-  Three keys need activation approval instead, with their effect named: web
+  language, web search, communication guidelines, and three Reply & Tools
+  switches: `allow_ai_postpone_messages`, `hide_calculus` (true gives the
+  assistant a calculator, despite the name), and
+  `send_google_docs_as_attachments`. Call it with `dry_run: true`, show the
+  before and after, and get configuration approval.
+  Four keys need activation approval instead, with their effect named: web
   search sends customers' questions to an external search provider and adds AI
   usage; communication guidelines add an extra AI pass over every reply; manager
-  mode lets the assistant change lead statuses and labels in live chats. The
+  mode lets the assistant change lead statuses and labels in live chats;
+  `allow_ai_postpone_messages` lets the assistant schedule its own follow-up
+  messages to customers. Changing `send_google_docs_as_attachments` also saves
+  the Google Drive switch as it was (`also_saved`): report it. The
   server applies the dashboard's couplings (a stop word turns implicit hand-off
   off; turning auto-return off clears its interval), so report the returned
   `after`, not the request.

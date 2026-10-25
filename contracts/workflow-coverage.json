@@ -61,7 +61,7 @@
         "set_channel_options", "api_action_create", "api_action_update",
         "api_action_attach", "integration_setup_link", "integration_verify",
         "integration_attach", "integration_detach", "custom_mcp_create",
-        "custom_mcp_set_tools"
+        "custom_mcp_set_tools", "channel_get_health"
       ]
     },
     "crm-and-sales-operations": {
@@ -86,7 +86,8 @@
         "calendar_update_settings", "calendar_set_staff_hours", "calendar_staff_create",
         "calendar_staff_update", "calendar_staff_delete", "calendar_service_create",
         "calendar_service_update", "calendar_service_delete", "calendar_booking_create",
-        "calendar_booking_update"
+        "calendar_booking_update", "chat_set_mode", "chat_bulk_return_to_ai",
+        "assistant_set_pipeline"
       ]
     },
     "outreach-and-followups": {

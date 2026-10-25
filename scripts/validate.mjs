@@ -159,7 +159,7 @@ for (const [platform, platformContract] of Object.entries(contract.operations ??
   }
   operationCounts[platform] = count;
 }
-if (operationCounts.sales !== 180 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
+if (operationCounts.sales !== 184 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
   fail("unexpected account operation counts");
 }
 
@@ -209,12 +209,12 @@ if (contract.servers.docs.tools.length !== 3) fail("Docs must pin three tools");
 if (contract.servers.product.bundled !== false || contract.servers.product.tools.length !== 10) {
   fail("Product must remain a ten-tool on-demand server");
 }
-if (operationNames.size + contract.servers.docs.tools.length !== 235) {
-  fail("bundled plugin contract must contain exactly 235 tools");
+if (operationNames.size + contract.servers.docs.tools.length !== 239) {
+  fail("bundled plugin contract must contain exactly 239 tools");
 }
 
 const referencedNames = new Set([...operationNames, ...auxiliaryToolNames]);
-const toolLike = /`((?:add|assistant|calendar|cancel|channel|claim|client|connect|create|delete|disable|disconnect|enable|eval|export|custom|filter|find|follow|funnel|generate|get|hire|immediate|integration|label|learn|list|outbound|pipeline|probe|remove|replace|reset|scan|schedule|semantic|send|set|start|test|tts|update|validate)_[a-z0-9_]+)`/g;
+const toolLike = /`((?:add|assistant|calendar|cancel|channel|chat|claim|client|connect|create|delete|disable|disconnect|enable|eval|export|custom|filter|find|follow|funnel|generate|get|hire|immediate|integration|label|learn|list|outbound|pipeline|probe|remove|replace|reset|scan|schedule|semantic|send|set|start|test|tts|update|validate)_[a-z0-9_]+)`/g;
 const documentedNonTools = new Set([
   "account_id",
   "assistant_id",
@@ -229,6 +229,10 @@ const documentedNonTools = new Set([
   "custom_lead_fields",
   // Argument field of the integration and automation tools.
   "integration_id",
+  // Argument fields of the chat mode tools, and a settings key.
+  "chat_id",
+  "chat_ids",
+  "send_google_docs_as_attachments",
 ]);
 // Tools that run inside a Sales assistant during customer chats. Skills may name
 // them to explain assistant behavior, but they are not MCP operations.
@@ -292,7 +296,7 @@ if (/account_access_key|Bearer \$\{user_config/i.test(publicCopy)) {
 }
 
 console.log(
-  `Validated Claude and Codex packages, 24 skills, and 235 bundled tools ` +
+  `Validated Claude and Codex packages, 24 skills, and 239 bundled tools ` +
     `(${operationCounts.sales} Sales, ${operationCounts.agents} Agents, ` +
     `${operationCounts.ugc} content, 3 Docs), plus 10 on-demand Product tools.`,
 );
