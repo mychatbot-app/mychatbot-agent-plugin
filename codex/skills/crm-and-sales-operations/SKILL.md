@@ -106,8 +106,9 @@ two calls:
    returns how many chats match, their `chat_ids`, how many have a customer
    waiting for an answer (`customers_waiting`), a sample with customer names,
    what stays with a manager (the assistant's own escalations nobody answered,
-   spam, and chats whose messages cannot be read), and a `preview_token`. It
-   reads customer data: get customer-data-read approval first.
+   spam, and chats whose messages cannot be read, which only `quiet_hours: 0`
+   takes), and a `preview_token`. It reads customer data: get
+   customer-data-read approval first.
 2. Show the count, the waiting customers, the sample, and what stays, and get
    activation approval for that list. Say that waiting customers leave the
    Needs-attention queue and the AI answers only their next message. Then repeat the same filters with `dry_run: false`, the
