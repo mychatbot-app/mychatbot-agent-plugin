@@ -103,12 +103,14 @@ two calls:
    `page_id`, `quiet_hours` (how long nobody on the team has written, 24 by
    default; 0 takes every chat with a manager), `include_escalations`, and
    `limit` (at most 100). As called it is a dry run and changes nothing. It
-   returns how many chats match, their `chat_ids`, a sample with customer
-   names, what stays with a manager (the assistant's own escalations nobody
-   answered, and spam), and a `preview_token`. It reads customer data: get
-   customer-data-read approval first.
-2. Show the count, the sample, and what stays, and get activation approval for
-   that list. Then repeat the same filters with `dry_run: false`, the
+   returns how many chats match, their `chat_ids`, how many have a customer
+   waiting for an answer (`customers_waiting`), a sample with customer names,
+   what stays with a manager (the assistant's own escalations nobody answered,
+   spam, and chats whose messages cannot be read), and a `preview_token`. It
+   reads customer data: get customer-data-read approval first.
+2. Show the count, the waiting customers, the sample, and what stays, and get
+   activation approval for that list. Say that waiting customers leave the
+   Needs-attention queue and the AI answers only their next message. Then repeat the same filters with `dry_run: false`, the
    `chat_ids` exactly as listed, and the `preview_token` (good for 30 minutes).
    Only those chats change; one that changed meanwhile (a manager wrote, or it
    is with the AI already) is skipped and reported. Never assemble `chat_ids`
