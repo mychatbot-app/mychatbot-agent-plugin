@@ -35,11 +35,13 @@
     },
     "business-knowledge": {
       "tools": [
-        "list_faq_knowledge_base_entries", "list_products", "list_integrations",
+        "list_faq_knowledge_base_entries", "list_knowledge_products",
+        "catalog_list_products", "catalog_get_product", "catalog_list_warehouses",
+        "catalog_get_ai_sync", "list_integrations",
         "get_integration", "create_faq_knowledge_base", "add_website_knowledge",
-        "create_product_feed_integration", "create_products_integration",
+        "create_product_feed_integration", "create_product_yaml",
         "update_faq_knowledge_base_entries", "delete_faq_knowledge_base",
-        "update_products", "delete_products_integration",
+        "update_product_yaml_items", "delete_product_yaml",
         "delete_product_feed_integration", "learn_website",
         "create_knowledge_source", "update_knowledge_source",
         "delete_knowledge_source", "semantic_product_search",

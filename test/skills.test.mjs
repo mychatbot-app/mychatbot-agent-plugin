@@ -56,6 +56,7 @@ test("both hosts cover every recurring integrator job family", () => {
     expectTerms(host, "build-agent-system", ["get_routine_session_history", "customer inputs"]);
     expectTerms(host, "sell-shopify-store", ["products.json", "create_product_feed_integration", "autoupdate_interval_hours", "get_integration", "test_chat_get_history", "checkout link", "conversion summary"]);
     expectTerms(host, "business-knowledge", ["shopify", "sell-shopify-store"]);
+    expectTerms(host, "business-knowledge", ["create_product_yaml", "catalog_list_products", "catalog_get_product", "catalog_get_ai_sync", "list_knowledge_products"]);
   }
 });
 

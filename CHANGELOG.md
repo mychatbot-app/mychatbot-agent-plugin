@@ -2,6 +2,32 @@
 
 All notable plugin changes are recorded here.
 
+## [0.14.0] - 2026-11-04
+
+### Added
+
+- Read the Catalog (the account's own product list: Knowledge -> Catalog in
+  the app), in four Sales tools (read): `catalog_list_products` (a page of
+  products with price, status, and stock available for sale, with
+  `next_offset`), `catalog_get_product` (one product by id or SKU: variants
+  with drafts, stock per warehouse, photos, export state),
+  `catalog_list_warehouses`, and `catalog_get_ai_sync` (whether assistants can
+  search the Catalog, and through which knowledge base).
+
+### Changed
+
+- The hand-written product source is Product YAML in the app, and its tools
+  are renamed: `create_products_integration` -> `create_product_yaml`,
+  `update_products` -> `update_product_yaml_items`,
+  `delete_products_integration` -> `delete_product_yaml`, and `list_products`
+  -> `list_knowledge_products` (it also reads Product Spreadsheet and Product
+  Feed sources). The former names still work when called, but are no longer
+  listed.
+- `list_orders` names all 14 order statuses.
+- Sales 184 -> 188, bundled 239 -> 243. `business-knowledge` owns the Catalog
+  tools; operation maps regenerated; skill validation also checks `catalog_*`
+  references.
+
 ## [0.13.0] - 2026-10-25
 
 ### Added
