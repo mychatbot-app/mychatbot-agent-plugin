@@ -33,12 +33,12 @@ Load `build-sales-assistant` for:
 
 Load `business-knowledge` for:
 
-`list_faq_knowledge_base_entries`, `list_products`, `list_integrations`, `get_integration`, `create_faq_knowledge_base`, `add_website_knowledge`.
-`create_product_feed_integration`, `create_products_integration`, `update_faq_knowledge_base_entries`, `delete_faq_knowledge_base`, `update_products`, `delete_products_integration`.
-`delete_product_feed_integration`, `learn_website`, `create_knowledge_source`, `update_knowledge_source`, `delete_knowledge_source`, `semantic_product_search`.
-`filter_category_products`, `get_all_categories`, `get_product_details`, `get_product_variants`, `find_similar_products`, `get_category_attributes`.
-`get_category_attribute_values`, `get_available_filters`, `get_products_by_ids`, `add_document_knowledge`, `list_knowledge_sources`, `refresh_knowledge_source`.
-`test_knowledge_search`.
+`list_faq_knowledge_base_entries`, `list_knowledge_products`, `catalog_list_products`, `catalog_get_product`, `catalog_list_warehouses`, `catalog_get_ai_sync`.
+`list_integrations`, `get_integration`, `create_faq_knowledge_base`, `add_website_knowledge`, `create_product_feed_integration`, `create_product_yaml`.
+`update_faq_knowledge_base_entries`, `delete_faq_knowledge_base`, `update_product_yaml_items`, `delete_product_yaml`, `delete_product_feed_integration`, `learn_website`.
+`create_knowledge_source`, `update_knowledge_source`, `delete_knowledge_source`, `semantic_product_search`, `filter_category_products`, `get_all_categories`.
+`get_product_details`, `get_product_variants`, `find_similar_products`, `get_category_attributes`, `get_category_attribute_values`, `get_available_filters`.
+`get_products_by_ids`, `add_document_knowledge`, `list_knowledge_sources`, `refresh_knowledge_source`, `test_knowledge_search`.
 
 ## Channels And Integrations
 

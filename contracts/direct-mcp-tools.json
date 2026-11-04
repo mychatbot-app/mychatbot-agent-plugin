@@ -62,14 +62,16 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 184,
+      "catalogSize": 188,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
           "assistant_get_config_link", "get_assistant_available_tools", "list_labels",
           "list_pipelines", "get_pipeline", "list_channels", "channel_get_config_link",
           "list_follow_ups", "get_follow_up",
-          "list_faq_knowledge_base_entries", "list_products", "list_integrations",
+          "list_faq_knowledge_base_entries", "list_knowledge_products",
+          "catalog_list_products", "catalog_get_product", "catalog_list_warehouses",
+          "catalog_get_ai_sync", "list_integrations",
           "get_integration", "get_integration_config_link", "get_account_summary",
           "get_subscription_info", "get_token_usage", "get_usage_summary", "get_order_stats",
           "get_event_stats", "list_calendar_staff", "list_calendar_services",
@@ -96,7 +98,7 @@
           "assistant_toggle_strip_kb_history", "label_create", "pipeline_create",
           "pipeline_update", "funnel_status_create", "follow_up_create",
           "create_faq_knowledge_base", "add_website_knowledge",
-          "create_product_feed_integration", "create_products_integration",
+          "create_product_feed_integration", "create_product_yaml",
           "assistant_patch_instructions", "assistant_restore_instructions",
           "assistant_patch_skill", "assistant_restore_skill",
           "assistant_update_settings", "set_channel_options", "assistant_add_live_note",
@@ -131,7 +133,7 @@
           "label_delete", "pipeline_delete", "funnel_status_delete", "channel_toggle",
           "delete_channel", "delete_assistant", "follow_up_update", "follow_up_delete",
           "immediate_outreach_update_status", "update_faq_knowledge_base_entries",
-          "delete_faq_knowledge_base", "update_products", "delete_products_integration",
+          "delete_faq_knowledge_base", "update_product_yaml_items", "delete_product_yaml",
           "delete_product_feed_integration", "delete_test_orders", "disable_order_taking",
           "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",
           "eval_run_cancel", "learn_website", "update_integration_trigger",
