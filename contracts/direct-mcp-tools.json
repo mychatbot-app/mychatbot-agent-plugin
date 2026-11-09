@@ -62,12 +62,12 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 188,
+      "catalogSize": 191,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
           "assistant_get_config_link", "get_assistant_available_tools", "list_labels",
-          "list_pipelines", "get_pipeline", "list_channels", "channel_get_config_link",
+          "list_pipelines", "get_pipeline", "list_channels", "channel_get_config_link", "get_website_assistant",
           "list_follow_ups", "get_follow_up",
           "list_faq_knowledge_base_entries", "list_knowledge_products",
           "catalog_list_products", "catalog_get_product", "catalog_list_warehouses",
@@ -93,7 +93,7 @@
           "get_event", "eval_scenario_get", "eval_run_get", "list_duplicate_clients"
         ],
         "configuration": [
-          "assistant_create", "assistant_clone", "assistant_create_skill",
+          "assistant_create", "assistant_clone", "assistant_create_skill", "update_website_assistant",
           "assistant_toggle_contact_details", "assistant_toggle_client_context",
           "assistant_toggle_strip_kb_history", "label_create", "pipeline_create",
           "pipeline_update", "funnel_status_create", "follow_up_create",
@@ -116,7 +116,7 @@
         "generation": [],
         "activation": [
           "assistant_update", "create_calls_channel_sdk", "connect_telegram",
-          "create_website_widget", "enable_order_taking", "set_lead_form_mapping",
+          "create_website_widget", "create_website_assistant", "enable_order_taking", "set_lead_form_mapping",
           "api_action_create", "api_action_attach", "assistant_set_working_hours",
           "assistant_add_control_number", "automation_set_paused", "assistant_attach_follow_up",
           "create_integration_trigger", "set_keyword_responder", "set_lead_form_instant_outreach",

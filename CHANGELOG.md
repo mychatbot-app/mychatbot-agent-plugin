@@ -2,6 +2,27 @@
 
 All notable plugin changes are recorded here.
 
+## [0.15.0] - 2026-11-09
+
+### Added
+
+- Set up the Website assistant (the ask-bar website channel) from the
+  business's own website, in one Sales tool (activation):
+  `create_website_assistant`. It reads the site for the brand colour, logo,
+  light or dark look, name, greeting, input hint and 3-5 quick buttons in the
+  site's language, allows the site's own address, maps its pages, and creates
+  or updates the assistant's one Website assistant, switched on. It returns
+  the install snippet and public key, and with `demo` a hosted demo page;
+  `notes` say which fields are guesses.
+- Read and change it: `get_website_assistant` (read) returns the assistant's
+  Website assistant or "none yet"; `update_website_assistant`
+  (configuration) changes single settings with the app's rules and returns
+  the config that will render.
+- The `channels-and-integrations` skill (Claude and Codex) gains a "Website
+  assistant" section: create it from the site, read it, change single
+  settings, install its code. New sites get the Website assistant, not the
+  website widget.
+
 ## [0.14.0] - 2026-11-04
 
 ### Added
