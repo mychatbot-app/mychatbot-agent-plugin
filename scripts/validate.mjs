@@ -159,7 +159,7 @@ for (const [platform, platformContract] of Object.entries(contract.operations ??
   }
   operationCounts[platform] = count;
 }
-if (operationCounts.sales !== 188 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
+if (operationCounts.sales !== 191 || operationCounts.agents !== 35 || operationCounts.ugc !== 17) {
   fail("unexpected account operation counts");
 }
 
@@ -209,8 +209,8 @@ if (contract.servers.docs.tools.length !== 3) fail("Docs must pin three tools");
 if (contract.servers.product.bundled !== false || contract.servers.product.tools.length !== 10) {
   fail("Product must remain a ten-tool on-demand server");
 }
-if (operationNames.size + contract.servers.docs.tools.length !== 243) {
-  fail("bundled plugin contract must contain exactly 243 tools");
+if (operationNames.size + contract.servers.docs.tools.length !== 246) {
+  fail("bundled plugin contract must contain exactly 246 tools");
 }
 
 const referencedNames = new Set([...operationNames, ...auxiliaryToolNames]);
@@ -296,7 +296,7 @@ if (/account_access_key|Bearer \$\{user_config/i.test(publicCopy)) {
 }
 
 console.log(
-  `Validated Claude and Codex packages, 24 skills, and 243 bundled tools ` +
+  `Validated Claude and Codex packages, 24 skills, and 246 bundled tools ` +
     `(${operationCounts.sales} Sales, ${operationCounts.agents} Agents, ` +
     `${operationCounts.ugc} content, 3 Docs), plus 10 on-demand Product tools.`,
 );

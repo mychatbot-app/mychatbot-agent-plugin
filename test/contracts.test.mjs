@@ -45,12 +45,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 188);
+  assert.equal(sales.size, 191);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 240);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 243);
+  assert.equal(new Set(accountTools).size, 243);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 246);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -92,7 +92,7 @@ test("customer data stays distinct from ordinary reads and configuration", () =>
 });
 
 test("activation, external effects, generation, and destructive work stay distinct", () => {
-  for (const name of ["connect_telegram", "create_website_widget", "enable_order_taking", "set_lead_form_mapping"]) {
+  for (const name of ["connect_telegram", "create_website_widget", "create_website_assistant", "enable_order_taking", "set_lead_form_mapping"]) {
     assert.equal(sales.get(name), "activation", `${name} classification`);
   }
   for (const name of [
@@ -268,7 +268,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.14.0");
+  assert.equal(claudePlugin.version, "0.15.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.license, "MIT");

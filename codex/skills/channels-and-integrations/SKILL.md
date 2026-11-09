@@ -33,8 +33,8 @@ Use `channel_get_config_link` or `get_integration_config_link` when setup
 requires a dashboard OAuth or credential flow. Do not claim success until a
 fresh list/detail read shows the connected state.
 
-`create_website_widget`, `create_calls_channel_sdk`, and
-`connect_telegram` activate customer-facing behavior and require separate
+`create_website_widget`, `create_website_assistant`, `create_calls_channel_sdk`,
+and `connect_telegram` activate customer-facing behavior and require separate
 activation approval. Prefer a configuration link for credentials.
 If the user explicitly chooses a direct Telegram token flow supported by the
 schema, explain that Codex will transmit it to MyChatBot, never repeat it, and
@@ -54,6 +54,32 @@ the proposal even if required routing details must be clarified first. Do not
 ask for trigger-change approval until that preview has been shown.
 State that connector authorization uses browser OAuth or another human
 authorization flow and that saved configuration is not proof of authorization.
+
+## Website assistant
+
+For a new website, set up the Website assistant (the ask-bar along the bottom of
+the page), not the older website widget (`create_website_widget`).
+
+- Create from the site: `create_website_assistant` reads the business's own
+  site (`website_url`) and gives the assistant its one Website assistant,
+  switched on: name, greeting, input hint, colours, logo, 3-5 quick buttons in
+  the site's language, and the site's address as the allowed site. Its `notes`
+  say where each field came from and which are guesses; show them, and the
+  privacy policy it found (`privacy_url`), before activation approval. Calling
+  it again refreshes the look, words, quick buttons and logo from the site and
+  keeps every other setting and the owner's allowed sites.
+- Get: `get_website_assistant` returns it (on or off, the settings that will
+  render, the install code, the dashboard link) or says there is none yet.
+- Update: `update_website_assistant` changes single settings with
+  configuration approval. Send only what changes; `quick_buttons` and
+  `allowed_origins` replace the whole list, so read first. A link in
+  `icon_url` (an image, or a page whose logo is used) is copied to MyChatBot.
+- Install code: the owner pastes `snippet`, one `<script>` tag, before
+  `</body>` on every page, or into the site builder's custom-code box. It
+  answers only on its allowed sites. Confirm it on the live site; a saved
+  setting is not proof that it is installed.
+- `list_channels`, `channel_toggle`, `channel_get_config_link` (type
+  `WebAssistant`) and `delete_channel` treat it like any other channel.
 
 ## Channel health
 
