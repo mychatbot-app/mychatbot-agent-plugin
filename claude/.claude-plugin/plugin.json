@@ -1,7 +1,7 @@
 {
   "name": "mychatbot",
   "displayName": "MyChatBot",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "Build, test, and operate MyChatBot business systems with guided account tools.",
   "author": {
     "name": "MyChatBot",
@@ -9,6 +9,7 @@
     "url": "https://mychatbot.app"
   },
   "homepage": "https://docs.mychatbot.app/mcp/claude-code-plugin",
+  "privacyPolicyUrl": "https://mychatbot.app/legal/privacy-policy",
   "repository": "https://github.com/mychatbot-app/mychatbot-agent-plugin.git",
   "license": "MIT",
   "keywords": [

@@ -35,10 +35,13 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
   for (const servers of [claudeServers, codexServers]) {
     assert.deepEqual(Object.keys(servers), ["mychatbot"]);
     assert.equal(servers.mychatbot.url, contract.servers.plugin.url);
-    assert.equal(servers.mychatbot.oauth_resource, contract.servers.plugin.url);
     assert.equal(servers.mychatbot.headers, undefined);
     assert.equal(servers.mychatbot.http_headers, undefined);
   }
+  // oauth_resource is a Codex setting. Claude Code does not read it, and the Claude
+  // directory refuses a remote server entry with any key outside its allowed list.
+  assert.equal(codexServers.mychatbot.oauth_resource, contract.servers.plugin.url);
+  assert.deepEqual(Object.keys(claudeServers.mychatbot).sort(), ["type", "url"]);
   assert.equal(claudeServers.mychatbot.type, "http");
   assert.equal(claudePlugin.userConfig, undefined);
   assert.equal(codexPlugin.userConfig, undefined);
@@ -268,9 +271,15 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.15.0");
+  assert.equal(claudePlugin.version, "0.15.1");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
+  assert.equal(claudePlugin.privacyPolicyUrl, "https://mychatbot.app/legal/privacy-policy");
+  const icon = fs.readFileSync(path.join(root, "claude/.claude-plugin/icon.png"));
+  assert.equal(icon.subarray(1, 4).toString("latin1"), "PNG");
+  assert.equal(icon.readUInt32BE(16), icon.readUInt32BE(20), "the icon is square");
+  assert.ok(icon.readUInt32BE(16) >= 512 && icon.readUInt32BE(16) <= 2048, "512 to 2048 px");
+  assert.ok(icon.length < 2 * 1024 * 1024, "under 2 MB");
   assert.equal(claudePlugin.license, "MIT");
   assert.equal(codexPlugin.license, "MIT");
   assert.equal(claudeMarketplace.plugins[0].version, undefined);
