@@ -2,8 +2,7 @@
   "mcpServers": {
     "mychatbot": {
       "type": "http",
-      "url": "https://api.mychatbot.app/api/mcp/plugin",
-      "oauth_resource": "https://api.mychatbot.app/api/mcp/plugin"
+      "url": "https://api.mychatbot.app/api/mcp/plugin"
     }
   }
 }
