@@ -83,8 +83,17 @@ for (const [host, servers, requireType] of [
   }
   const server = servers.mychatbot;
   if (requireType && server.type !== "http") fail("Claude server must use HTTP transport");
-  if (server.url !== pluginServer.url || server.oauth_resource !== pluginServer.url) {
-    fail(`${host} OAuth resource must match the plugin endpoint`);
+  if (server.url !== pluginServer.url) {
+    fail(`${host} server must point at the plugin endpoint`);
+  }
+  // oauth_resource is a Codex setting; the Claude directory refuses it (0.15.1).
+  if (host === "Codex" && server.oauth_resource !== pluginServer.url) {
+    fail("Codex OAuth resource must match the plugin endpoint");
+  }
+  if (host === "Claude") {
+    const allowed = new Set(["type", "url", "headers", "timeout", "alwaysLoad", "oauth", "name", "title", "displayName", "description"]);
+    const extra = Object.keys(server).filter((key) => !allowed.has(key));
+    if (extra.length > 0) fail(`Claude server has keys the Claude directory refuses: ${extra.join(", ")}`);
   }
   if (server.headers !== undefined || server.http_headers !== undefined) {
     fail(`${host} server must not embed authorization headers`);

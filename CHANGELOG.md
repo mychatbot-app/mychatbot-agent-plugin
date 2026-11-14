@@ -2,6 +2,16 @@
 
 All notable plugin changes are recorded here.
 
+## [0.15.1] - 2026-11-14
+
+### Fixed
+
+- Claude directory checks: removed `oauth_resource` from the Claude MCP
+  entry (a Codex setting Claude Code does not read, outside the directory's
+  allowed list; Codex keeps it), added the plugin icon
+  (`claude/.claude-plugin/icon.png`) and `privacyPolicyUrl` to the Claude
+  manifest. No tool, skill or sign-in behaviour changes.
+
 ## [0.15.0] - 2026-11-09
 
 ### Added
