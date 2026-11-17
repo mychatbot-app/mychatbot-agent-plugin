@@ -75,8 +75,10 @@ pacing). It works on a draft and on a `user_paused` campaign that has not
 started; pause a scheduled campaign first, and reset one that already started
 to draft. The frozen recipient list is kept unless the call passes an audience
 field, `outreach_channels`, `dynamic_audience`, or `refresh_audience=true`;
-report the `audience` and `schedule` the tool returns. The edit never starts
-sending. Show the owner the edited campaign and obtain explicit approval before
+report the `audience` and `schedule` the tool returns. A kept start time may
+already have passed (`schedule.already_passed`): starting the campaign then
+sends within about a minute, so say so and set a new start time first unless
+the owner wants that. The edit never starts sending. Show the owner the edited campaign and obtain explicit approval before
 starting it with `immediate_outreach_update_status` `status=scheduled`.
 
 To prepare a campaign now and send it later: create it with a later start time,
