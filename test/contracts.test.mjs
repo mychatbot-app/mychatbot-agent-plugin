@@ -48,12 +48,12 @@ test("both hosts use one API-owned OAuth MCP connection", () => {
 });
 
 test("complete composed catalogs are pinned without duplicates", () => {
-  assert.equal(sales.size, 191);
+  assert.equal(sales.size, 192);
   assert.equal(agents.size, 35);
   assert.equal(ugc.size, 17);
   const accountTools = [...sales.keys(), ...agents.keys(), ...ugc.keys()];
-  assert.equal(new Set(accountTools).size, 243);
-  assert.equal(accountTools.length + contract.servers.docs.tools.length, 246);
+  assert.equal(new Set(accountTools).size, 244);
+  assert.equal(accountTools.length + contract.servers.docs.tools.length, 247);
   for (const platform of ["sales", "agents", "ugc", "docs"]) {
     assert.equal(contract.servers[platform].bundled, false);
     assert.equal(contract.servers[platform].composedBy, "plugin");
@@ -271,7 +271,7 @@ test("Agents replacements, tests, activation, and cleanup retain exact classes",
 test("public packages include source, support, legal, and release metadata", () => {
   const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
   const codexMarketplace = readJson(".agents/plugins/marketplace.json");
-  assert.equal(claudePlugin.version, "0.15.1");
+  assert.equal(claudePlugin.version, "0.16.0");
   assert.equal(codexPlugin.version, claudePlugin.version);
   assert.equal(claudePlugin.author.email, "support@mychatbot.app");
   assert.equal(claudePlugin.privacyPolicyUrl, "https://mychatbot.app/legal/privacy-policy");

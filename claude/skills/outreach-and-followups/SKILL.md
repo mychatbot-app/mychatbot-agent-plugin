@@ -63,9 +63,25 @@ Draft the filters, channels, schedule, message strategy, rate, and cap. Call
 matched count and any uncertainty. Call `immediate_outreach_create` only after
 the owner explicitly approves that audience, content, channels, and timing.
 
-Pausing, resuming, or resetting uses `immediate_outreach_update_status`.
-Resetting can clear progress and statistics, so name that effect and obtain an
-exact confirmation before calling the status tool.
+Pausing, resuming, starting a draft, or resetting uses
+`immediate_outreach_update_status`. Resetting clears progress, statistics and
+the start time, so name that effect and obtain an exact confirmation before
+calling the status tool.
+
+To change a campaign that is not sending, use `immediate_outreach_update`
+instead of deleting and recreating it: pass only the fields that change (start
+time, message or instructions, email subject, attachments, audience, channels,
+pacing). It works on a draft and on a `user_paused` campaign that has not
+started; pause a scheduled campaign first, and reset one that already started
+to draft. The frozen recipient list is kept unless the call passes an audience
+field, `outreach_channels`, `dynamic_audience`, or `refresh_audience=true`;
+report the `audience` and `schedule` the tool returns. The edit never starts
+sending. Show the owner the edited campaign and obtain explicit approval before
+starting it with `immediate_outreach_update_status` `status=scheduled`.
+
+To prepare a campaign now and send it later: create it with a later start time,
+pause it at once with `user_paused`, and when the owner is ready set the start
+time with `immediate_outreach_update` and start it.
 
 Never launch in order to test configuration. Never automatically retry a send
 or campaign launch after an ambiguous transport failure. Report the returned
