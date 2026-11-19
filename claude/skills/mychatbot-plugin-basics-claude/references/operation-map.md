@@ -72,8 +72,8 @@ Load `crm-and-sales-operations` for:
 Load `outreach-and-followups` for:
 
 `list_follow_ups`, `get_follow_up`, `immediate_outreach_preview_audience`, `follow_up_create`, `follow_up_update`, `follow_up_delete`.
-`immediate_outreach_create`, `immediate_outreach_update_status`, `outbound_call`, `send_one_off_message`, `schedule_message`, `assistant_attach_follow_up`.
-`assistant_detach_follow_up`.
+`immediate_outreach_create`, `immediate_outreach_update`, `immediate_outreach_update_status`, `outbound_call`, `send_one_off_message`, `schedule_message`.
+`assistant_attach_follow_up`, `assistant_detach_follow_up`.
 
 ## Routines And Automations
 

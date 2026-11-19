@@ -62,7 +62,7 @@
   "operations": {
     "sales": {
       "server": "sales",
-      "catalogSize": 191,
+      "catalogSize": 192,
       "riskClasses": {
         "read": [
           "list_assistants", "get_assistant", "assistant_list_skills",
@@ -132,7 +132,8 @@
           "client_delete", "client_delete_note", "client_delete_task", "client_delete_attachment",
           "label_delete", "pipeline_delete", "funnel_status_delete", "channel_toggle",
           "delete_channel", "delete_assistant", "follow_up_update", "follow_up_delete",
-          "immediate_outreach_update_status", "update_faq_knowledge_base_entries",
+          "immediate_outreach_update", "immediate_outreach_update_status",
+          "update_faq_knowledge_base_entries",
           "delete_faq_knowledge_base", "update_product_yaml_items", "delete_product_yaml",
           "delete_product_feed_integration", "delete_test_orders", "disable_order_taking",
           "remove_lead_form_mapping", "eval_scenario_save", "eval_scenario_delete",

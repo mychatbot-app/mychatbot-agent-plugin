@@ -2,6 +2,27 @@
 
 All notable plugin changes are recorded here.
 
+## [0.16.0] - 2026-11-17
+
+### Added
+
+- Edit an immediate outreach campaign without deleting and recreating it:
+  `immediate_outreach_update` (Sales, destructive). It takes only the fields
+  that change (start time, message or instructions, email subject,
+  attachments, audience, channels, pacing) and works on a draft or on a
+  `user_paused` campaign that has not started. The frozen recipient list is
+  kept unless an audience field, `outreach_channels`, `dynamic_audience` or
+  `refresh_audience=true` is passed. It never starts sending.
+
+### Changed
+
+- `immediate_outreach_update_status` `status=scheduled` also starts a draft
+  that has a start time. Before, a campaign reset to draft through the tools
+  could only be deleted.
+- The `outreach-and-followups` skill (Claude and Codex) describes editing a
+  parked campaign and the prepare-now, send-later flow.
+- Sales 191 -> 192, bundled 246 -> 247; operation maps regenerated.
+
 ## [0.15.1] - 2026-11-14
 
 ### Fixed
